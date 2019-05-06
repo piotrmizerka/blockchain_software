@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="graphics">
+      <UniqueIdentifier>{e8924637-ba3a-4c40-9b8e-2a09d6c93647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms">
+      <UniqueIdentifier>{cec6d244-8682-4faa-a89d-906a7cb82559}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main">
+      <UniqueIdentifier>{752ffb30-a7be-4a30-945f-d1ac8d5cb1d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms\[.]_invariant">
+      <UniqueIdentifier>{99e141a1-4516-466e-a1dc-c04009890ebe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\headers">
+      <UniqueIdentifier>{35fad56b-2154-4e65-9571-aefa76613bc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\source_files">
+      <UniqueIdentifier>{dea413a1-2459-4e93-9da8-a6f2ecb7d08c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms\[.]_invariant\headers">
+      <UniqueIdentifier>{68a652b8-de10-4d30-bfdb-4ebe1a00e7d9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms\[.]_invariant\source_files">
+      <UniqueIdentifier>{fade78b0-82ef-4bb8-aadf-f2c64bc6f615}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main\headers">
+      <UniqueIdentifier>{9395aab1-6ad1-4eb0-b165-87d63c795a90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main\source_files">
+      <UniqueIdentifier>{fc8a5543-90ee-4328-ae0a-dfa3f41f7ad2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms\headers">
+      <UniqueIdentifier>{f67c4919-bd92-4ada-8078-b6f66934f410}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms\source_files">
+      <UniqueIdentifier>{7dd82dcf-cbd8-48b1-bb6a-8d12de747feb}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>main\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Framed4Graph.h">
+      <Filter>algorithms\[.]_invariant\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>main\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualKnot.h">
+      <Filter>algorithms\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="auxiliaryFunctions.h">
+      <Filter>algorithms\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="VirtualKnotRenderer.h">
+      <Filter>graphics\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="auxiliaryRenderingFunctions.h">
+      <Filter>graphics\headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>main\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>main\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="Framed4Graph.cpp">
+      <Filter>algorithms\[.]_invariant\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="VirtualKnot.cpp">
+      <Filter>algorithms\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="auxiliaryFunctions.cpp">
+      <Filter>algorithms\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="auxiliaryRenderingFunctions.cpp">
+      <Filter>graphics\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="VirtualKnotRenderer.cpp">
+      <Filter>graphics\source_files</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

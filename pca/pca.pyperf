@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<ProfilingTarget xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <ProjectTarget>
+    <TargetProject>9023925a-36c4-49c9-b84b-fa068519f6ae</TargetProject>
+    <FriendlyName>pca</FriendlyName>
+  </ProjectTarget>
+  <Reports>
+    <Report>
+      <Filename>C:\Users\Piotrek\AppData\Local\Temp\pca_20181124.vsp</Filename>
+    </Report>
+  </Reports>
+</ProfilingTarget>

@@ -1,0 +1,126 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>main\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="stdafx.cpp">
+      <Filter>main\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="auxiliaryFunctions.cpp">
+      <Filter>algorithms\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="Graph.cpp">
+      <Filter>algorithms\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="TransactionHypergraph.cpp">
+      <Filter>algorithms\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="FileParser.cpp">
+      <Filter>data_aquistition\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="auxiliaryRenderingFunctions.cpp">
+      <Filter>graphics\sorce_files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphVisualizer.cpp">
+      <Filter>graphics\sorce_files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddressesContractor.cpp">
+      <Filter>data_aquistition\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphTest.cpp">
+      <Filter>tests\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="TransactionHypergraphTest.cpp">
+      <Filter>tests\source_files</Filter>
+    </ClCompile>
+    <ClCompile Include="AddressesContractorTest.cpp">
+      <Filter>tests\source_files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="stdafx.h">
+      <Filter>main\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="targetver.h">
+      <Filter>main\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Graph.h">
+      <Filter>algorithms\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TransactionHypergraph.h">
+      <Filter>algorithms\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="FileParser.h">
+      <Filter>data_aquistition\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="auxiliaryRenderingFunctions.h">
+      <Filter>graphics\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphVisualizer.h">
+      <Filter>graphics\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AddressesContractor.h">
+      <Filter>data_aquistition\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphTest.h">
+      <Filter>tests\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="TransactionHypergraphTest.h">
+      <Filter>tests\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="AddressesContractorTest.h">
+      <Filter>tests\headers</Filter>
+    </ClInclude>
+    <ClInclude Include="auxiliaryFunctions.h">
+      <Filter>algorithms\headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="main">
+      <UniqueIdentifier>{93be0d4a-5199-4dc3-90a4-c7e4d0bdaebe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main\headers">
+      <UniqueIdentifier>{cbc94c1a-f58b-46f8-91c2-c7340b5cd97e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="main\source_files">
+      <UniqueIdentifier>{729f1ab2-498f-42ee-95d8-a7ef0d23327c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms">
+      <UniqueIdentifier>{6f591857-db74-407a-bd46-df4a64bb239d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms\headers">
+      <UniqueIdentifier>{12f0ab89-1457-4da6-8d3e-6bba76e6406b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="algorithms\source_files">
+      <UniqueIdentifier>{b253fa48-84b9-469a-8de9-6ba2c1aa34d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data_aquistition">
+      <UniqueIdentifier>{d8b3ffcf-04ae-4ccf-bebb-dfc09685c98e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data_aquistition\headers">
+      <UniqueIdentifier>{965bddc1-c746-43b6-bf6a-497fa525da5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="data_aquistition\source_files">
+      <UniqueIdentifier>{f1f7c568-bdbe-4494-8730-b6c79872acc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics">
+      <UniqueIdentifier>{9ba1a9b1-b2cf-43fd-bd16-ffd082ef7638}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\headers">
+      <UniqueIdentifier>{aba65243-aa74-470a-ab79-6b11cbab6155}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="graphics\sorce_files">
+      <UniqueIdentifier>{fc4cd19a-d409-4e76-879b-a9738169c445}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests">
+      <UniqueIdentifier>{b8082faa-e4f0-49e2-9eb2-86251a8c99f1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\headers">
+      <UniqueIdentifier>{7f886ef3-8c1b-466d-ac44-d19964f32dd1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tests\source_files">
+      <UniqueIdentifier>{b942ace1-c8d3-4889-8e0b-31717703df92}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
