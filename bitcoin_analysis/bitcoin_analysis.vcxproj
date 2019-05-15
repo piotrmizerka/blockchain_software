@@ -118,14 +118,11 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Administrator\Desktop\open_gl\glew-1.11.0\include;C:\Users\Administrator\Desktop\open_gl\freeglut\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Administrator\Desktop\open_gl\glew-1.11.0\lib;C:\Users\Administrator\Desktop\open_gl\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -169,7 +166,6 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\Users\Administrator\Desktop\open_gl\glew-1.11.0\include;C:\Users\Administrator\Desktop\open_gl\freeglut\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <OpenMPSupport>true</OpenMPSupport>
     </ClCompile>
     <Link>
@@ -177,19 +173,15 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\Administrator\Desktop\open_gl\glew-1.11.0\lib;C:\Users\Administrator\Desktop\open_gl\freeglut\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>glew32.lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="AddressesContractor.h" />
     <ClInclude Include="AddressesContractorTest.h" />
     <ClInclude Include="auxiliaryFunctions.h" />
-    <ClInclude Include="auxiliaryRenderingFunctions.h" />
     <ClInclude Include="FileParser.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="GraphTest.h" />
-    <ClInclude Include="GraphVisualizer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="TransactionHypergraph.h" />
@@ -199,11 +191,9 @@
     <ClCompile Include="AddressesContractor.cpp" />
     <ClCompile Include="AddressesContractorTest.cpp" />
     <ClCompile Include="auxiliaryFunctions.cpp" />
-    <ClCompile Include="auxiliaryRenderingFunctions.cpp" />
     <ClCompile Include="FileParser.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GraphTest.cpp" />
-    <ClCompile Include="GraphVisualizer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

@@ -19,12 +19,6 @@
     <ClCompile Include="FileParser.cpp">
       <Filter>data_aquistition\source_files</Filter>
     </ClCompile>
-    <ClCompile Include="auxiliaryRenderingFunctions.cpp">
-      <Filter>graphics\sorce_files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphVisualizer.cpp">
-      <Filter>graphics\sorce_files</Filter>
-    </ClCompile>
     <ClCompile Include="AddressesContractor.cpp">
       <Filter>data_aquistition\source_files</Filter>
     </ClCompile>
@@ -53,12 +47,6 @@
     </ClInclude>
     <ClInclude Include="FileParser.h">
       <Filter>data_aquistition\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="auxiliaryRenderingFunctions.h">
-      <Filter>graphics\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphVisualizer.h">
-      <Filter>graphics\headers</Filter>
     </ClInclude>
     <ClInclude Include="AddressesContractor.h">
       <Filter>data_aquistition\headers</Filter>
@@ -103,15 +91,6 @@
     </Filter>
     <Filter Include="data_aquistition\source_files">
       <UniqueIdentifier>{f1f7c568-bdbe-4494-8730-b6c79872acc2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="graphics">
-      <UniqueIdentifier>{9ba1a9b1-b2cf-43fd-bd16-ffd082ef7638}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="graphics\headers">
-      <UniqueIdentifier>{aba65243-aa74-470a-ab79-6b11cbab6155}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="graphics\sorce_files">
-      <UniqueIdentifier>{fc4cd19a-d409-4e76-879b-a9738169c445}</UniqueIdentifier>
     </Filter>
     <Filter Include="tests">
       <UniqueIdentifier>{b8082faa-e4f0-49e2-9eb2-86251a8c99f1}</UniqueIdentifier>
