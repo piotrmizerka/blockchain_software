@@ -8,10 +8,11 @@
                 "-g",
                 "${fileDirname}/**.cpp",
                 "-o",
-                "${fileDirname}/${fileBasenameNoExtension}"
+                "${fileDirname}/${fileBasenameNoExtension}",
+                "-fopenmp"
             ],
             "options": {
-                "cwd": "${workspaceFolder}"
+                "cwd": "${workspaceFolder}",
             },
             "problemMatcher": [
                 "$gcc"
