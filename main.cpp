@@ -1,7 +1,4 @@
-#include "CPUAndMemoryConsumption.h"
-
-#include <vector>
-#include <stdio.h>
+#include "stdafx.h"
 
 using namespace std;
 
@@ -14,7 +11,7 @@ int main()
     printf("At the startup: %.2lf percent (CPU)\t %.2lf MB (physical memory)\t %.2lf MB (virtual memory)\n", 
             cpuAndMemoryConsumption.CPUPercentageUsage(), cpuAndMemoryConsumption.physicalMemory(), cpuAndMemoryConsumption.virtualMemory());
 
-    int vectorSize = 10000000;
+    int vectorSize = 100000000;
     vector<int> V(vectorSize);
     for(int i=0;i<vectorSize;i++)
     {
