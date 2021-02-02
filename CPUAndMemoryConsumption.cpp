@@ -1,12 +1,13 @@
-#include "CPUAndMemoryConsumption.h"
+//#include "CPUAndMemoryConsumption.h"
+#include "stdafx.h"
 
 //Source: https://stackoverflow.com/questions/63166/how-to-determine-cpu-and-memory-consumption-from-inside-a-process
 
-#include "stdlib.h"
+/*#include "stdlib.h"
 #include "stdio.h"
 #include "string.h"
 #include "sys/times.h"
-#include "sys/vtimes.h"
+#include "sys/vtimes.h"*/
 
 double CPUAndMemoryConsumption::CPUPercentageUsage()
 {

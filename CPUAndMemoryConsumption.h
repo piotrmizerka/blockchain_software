@@ -1,5 +1,4 @@
-#include "sys/times.h"
-#include "sys/vtimes.h"
+#pragma once
 
 class CPUAndMemoryConsumption
 {
