@@ -1,6 +1,5 @@
 #!/bin/bash
 
-
 # Source used for this script: https://github.com/dkondor/txedges
 
 # This scripts creates the elementary Bitcoin transactions' info (excluding timestamps which is done in the txEdgesTimes.sh script). 
