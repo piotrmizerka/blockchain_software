@@ -12,7 +12,7 @@
 # (bitcoinAmount is in Satoshis).
 #
 #
-# The script requires the following 4 files (appearing as parameters in that order):
+# The script requires the following 4 parameter paths (appearing as parameters in that order):
 #
 # (1) txPath - the path to the tx.dat file (not compressed) as specified at https://senseable2015-6.mit.edu/bitcoin/,
 # (2) bhPath - the path to the bh.dat file (not compressed) as specifed at https://senseable2015-6.mit.edu/bitcoin/,

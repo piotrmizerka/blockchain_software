@@ -12,7 +12,7 @@
 # (bitcoinAmount is in Satoshis).
 #
 #
-# The script requires the following 4 files (appearing as parameters in that order):
+# The script requires the following 3 path parameters (appearing as parameters in that order):
 #
 # (1) tx_timesPath - the path to the tx_times.dat file (not compressed) containing transaction idies and their timestamps,
 # (2) txedgesPath - the path to the txedges.dat file as shown in the 'Example usage' at https://github.com/dkondor/txedges ,

@@ -10,7 +10,7 @@
 # (bitcoinAmount is in Satoshis).
 #
 #
-# The script requires the following 4 files (appearing as parameters in that order):
+# The script requires the following 3 path parameters (appearing as parameters in that order):
 #
 # (1) txinPath - the path to the txin.dat file (not compressed) as specified at https://senseable2015-6.mit.edu/bitcoin/,
 # (2) txoutPath - the path to the txout.dat file (not compressed) as specified at as specified at https://senseable2015-6.mit.edu/bitcoin/,
