@@ -23,7 +23,7 @@
     <ProjectGuid>{68493F74-F7D2-4C9C-BCE6-981F2AE8A614}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>freeknotsinvariants</RootNamespace>
-    <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <WindowsTargetPlatformVersion>10.0.19041.0</WindowsTargetPlatformVersion>
     <ProjectName>bitcoin_analysis</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -119,6 +119,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <OpenMPSupport>true</OpenMPSupport>
+      <AdditionalIncludeDirectories>C:\Users\Dyrektor\Desktop\blockchain_software\bitcoin_analysis;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>

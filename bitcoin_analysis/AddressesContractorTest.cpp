@@ -330,7 +330,7 @@ void AddressesContractorTest::labelConnectedComponentsParallelTest(int transacti
 	cout << "Serialized execution time: " << seconds_since_start << "s\n";
 	start = time(0);;
 	AddressesContractor testAddressesContractor2 = AddressesContractor(transactionsNumber, addressesNumber, 100, filesNumber, "C:\\Users\\Administrator\\Desktop\\bitcoin\\bitcoin_analysis\\tests\\AddressesContractor\\");
-	testAddressesContractor2.contractAddresses("labelConnectedComponentsParallel\\");
+	testAddressesContractor2.contractAddresses("labelConnectedComponentsParallel\\",""); // FILL THE PATHS 
 	seconds_since_start = difftime(time(0), start);
 	cout << "Serialized BFS execution time: " << seconds_since_start << "s\n";
 	vector<set<int> > contractedAddresses2x = testAddressesContractor2.getContractedAddresses();

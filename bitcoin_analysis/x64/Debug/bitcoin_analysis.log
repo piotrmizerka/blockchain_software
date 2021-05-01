@@ -1,0 +1,67 @@
+﻿  AddressesContractor.cpp
+c1xx : warning C4199: two-phase name lookup is not supported for C++/CLI, C++/CX, or OpenMP; use /Zc:twoPhase-
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(9): warning C4101: 'edge': unreferenced local variable
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(620): warning C4267: '=': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(623): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(650): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(658): warning C4477: 'fprintf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
+  c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(658): note: consider using '%zd' in the format string
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(822): warning C4267: '=': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(913): warning C4267: '=': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(915): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(938): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(946): warning C4477: 'fprintf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned __int64'
+  c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(946): note: consider using '%zd' in the format string
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1077): warning C4267: '=': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1079): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1114): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1155): warning C4477: 'fprintf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned __int64'
+  c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1155): note: consider using '%zd' in the format string
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1184): warning C4101: 'addr': unreferenced local variable
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1278): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1287): warning C4267: '+=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1293): warning C4267: '=': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1343): warning C4267: '=': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1345): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1391): warning C4267: '=': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1393): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1430): warning C4267: '=': conversion from 'size_t' to '_Ty', possible loss of data
+          with
+          [
+              _Ty=int
+          ]
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1432): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1460): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1471): warning C4477: 'fprintf' : format string '%d' requires an argument of type 'int', but variadic argument 2 has type 'unsigned __int64'
+  c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1471): note: consider using '%zd' in the format string
+c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1497): warning C4477: 'fprintf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'unsigned __int64'
+  c:\users\dyrektor\desktop\blockchain_software\bitcoin_analysis\addressescontractor.cpp(1497): note: consider using '%zd' in the format string
+  bitcoin_analysis.vcxproj -> C:\Users\Dyrektor\Desktop\blockchain_software\x64\Debug\bitcoin_analysis.exe

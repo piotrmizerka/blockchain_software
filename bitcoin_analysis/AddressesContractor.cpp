@@ -1,58 +1,17 @@
 #include "stdafx.h"
 
-void AddressesContractor::createTransactionsAddresses()
-{
-	FILE *readTransactions, *readInputs;
-	readTransactions = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\tests\\txh_test3.dat", "r+");
-	readInputs = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\tests\\txin_test3.dat", "r+");
-	transactionsAddresses.clear();
-	transactionsAddresses.resize(transactionsNumber);
-	allTransactions.clear();
-	int it = 0, txId, blockId, addrId;
-	while (!feof(readTransactions))
-	{
-		fscanf(readTransactions, "%i", &txId);
-		fscanf(readTransactions, "%i", &blockId);
-		allTransactions.push_back(txId);
-	}
-	neighborsList.resize(addressesNumber);
-	while (!feof(readInputs))
-	{
-		fscanf(readInputs, "%i", &txId);
-		fscanf(readInputs, "%i", &addrId);
-		if (addrId >= 0)
-		{
-			transactionsAddresses[txId].push_back(addrId);
-			neighborsList[addrId].clear();
-		}
-	}
-	FILE *saveTransactionsAddresses;
-	saveTransactionsAddresses = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\contractions\\transactions_input_addresses_cpp.dat","w+");
-	FOREACH(trans, allTransactions)
-	{
-		fprintf(saveTransactionsAddresses, "%d ", *trans);
-		FOREACH(address, transactionsAddresses[*trans])
-		{
-			fprintf(saveTransactionsAddresses, "%d ", *address);
-		}
-		fprintf(saveTransactionsAddresses, "\n");
-	}
-	fclose(readTransactions);
-	fclose(readInputs);
-	fclose(saveTransactionsAddresses);
-}
 
-void AddressesContractor::createUsersGraph()
+void AddressesContractor::createUsersGraph(string transactionAddressesPath, string contractedAddressesPath, string txoutPath, string usersGraphPath)
 {
 	Graph result;
 	vector <int> vertices;
 	vector <Edge> edges;
 	Edge edge;
 	FILE *readTransactionsAddresses, *readContractedAddresses, *readOutputs, *saveUsersGraph;
-	readTransactionsAddresses = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\contractions\\transactions_addresses_restricted.dat", "r+");
-	readContractedAddresses = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\contractions\\contracted_addresses_restricted.dat", "r+");
-	readOutputs = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\contractions\\out_restricted.dat", "r+");
-	saveUsersGraph = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\users_graph.dat", "w+");
+	readTransactionsAddresses = fopen(transactionAddressesPath.c_str(), "r+");
+	readContractedAddresses = fopen(contractedAddressesPath.c_str(), "r+");
+	readOutputs = fopen(txoutPath.c_str(), "r+");
+	saveUsersGraph = fopen(usersGraphPath.c_str(), "w+");
 	int txId, addrId, addrNumber;
 	long long value;
 	int it = 0;
@@ -86,7 +45,7 @@ void AddressesContractor::createUsersGraph()
 	addressesVertices.resize(addressesNumber);
 	for (int i = 0;i < addressesNumber;i++)
 	{
-		addressesVertices[i] = -1;
+		addressesVertices[i] = addressesNumber+i; // ensure lone addresses are treated as single vertices
 	}
 	cout << "Reading contracted addresses:" << endl;
 	it = 0;
@@ -106,9 +65,11 @@ void AddressesContractor::createUsersGraph()
 	}
 	cout << "Reading outputs:" << endl;
 	it = 0;
+	int outputSeq;
 	while (!feof(readOutputs))
 	{
 		fscanf(readOutputs, "%i", &txId);
+		fscanf(readOutputs, "%i", &outputSeq);
 		fscanf(readOutputs, "%i", &addrId);
 		fscanf(readOutputs, "%lld", &value);
 		if (addrId >= 0 && transactionsRepresentatives[txId] != -1)
@@ -440,6 +401,56 @@ void AddressesContractor::restrictTransactionsAddressesParallel()
 
 }
 
+void AddressesContractor::createTransactionsAddresses(string txPath, string txinPath, string savePath)
+{
+	FILE* readTransactions, * readInputs;
+	readTransactions = fopen(txPath.c_str(), "r+");
+	readInputs = fopen(txinPath.c_str(), "r+");
+	transactionsAddresses.clear();
+	transactionsAddresses.resize(transactionsNumber);
+	allTransactions.clear();
+	int it = 0, txId, blockId, addrId, inputsNo, outputsNo, inputSeq, prevTxId, prevOutputSeq;
+	long long int value;
+	while (!feof(readTransactions))
+	{
+		fscanf(readTransactions, "%i", &txId);
+		fscanf(readTransactions, "%i", &blockId);
+		fscanf(readTransactions, "%i", &inputsNo);
+		fscanf(readTransactions, "%i", &outputsNo);
+		allTransactions.push_back(txId);
+	}
+	neighborsList.resize(addressesNumber);
+	while (!feof(readInputs))
+	{
+		fscanf(readInputs, "%i", &txId);
+		fscanf(readInputs, "%i", &inputSeq);
+		fscanf(readInputs, "%i", &prevTxId);
+		fscanf(readInputs, "%i", &prevOutputSeq);
+		// BEWARE!! here prev_i missing according to the specification at: https://github.com/dkondor/bitcoin check how DUMP behaves!!
+		fscanf(readInputs, "%i", &addrId);
+		fscanf(readInputs, "%lld", &value);
+		if (addrId >= 0)
+		{
+			transactionsAddresses[txId].push_back(addrId);
+			neighborsList[addrId].clear();
+		}
+	}
+	FILE* saveTransactionsAddresses;
+	saveTransactionsAddresses = fopen(savePath.c_str(), "w+");
+	FOREACH(trans, allTransactions)
+	{
+		fprintf(saveTransactionsAddresses, "%d ", *trans);
+		FOREACH(address, transactionsAddresses[*trans])
+		{
+			fprintf(saveTransactionsAddresses, "%d ", *address);
+		}
+		fprintf(saveTransactionsAddresses, "\n");
+	}
+	fclose(readTransactions);
+	fclose(readInputs);
+	fclose(saveTransactionsAddresses);
+}
+
 void AddressesContractor::restrictContractedAddresses(int minimalClusterSize)
 {
 	FILE *readContractedAddresses, *save, *readClustersSizes;
@@ -500,12 +511,12 @@ void AddressesContractor::restrictContractedAddresses(int minimalClusterSize)
 	fclose(save);
 }
 
-void AddressesContractor::contractAddresses(string relativePath)
+void AddressesContractor::contractAddresses(string edgesPath, string contractedAddressesPath)
 {
-	loadEdgesParallel(relativePath);
+	loadEdgesParallel(edgesPath);
 	createNeighborsListFromEdges();
 	//loadNeighborsList();
-	contractAddressesBFS();
+	contractAddressesBFS(contractedAddressesPath);
 }
 
 void AddressesContractor::contractAdddressesFromRepresentatives()
@@ -1242,7 +1253,7 @@ void AddressesContractor::loadNeighborsListParallel(string relativePath, int thr
 	}
 }
 
-void AddressesContractor::createEdgesParallel(string relativePath, int threadsNumber, bool performSave)
+void AddressesContractor::createEdgesParallel(string savePath, int threadsNumber, bool performSave)
 {
 	FILE **save;
 	save = new FILE*[filesNumber];
@@ -1251,7 +1262,7 @@ void AddressesContractor::createEdgesParallel(string relativePath, int threadsNu
 		string pathxx;
 		for (int i = 0;i < filesNumber;i++)
 		{
-			pathxx = pathx + relativePath + "contractions\\edges\\" + dec2String(i)+".txt";
+			pathxx = savePath + "/" + dec2String(i) + ".txt";
 			save[i] = fopen(pathxx.c_str(), "w");
 		}
 	}
@@ -1346,14 +1357,14 @@ void AddressesContractor::createEdgesParallel(string relativePath, int threadsNu
 	}
 }
 
-void AddressesContractor::loadEdgesParallel(string relativePath, int threadsNumber)
+void AddressesContractor::loadEdgesParallel(string edgesPath, int threadsNumber)
 {
 	FILE **readEdges;
 	readEdges = new FILE*[filesNumber];
 	string pathxx;
 	for (int i = 0;i < filesNumber;i++)
 	{
-		pathxx = pathx + relativePath + "contractions\\edges\\" + dec2String(i) + ".txt";
+		pathxx = edgesPath + "/" + dec2String(i) + ".txt";
 		readEdges[i] = fopen(pathxx.c_str(), "r");
 	}
 	edges.clear();
@@ -1468,12 +1479,12 @@ void AddressesContractor::createNeighborsList()
 	fclose(save);
 }
 
-void AddressesContractor::contractAddressesBFS()
+void AddressesContractor::contractAddressesBFS(string contractedAddressesPath)
 {
 	contractedAddresses.clear();
 	currentComponent.clear();
-	//FILE *save;
-	//save = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\contractions\\contracted_addresses_cpp.dat", "w+");
+	FILE *save;
+	save = fopen(contractedAddressesPath.c_str(), "w+");
 	for (int i = 0;i < addressesNumber;i++)
 	{
 		if (consideredAddresses[i] == 0)
@@ -1483,15 +1494,15 @@ void AddressesContractor::contractAddressesBFS()
 			currentComponent.clear();
 			BFS();
 			contractedAddresses.push_back(currentComponent);
-			/*fprintf(save, "%d ", currentComponent.size());
+			fprintf(save, "%d ", currentComponent.size());
 			FOREACH(addr, currentComponent)
 			{
 				fprintf(save, "%d ", *addr);
 			}
-			fprintf(save,"\n");*/
+			fprintf(save,"\n");
 		}
 	}
-	//fclose(save);
+	fclose(save);
 }
 
 void AddressesContractor::BFS()

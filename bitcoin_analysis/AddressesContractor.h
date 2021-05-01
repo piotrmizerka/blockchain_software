@@ -36,21 +36,21 @@ public:
 
 	/// functionalities
 	// contracting addresses
-	void contractAddresses(string relativePath = "");
+	void contractAddresses(string edgesPath, string contractedAddressesPath);
 	void contractAdddressesFromRepresentatives(); // TO VERIFY
 	void contractAddressesParallel(string relativePath = "", int threadsNumber = omp_get_max_threads(), bool loadEdges = false); // TODO - not working properly due to map usage
 	void restrictContractedAddresses(int minimalClusterSize);
 	// transaction addresses
 	void restrictTransactionsAddresses();
 	void restrictTransactionsAddressesParallel(); // TODO
-	void createTransactionsAddresses();
+	void createTransactionsAddresses(string txPath, string txinPath, string savePath);
 	void createTransactionsAddressesParallel(string relativePath = "", int threadsNumber = omp_get_max_threads(), bool performSave = true); //CAUTION: map used
 	void loadTransactionsAddresses();
 	void loadTransactionsAddressesParallel(string relativePath = "", int threadsNumber = omp_get_max_threads());
 	// cluster sizes
 	void saveBiggestClustersSizes();
 	// creating users graph
-	void createUsersGraph();
+	void createUsersGraph(string transactionAddressesPath, string contractedAddressesPath, string txoutPath, string usersGraphPath);
 	void createUsersGraphParallel(string relativePath = "", int threadsNumber = omp_get_max_threads()); // TO VERIFY - not working properly
 
 	/// inner methods
@@ -61,11 +61,11 @@ public:
 	void loadNeighborsList();
 	void loadNeighborsListParallel(string relativePath = "", int threadsNumber = omp_get_max_threads());
 	// edges
-	void createEdgesParallel(string relativePath = "", int threadsNumber = omp_get_max_threads(), bool performSave = true);
+	void createEdgesParallel(string savePath = "", int threadsNumber = omp_get_max_threads(), bool performSave = true);
 	void loadEdgesParallel(string relativePath = "", int threadsNumber = omp_get_max_threads());
 	// other methods
 	void restrictOut();
-	void contractAddressesBFS();
+	void contractAddressesBFS(string contractedAddressesPath);
 	void BFS();
 	void labelConnectedComponentsParallel(int threadsNumber = omp_get_max_threads()); /* https://edux.fit.cvut.cz/oppa/PI-PPA/prednasky/PI-PPA2011-5.pdf */
 	void hook(int u, int v);
