@@ -32,7 +32,6 @@
 # If the path to the scce32s repository was specifed:
 #	./contractedAddresses.sh path_to_txin.dat path_to_contraction_data_dir path_to_output path_to_scc32sPath"
 
-echo "Computing user idies of Bitcoin addresses in the contraction process..."
 
 txinPath=$1
 txoutPath=$2

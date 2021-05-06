@@ -31,7 +31,6 @@
 # If the path to the join-utils repository was specifed:
 #	./txEdgesTimes.sh path_to_tx_times.dat path_to_txedges.dat path_to_output path_to_join_utils
 
-echo "Adding timestamps to edges..."
 
 tx_timesPath=$1
 txedgesPath=$2

@@ -29,7 +29,6 @@
 # If the path to the txedges repository was specifed:
 #	./txEdges.sh path_to_txin.dat path_to_txout.dat path_to_output path_to_tx_edges_repo"
 
-echo "Creatiing edges from Bitcoin transactions..."
 
 txinPath=$1
 txoutPath=$2

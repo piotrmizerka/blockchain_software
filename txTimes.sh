@@ -31,7 +31,6 @@
 # If the path to the join-utils repository was specifed:
 #	./txTimes.sh path_to_tx.dat path_to_bh.dat path_to_output path_to_join_utils"
 
-echo "Computing transaction timestamps..."
 
 txPath=$1
 bhPath=$2
