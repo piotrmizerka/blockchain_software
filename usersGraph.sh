@@ -43,38 +43,25 @@ joinUtilsRepoPath=$3
 sccs32sPath=$4
 
 # Sort txin.dat and txout.dat if necessary
+echo "STEP (1). Sorting txin.dat and txout.dat if necessary..."
 ./sortTx.sh $dumpedDirPath/txin.dat $dumpedDirPath/txout.dat
 
 # Create elementary edges from transactions
+echo "STEP (2). Creatiing edges from Bitcoin transactions - the result being saved to the txEdges.sh file..."
 ./txEdges.sh $dumpedDirPath/txin.dat $dumpedDirPath/txout.dat $contractionsDirPath/txedges.dat $txedgesRepoPath
 
 # Create transaction timestamps
+echo "STEP (3). Computing transaction timestamps - the result being saved to the txTimes.sh file..."
 ./txTimes.sh $dumpedDirPath/tx.dat $dumpedDirPath/bh.dat $contractionsDirPath/tx_times.dat $joinUtilsRepoPath
 
 # Create timestamps of elementary edges
+echo "STEP (4). Adding timestamps to edges - the result being saved to the txEdgesTimes.sh file..."
 ./txEdgesTimes.sh $contractionsDirPath/tx_times.dat $contractionsDirPath/txedges.dat $contractionsDirPath/tx_edges_times.dat $joinUtilsRepoPath
 
 # Contract bitcoin addresses to users' idies
+echo "STEP (5). Computing user idies of Bitcoin addresses in the contraction process - the result being saved to the contractedAddresses.sh file..."
 ./contractedAddresses.sh $dumpedDirPath/txin.dat $dumpedDirPath/txout.dat $contractionsDirPath $contractionsDirPath/contracted_addresses.dat $sccs32sPath
 
 # Create Bitcoin users' graph
-echo "Creating users' graph..."
-
-cat $contractionsDirPath/contracted_addresses.dat | ( while read line || [[ -n $line ]];
-do
-    lineAsArray=($line)
-    userId[${lineAsArray[0]}]=${lineAsArray[1]}
-done
-
-rm -f $contractionsDirPath/usersGraph.dat
-touch $contractionsDirPath/usersGraph.dat
-
-cat $contractionsDirPath/tx_edges_times.dat | while read line || [[ -n $line ]];
-do
-    lineAsArray=($line)
-    inputBitcoinAddress=${lineAsArray[0]}
-    outputBitcoinAddress=${lineAsArray[1]}
-    bitcoinAmount=${lineAsArray[2]}
-    timestamp=${lineAsArray[3]}
-    echo "${userId[$inputBitcoinAddress]} ${userId[$outputBitcoinAddress]} $bitcoinAmount $timestamp" >> $contractionsDirPath/usersGraph.dat
-done )
+echo "STEP (6). Creating users' graph..."
+./createGraph $contractionsDirPath/contracted_addresses.dat $contractionsDirPath/tx_edges_times.dat $contractionsDirPath/usersGraph.dat
