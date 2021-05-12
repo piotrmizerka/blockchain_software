@@ -1,3 +1,5 @@
+// Create Bitcoin users graph from the contracted addresses with cpp to make it faster.
+
 #include <fstream>
 #include <cstdio>
 #include <vector>
