@@ -64,4 +64,8 @@ echo "STEP (5). Computing user idies of Bitcoin addresses in the contraction pro
 
 # Create Bitcoin users' graph
 echo "STEP (6). Creating users graph..."
+echo " Compiling the cpp script to create the users graph and setting the permissions to the compiled executable..."
+g++ ./createGraph.cpp -o createGraph
+chmod +x ./createGraph
+echo " Creating the graph with the compiled script..."
 ./createGraph $contractionsDirPath/contracted_addresses.dat $contractionsDirPath/tx_edges_times.dat $contractionsDirPath/usersGraph.dat
