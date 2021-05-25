@@ -12,6 +12,7 @@ int main(int argc, char **argv)
     int maxAddress = 0;
     FILE *readContractedAddresses;
     int bitcoinAddress, userIdx;
+    readContractedAddresses = fopen(argv[1], "r");
     while(!feof(readContractedAddresses))
     {
         fscanf(readContractedAddresses,"%i %i",&bitcoinAddress,&userIdx);
