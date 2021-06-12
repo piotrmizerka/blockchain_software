@@ -1,12 +1,13 @@
 #!/bin/bash
 
 # Sources used for this script: 
-# (1) https://senseable2015-6.mit.edu/bitcoin/
+# (1) https://github.com/dkondor/bitcoin 
 # (2) https://github.com/dkondor/txedges
 # (3) https://github.com/dkondor/join-utils
 # (4) https://github.com/dkondor/sccs32s 
 
-# This scripts creates the Bitcoin users' graph. The output file contains rows of the following form
+# This scripts creates the Bitcoin users' graph from the dumped files. 
+# The output file contains rows of the following form
 #
 #	inputUserId	outputUserId	bitcoinAmount timeStamp
 #
