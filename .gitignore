@@ -1,3 +1,5 @@
 createGraph
 .vscode
 ./necessary_programs/bitcoin
+./contractions
+./dumped_files
