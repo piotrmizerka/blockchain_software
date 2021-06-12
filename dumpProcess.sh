@@ -20,18 +20,6 @@
 # If the two additional parameters were specifed:
 #	./dumpProcess.sh -bp blockchainDirPath -dp dumpedDirPath -bn blocksNumber -bdvp bitcoinDumpVersionPath
 
-
-# Check if bitcoin dump version is installed - should be slightly different as we will use the modified btc
-# if ! command -v bitcoin-qt &> /dev/null
-# then
-#     echo "COMMAND could not be found"
-# fi
-
-# blockchainDirPath=$1
-# dumpedDirPath=$2
-# blocksNumber=$3
-# bitcoinDumpVersionPath=$4
-
 # Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
 
 POSITIONAL=()
@@ -74,24 +62,30 @@ then
     then
         $bitcoinDumpVersionPath/src/bitcoind -datadir=$blockchainDirPath -DUMP -DUMP_outdir=$dumpedDirPath -DUMP_bmax=$blocksNumber
     else
+        cd ./necessary_programs/
         git clone git@github.com:dkondor/bitcoin.git
         cd bitcoin
         ./autogen.sh
         ./configure
         make
         src/bitcoind -datadir=$blockchainDirPath -DUMP -DUMP_outdir=$dumpedDirPath -DUMP_bmax=$blocksNumber
+        cd ..
+        cd ..
     fi
 else # dump the whole downloaded blockchain if the number of blocks hasn't been specified
     if [[ ! -z "$bitcoinDumpVersionPath" ]]
     then
         $bitcoinDumpVersionPath/src/bitcoind -datadir=$blockchainDirPath -DUMP -DUMP_outdir=$dumpedDirPath
     else
+        cd ./necessary_programs/
         git clone git@github.com:dkondor/bitcoin.git
         cd bitcoin
         ./autogen.sh
         ./configure
         make
         src/bitcoind -datadir=$blockchainDirPath -DUMP -DUMP_outdir=$dumpedDirPath
+        cd ..
+        cd ..
     fi
 fi
 
