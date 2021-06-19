@@ -51,16 +51,16 @@ if [[ ! -z "$blocksNumber" ]]
 then
     if [ -d ./necessary_programs/bitcoin ] # check if bitcoin dump version is already installed in the repos subdirectory
     then 
-        ./dumpProcess.sh -bp $blockchainDirPath -dp ./dumped_files -bn $blocksNumber -bdvp ./necessary_programs/bitcoin
+        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files -bn $blocksNumber -bdvp $(pwd)/necessary_programs/bitcoin
     else
-        ./dumpProcess.sh -bp $blockchainDirPath -dp ./dumped_files -bn $blocksNumber
+        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files -bn $blocksNumber
     fi
 else # dump the whole downloaded blockchain if the number of blocks hasn't been specified
     if [ -d ./necessary_programs/bitcoin ] # check if bitcoin dump version is already installed in the repos subdirectory
     then 
-        ./dumpProcess.sh -bp $blockchainDirPath -dp ./dumped_files -bdvp ./necessary_programs/bitcoin
+        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files -bdvp $(pwd)/necessary_programs/bitcoin
     else
-        ./dumpProcess.sh -bp $blockchainDirPath -dp ./dumped_files
+        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files
     fi
 fi
 
