@@ -22,6 +22,33 @@
 
 # Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
 
+fetchBitcoinDumpVersion()
+{
+    cd ./necessary_programs/
+    rm -rf ./bitcoin
+    git clone git@github.com:dkondor/bitcoin.git
+    cd bitcoin
+
+    # Check if the appropriate dependencies are installed
+    if ! command -v autoconf &> /dev/null
+    then
+        sudo apt-get install autoconf
+    fi
+    if ! command -v libtool &> /dev/null
+    then
+        sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
+    fi
+    if ! command -v libssl-dev &> /dev/null
+    then
+        sudo apt-get install libssl-dev libevent-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
+    fi
+    ./autogen.sh
+    ./contrib/install_db4.sh `pwd`
+    export BDB_PREFIX=$(pwd)/db4
+    ./configure BDB_LIBS="-L${BDB_PREFIX}/lib -ldb_cxx-4.8" BDB_CFLAGS="-I${BDB_PREFIX}/include"
+    make
+}
+
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
@@ -54,6 +81,13 @@ do
     esac
 done
 
+# Checking if the Bitcoin dump version directory exists - if so, the Bitcoin dump version
+# is assumed to be installed there. This is not checked, however.
+if [ -d "./necessary_programs/bitcoin" ]
+then
+    bitcoinDumpVersionPath=./necessary_programs/bitcoin
+fi
+
 # Dumping files from the blockchain
 echo "Dumping files from the downloaded blockchain..."
 if [[ ! -z "$blocksNumber" ]]
@@ -62,12 +96,7 @@ then
     then
         $bitcoinDumpVersionPath/src/bitcoind -datadir=$blockchainDirPath -DUMP -DUMP_outdir=$dumpedDirPath -DUMP_bmax=$blocksNumber
     else
-        cd ./necessary_programs/
-        git clone git@github.com:dkondor/bitcoin.git
-        cd bitcoin
-        ./autogen.sh
-        ./configure
-        make
+        fetchBitcoinDumpVersion
         src/bitcoind -datadir=$blockchainDirPath -DUMP -DUMP_outdir=$dumpedDirPath -DUMP_bmax=$blocksNumber
         cd ..
         cd ..
@@ -77,16 +106,9 @@ else # dump the whole downloaded blockchain if the number of blocks hasn't been 
     then
         $bitcoinDumpVersionPath/src/bitcoind -datadir=$blockchainDirPath -DUMP -DUMP_outdir=$dumpedDirPath
     else
-        cd ./necessary_programs/
-        git clone git@github.com:dkondor/bitcoin.git
-        cd bitcoin
-        ./autogen.sh
-        ./configure
-        make
+        fetchBitcoinDumpVersion
         src/bitcoind -datadir=$blockchainDirPath -DUMP -DUMP_outdir=$dumpedDirPath
         cd ..
         cd ..
     fi
 fi
-
-
