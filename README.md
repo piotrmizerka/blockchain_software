@@ -22,6 +22,8 @@ or, if the number of blocks to be processed has been specified,
 <code>./main.sh -bp blockchainDirPath -bn blocksNumber</code>
 </p>
 
+Note that if some dependencies have not been installed you may be prompted for interaction which should concern providing your home account password or accepting installation or build processes.
+
 The auxiliary ouput files generated are: **txedges.dat**, **tx_times.dat**, **tx_edges_times.dat**, and **contracted_addresses.dat**. For their specification, see [txEdges.sh](./txEdges.sh), [txTimes.sh](./txTimes.sh), [txEdgesTimes.sh](./txEdgesTimes.sh), and [contractedAddresses.sh](./contractedAddresses.sh) respectively.
 
 All the output files are generated in the `contractions` folder in the main project directory.
