@@ -14,15 +14,15 @@ The main script (that is [main.sh](./main.sh)) creates the Bitcoin users graph s
 The scripts can be run on Linux. Assumming, you run the terminal in main project folder, and have given the execution permission to all the project scripts (e.g. with `chmod +x path_to_script` command), the outputs can be generated with the following command:
 
 <p align="center">
-<code>./main.sh -bp blockchainDirPath</code>
+<code>sudo ./main.sh -bp blockchainDirPath</code>
 </p>
 or, if the number of blocks to be processed has been specified,
 
 <p align="center">
-<code>./main.sh -bp blockchainDirPath -bn blocksNumber</code>
+<code>sudo ./main.sh -bp blockchainDirPath -bn blocksNumber</code>
 </p>
 
-Note that if some dependencies have not been installed you may be prompted for interaction which should concern providing your home account password or accepting installation or build processes.
+Note that you may be prompted for interaction which should concern providing your home account password or accepting installation or build processes.
 
 The auxiliary ouput files generated are: **txedges.dat**, **tx_times.dat**, **tx_edges_times.dat**, and **contracted_addresses.dat**. For their specification, see [txEdges.sh](./txEdges.sh), [txTimes.sh](./txTimes.sh), [txEdgesTimes.sh](./txEdgesTimes.sh), and [contractedAddresses.sh](./contractedAddresses.sh) respectively.
 
