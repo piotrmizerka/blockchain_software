@@ -22,6 +22,27 @@
 
 # Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
 
+
+# Check if the appropriate dependencies are installed
+dependenciesCheck()
+{
+    if ! command -v autoconf &> /dev/null
+    then
+        sudo apt-get install autoconf
+    fi
+    if [ ! command -v build-essential &> /dev/null ] || [ ! command -v libtool &> /dev/null ] || [ ! command -v autotools-dev &> /dev/null ] ||
+       [ ! command -v automake &> /dev/null ] || [ ! command -v pkg-config &> /dev/null ] || [ ! command -v bsdmainutils &> /dev/null ] || [ ! command -v python3 &> /dev/null ]
+    then
+        sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
+    fi
+    if [ ! command -v libssl-dev &> /dev/null ] || [ ! command -v libevent-dev &> /dev/null ] || [ ! command -v libboost-system-dev &> /dev/null ] ||
+       [ ! command -v libboost-filesystem-dev &> /dev/null ] || [ ! command -v libboost-chrono-dev &> /dev/null ] || 
+       [ ! command -v libboost-test-dev &> /dev/null ] || [ ! command -v libboost-thread-dev &> /dev/null ]
+    then
+        sudo apt-get install libssl-dev libevent-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
+    fi
+}
+
 fetchBitcoinDumpVersion()
 {
     cd ./necessary_programs/
@@ -29,19 +50,6 @@ fetchBitcoinDumpVersion()
     git clone git@github.com:dkondor/bitcoin.git
     cd bitcoin
 
-    # Check if the appropriate dependencies are installed
-    if ! command -v autoconf &> /dev/null
-    then
-        sudo apt-get install autoconf
-    fi
-    if ! command -v libtool &> /dev/null
-    then
-        sudo apt-get install build-essential libtool autotools-dev automake pkg-config bsdmainutils python3
-    fi
-    if ! command -v libssl-dev &> /dev/null
-    then
-        sudo apt-get install libssl-dev libevent-dev libboost-system-dev libboost-filesystem-dev libboost-chrono-dev libboost-test-dev libboost-thread-dev
-    fi
     ./autogen.sh
     ./contrib/install_db4.sh `pwd`
     export BDB_PREFIX=$(pwd)/db4
@@ -80,6 +88,8 @@ do
         ;;
     esac
 done
+
+dependenciesCheck
 
 # Checking if the Bitcoin dump version directory exists - if so, the Bitcoin dump version
 # is assumed to be installed there. This is not checked, however.
