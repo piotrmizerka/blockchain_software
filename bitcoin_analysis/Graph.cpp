@@ -1775,10 +1775,10 @@ int maxValueParallel(vector<int> vect, int threadsNumber)
 	return maxVal;
 }
 
-void Graph::computeClusteringCoefficients()
+void Graph::computeClusteringCoefficients(int approximationAccuracy)
 {
-	createDirectedNeighborsList();
-	//createUndirectedNeighborsList();
+	createUndirectedNeighborsList();
+	vector< set<int> > undirectedNeighborsList = neighborsList;
 	clusteringCoefficients.clear();
 	FOREACH(v, vertices)if (*v > 0)clusteringCoefficients[*v] = 0;
 	adjacencyPairs.clear();
@@ -1787,7 +1787,6 @@ void Graph::computeClusteringCoefficients()
 		if (adjacencyPairs.find(make_pair(edge->u, edge->v)) == adjacencyPairs.end())
 		{
 			adjacencyPairs.insert(make_pair(edge->u, edge->v));
-			adjacencyPairs.insert(make_pair(edge->v, edge->u));
 		}
 	}
 	double trianglesNumber;
@@ -1800,9 +1799,9 @@ void Graph::computeClusteringCoefficients()
 		{
 			if (neighborsList[*v].size() >= 2)
 			{
-				it = max(neighborsList[*v].size() / 10, 1);
+				it = max(approximationAccuracy, 1);
 				neighbors.clear();
-				FOREACH(u, neighborsList[*v])neighbors.push_back(*u);
+				FOREACH(u, undirectedNeighborsList[*v])neighbors.push_back(*u);
 				neighbors2Consider.clear();
 				for (int i = 0;i < neighbors.size();i += it)neighbors2Consider.push_back(neighbors[i]);
 				trianglesNumber = 0;
@@ -1811,14 +1810,17 @@ void Graph::computeClusteringCoefficients()
 				{
 					for (int j = 0;j < i;j++)
 					{
-						if (adjacencyPairs.find(make_pair(neighbors2Consider[i], neighbors2Consider[j])) != adjacencyPairs.end() ||
-							adjacencyPairs.find(make_pair(neighbors2Consider[j], neighbors2Consider[i])) != adjacencyPairs.end() )
+						if (adjacencyPairs.find(make_pair(neighbors2Consider[i], neighbors2Consider[j])) != adjacencyPairs.end())
+						{
+							trianglesNumber++;
+						}
+						if (adjacencyPairs.find(make_pair(neighbors2Consider[j], neighbors2Consider[i])) != adjacencyPairs.end())
 						{
 							trianglesNumber++;
 						}
 					}
 				}
-				clusteringCoefficients[*v] = 200 * trianglesNumber / (double(neighbors2Consider.size())*double(neighbors2Consider.size() - 1));
+				clusteringCoefficients[*v] = approximationAccuracy* approximationAccuracy * trianglesNumber / (double(neighbors2Consider.size())*double(neighbors2Consider.size() - 1));
 			}
 		}
 	}

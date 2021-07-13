@@ -44,7 +44,7 @@ class Graph
 public:
 	/// functionalities
 	// clustering coefficients 
-	void computeClusteringCoefficients();/*approximate solution*/
+	void computeClusteringCoefficients(int approximationAccuracy = 1);/*approximate solution*/
 	void saveClusteringCeofficients(int timeId);
 	void saveClusteringCoefficientsOverTime();
 	void saveAverageClusteringCoefficientsOverTime();
