@@ -4,7 +4,7 @@ void Graph::determineConnectedComponents()
 {
 	vector <int> temp;
 	connectedComponents.clear();
-	createUndirectedNeighborsList();
+	createUndirectedNeighborsSet();
 	for (int i = 0; i<vertices.size(); i++)
 	{
 		consideredVertices[vertices[i]] = false;
@@ -48,20 +48,26 @@ void Graph::BFS(vector<int> firstLayer)
 	}
 }
 
-void Graph::createUndirectedNeighborsList()
+vector < set <int> > Graph::createUndirectedNeighborsSet()
 {
-	for (int i = 0; i < vertices.size(); i++)
+	vector < set <int> > result;
+	int maxVertex = 0;
+	FOREACH(v, vertices)if (*v > maxVertex)maxVertex = *v;
+	result.resize(maxVertex+1);
+	FOREACH(e, edges)
 	{
-		neighborsList[vertices[i]].clear();
+		result[e->u].insert(e->v);
+		result[e->v].insert(e->u);
 	}
-	for (int i = 0; i<edges.size(); i++)
+	/*for (int i = 0; i<edges.size(); i++)
 	{
-		if (neighborsList[edges[i].u].find(edges[i].v) == neighborsList[edges[i].u].end())
+		if (result[edges[i].u].find(edges[i].v) == result[edges[i].u].end())
 		{
-			neighborsList[edges[i].u].insert(edges[i].v);
-			neighborsList[edges[i].v].insert(edges[i].u);
+			result[edges[i].u].insert(edges[i].v);
+			result[edges[i].v].insert(edges[i].u);
 		}
-	}
+	}*/
+	return result;
 }
 
 void Graph::createDirectedNeighborsList()
@@ -502,16 +508,16 @@ void Graph::saveAverageDegreeOverTime()
 	save.close();
 }
 
-void Graph::saveClusteringCeofficients(int timeId)
+/*void Graph::saveClusteringCeofficients(int timeId)
 {
 	string pathx = "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\clustering_coefficients_over_time\\clustering_coefficients_" + dec2String(timeId) + ".dat";
 	FILE *save;
 	save = fopen(pathx.c_str(), "w");
 	FOREACH(elt, clusteringCoefficients)fprintf(save, "%d %.3lf\n", elt->first, elt->second);
 	fclose(save);
-}
+}*/
 
-void Graph::saveClusteringCoefficientsOverTime()
+/*void Graph::saveClusteringCoefficientsOverTime()
 {
 	set<int> verticesNoRepetitionsUpToCurrentTime, vertices2Add;
 	verticesNoRepetitionsUpToCurrentTime.clear();
@@ -544,9 +550,9 @@ void Graph::saveClusteringCoefficientsOverTime()
 		subgraphUpToCurrentTime.computeClusteringCoefficients();
 		subgraphUpToCurrentTime.saveClusteringCeofficients(i);
 	}
-}
+}*/
 
-void Graph::saveAverageClusteringCoefficientsOverTime()
+/*void Graph::saveAverageClusteringCoefficientsOverTime()
 {
 	double clusteringCoefficientSum;
 	FILE *save;
@@ -559,9 +565,9 @@ void Graph::saveAverageClusteringCoefficientsOverTime()
 		fprintf(save, "%.3lf\n", clusteringCoefficientSum/double(clusteringCoefficients.size()));
 	}
 	fclose(save);
-}
+}*/
 
-void Graph::loadClusteringCoefficients(int timeId)
+/*void Graph::loadClusteringCoefficients(int timeId)
 {
 	string pathx = "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\clustering_coefficients_over_time\\clustering_coefficients_" + dec2String(timeId) + ".dat";
 	FILE *read;
@@ -575,7 +581,7 @@ void Graph::loadClusteringCoefficients(int timeId)
 		clusteringCoefficients[vertex] = coeffx;
 	}
 	fclose(read);
-}
+}*/
 
 void Graph::saveBuyersSellersNumberOverTime()
 {
@@ -674,7 +680,7 @@ void Graph::saveMedianVerticesBalancesOverTime()
 	fclose(save);
 }
 
-void Graph::saveBalancesClusteringCoefficients(int timeId)
+/*void Graph::saveBalancesClusteringCoefficients(int timeId)
 {
 	FILE *readBalances, *save;
 	string pathx;
@@ -699,7 +705,7 @@ void Graph::saveBalancesClusteringCoefficients(int timeId)
 		fprintf(save,"[%d,%d] %.0lf\n", i, i + 1, balancesSums[i] / balancesNumber[i]);
 	}
 	fclose(save);
-}
+}*/
 
 void Graph::saveLongtermUsersSubgraphContractedEdges()
 {
@@ -1508,7 +1514,7 @@ void Graph::saveLongTermUsersSubgraph(int minimalIntervalInDays,int minimalTrans
 	fclose(save);
 }
 
-void Graph::saveClusteringCoefficientsFrequencies(int timeId)
+/*void Graph::saveClusteringCoefficientsFrequencies(int timeId)
 {
 	loadClusteringCoefficients(timeId);
 	ofstream save;
@@ -1521,7 +1527,7 @@ void Graph::saveClusteringCoefficientsFrequencies(int timeId)
 	}
 	for (int i = 0;i < 101;i++)save << "[" << i << "," << i+1 << "] " << coeffsFrequencies[i] << endl;
 	save.close();
-}
+}*/
 
 void Graph::savePercentageVerticesBiggestSCCOverTime()
 {
@@ -1731,11 +1737,6 @@ void Graph::setEdges(vector<Edge> eds)
 	edges = eds;
 }
 
-map<int, double> Graph::getClusteringCoefficients()
-{
-	return clusteringCoefficients;
-}
-
 vector<map<pair<int, int>, long long>> Graph::getSnapshots()
 {
 	return snapshots;
@@ -1775,55 +1776,34 @@ int maxValueParallel(vector<int> vect, int threadsNumber)
 	return maxVal;
 }
 
-void Graph::computeClusteringCoefficients(int approximationAccuracy)
+map<int, double> Graph::computeClusteringCoefficients(int approximationAccuracy)
 {
-	createUndirectedNeighborsList();
-	vector< set<int> > undirectedNeighborsList = neighborsList;
-	clusteringCoefficients.clear();
-	FOREACH(v, vertices)if (*v > 0)clusteringCoefficients[*v] = 0;
-	adjacencyPairs.clear();
-	FOREACH(edge, edges)
+	map<int, double> result;
+
+	vector< set<int> > undirectedNeighborsSet = createUndirectedNeighborsSet();
+	FOREACH(v, vertices)if (*v > 0)result[*v] = 0;
+	set<pair<int, int> > adjacencyPairs;
+	FOREACH(e, edges)if (adjacencyPairs.find(make_pair(e->u, e->v)) == adjacencyPairs.end())adjacencyPairs.insert(make_pair(e->u, e->v));
+
+	double trianglesNumber, it = 0;
+	vector <int> neighborsVector, neighbors2Consider;
+	FOREACH(v, vertices)if (*v > 0&& undirectedNeighborsSet[*v].size() >= 2)
 	{
-		if (adjacencyPairs.find(make_pair(edge->u, edge->v)) == adjacencyPairs.end())
+		it = max(approximationAccuracy, 1);
+		neighborsVector = vector<int>(undirectedNeighborsSet[*v].begin(), undirectedNeighborsSet[*v].end());
+		neighbors2Consider.clear();
+		for (int i = 0;i < neighborsVector.size();i += it)neighbors2Consider.push_back(neighborsVector[i]);
+		trianglesNumber = 0;
+		if (neighbors2Consider.size() < 2)neighbors2Consider.push_back(neighborsVector[neighborsVector.size() / 2]);
+		for (int i = 0;i < neighbors2Consider.size();i++)for (int j = 0;j < i;j++)
 		{
-			adjacencyPairs.insert(make_pair(edge->u, edge->v));
+			if (adjacencyPairs.find(make_pair(neighbors2Consider[i], neighbors2Consider[j])) != adjacencyPairs.end())trianglesNumber++;
+			if (adjacencyPairs.find(make_pair(neighbors2Consider[j], neighbors2Consider[i])) != adjacencyPairs.end())trianglesNumber++;
 		}
+		result[*v] = trianglesNumber / (double(neighbors2Consider.size())*double(neighbors2Consider.size() - 1));
 	}
-	double trianglesNumber;
-	double it = 0;
-	vector <int> neighbors2Consider;
-	vector <int> neighbors;
-	FOREACH(v, vertices)
-	{
-		if (*v > 0)
-		{
-			if (neighborsList[*v].size() >= 2)
-			{
-				it = max(approximationAccuracy, 1);
-				neighbors.clear();
-				FOREACH(u, undirectedNeighborsList[*v])neighbors.push_back(*u);
-				neighbors2Consider.clear();
-				for (int i = 0;i < neighbors.size();i += it)neighbors2Consider.push_back(neighbors[i]);
-				trianglesNumber = 0;
-				if (neighbors2Consider.size() < 2)neighbors2Consider.push_back(neighbors[neighbors.size() / 2]);
-				for (int i = 0;i < neighbors2Consider.size();i++)
-				{
-					for (int j = 0;j < i;j++)
-					{
-						if (adjacencyPairs.find(make_pair(neighbors2Consider[i], neighbors2Consider[j])) != adjacencyPairs.end())
-						{
-							trianglesNumber++;
-						}
-						if (adjacencyPairs.find(make_pair(neighbors2Consider[j], neighbors2Consider[i])) != adjacencyPairs.end())
-						{
-							trianglesNumber++;
-						}
-					}
-				}
-				clusteringCoefficients[*v] = approximationAccuracy* approximationAccuracy * trianglesNumber / (double(neighbors2Consider.size())*double(neighbors2Consider.size() - 1));
-			}
-		}
-	}
+
+	return result;
 }
 
 void Graph::computeStronglyConnectedComponents()

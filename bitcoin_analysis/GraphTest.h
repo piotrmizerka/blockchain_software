@@ -12,8 +12,8 @@ class GraphTest
 public:
 	/// functionalities
 	// computeClusteringCoefficients
-	void computeClusteringCoefficientsTest(bool smallTests = true, bool bigTests = false);
-	void computeClusteringCoefficientsGenerateBigTest(int edgesNumber = 10000, int verticesNumber = 1000);
+	//void computeClusteringCoefficientsTest(bool smallTests = true, bool bigTests = false);
+	//void computeClusteringCoefficientsGenerateBigTest(int edgesNumber = 10000, int verticesNumber = 1000);
 	// determineConnectedComponents
 	void determineConnectedComponentsTest(bool smallTests = true, bool bigTests = false);
 	void determineConnectedComponentsGenerateBigTest(int edgesNumber = 5000, int verticesNumber = 10000);
@@ -48,7 +48,7 @@ public:
 	/// inner methods
 	void generateBigTestIn(string relativePath, int verticesNumber = 1000, int edgesNumber = 10000, bool weights = false, bool verts = true);
 	void loadTestIn(string relativePath, bool readWeights = false, bool readVertices = true);
-	void computeClusteringCoefficientsVerify(bool smallTests = true, int smallId = 0);
+	//void computeClusteringCoefficientsVerify(bool smallTests = true, int smallId = 0);
 	void determineConnectedComponentsVerify(bool smallTests = true, int smallId = 0);
 	void computeStronglyConnectedComponentsVerify(bool smallTests = true, int smallId = 0);
 	void computeVerticesDegreesVerify(bool smallTests = true, int smallId = 0);

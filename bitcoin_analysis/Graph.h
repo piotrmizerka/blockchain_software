@@ -22,7 +22,6 @@ class Graph
 	int filesNumber;
 
 	/// functional variables
-	map<int, double> clusteringCoefficients;
 	vector < set <int> > connectedComponents;
 	vector< vector<int> >stronglyConnectedComponents;
 	vector<long long> verticesBalances;
@@ -30,7 +29,6 @@ class Graph
 	vector<map<pair<int, int>, long long> > snapshots;
 	
 	/// inner variables
-	set<pair<int, int> > adjacencyPairs;
 	vector < set <int> > neighborsList;
 	vector <long long> transactionsTimes;
 	vector <bool> consideredVertices;
@@ -44,13 +42,13 @@ class Graph
 public:
 	/// functionalities
 	// clustering coefficients 
-	void computeClusteringCoefficients(int approximationAccuracy = 1);/*approximate solution*/
-	void saveClusteringCeofficients(int timeId);
-	void saveClusteringCoefficientsOverTime();
-	void saveAverageClusteringCoefficientsOverTime();
-	void loadClusteringCoefficients(int timeId);
-	void saveClusteringCoefficientsFrequencies(int timeId);
-	void saveBalancesClusteringCoefficients(int timeId);
+	map<int, double> computeClusteringCoefficients(int approximationAccuracy = 1);
+	//void saveClusteringCeofficients(int timeId);
+	//void saveClusteringCoefficientsOverTime();
+	//void saveAverageClusteringCoefficientsOverTime();
+	//void loadClusteringCoefficients(int timeId);
+	//void saveClusteringCoefficientsFrequencies(int timeId);
+	//void saveBalancesClusteringCoefficients(int timeId);
 	// connected components
 	void determineConnectedComponents();
 	void printConnectedComponents();
@@ -101,7 +99,7 @@ public:
 
 	/// inner methods
 	// neighbors list
-	void createUndirectedNeighborsList();
+	vector < set <int> > createUndirectedNeighborsSet();
 	void createDirectedNeighborsList();
 	// transaction times
 	void saveTransactionsTimes();
@@ -139,7 +137,6 @@ public:
 	vector< vector<int> > getStronglyConnectedComponents();
 	void setVertices(vector <int> verts);
 	void setEdges(vector< Edge > eds);
-	map<int, double> getClusteringCoefficients();
 	vector<map<pair<int, int>, long long> > getSnapshots();
 	void setFilesNumber(int filesNumberx);
 };

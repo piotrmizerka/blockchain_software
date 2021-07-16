@@ -14,7 +14,7 @@ void TransactionHypergraph::cluster()
 		}
 	}
 	Graph graph(addresses, edges);
-	graph.createUndirectedNeighborsList();
+	graph.createUndirectedNeighborsSet();
 	graph.determineConnectedComponents();
 	clusters = graph.getConnectedComponents();
 }
