@@ -37,18 +37,15 @@ class Graph
 	stack<int> S;
 	vector<int> indices, lowlinks;
 	vector<bool> onStack;
-	int index;//
+	int index;
 
 public:
 	/// functionalities
-	// clustering coefficients 
+
+	// Computes the clustering coefficients vor each vertex. This is an approximate solution.
+	// The approximation paramater, an integer "approximationAccuracy", specifies to consider only every approximationAccuracy neighbor for each vertex into account. For example, if the vertex v0 has neihbors v1, v2, v3, and v4, appearing in that order on the neighbors list of v0, and approximationAccuracy = 2, the function below takes into account the neihbors v1 and v3 only.
 	map<int, double> computeClusteringCoefficients(int approximationAccuracy = 1);
-	//void saveClusteringCeofficients(int timeId);
-	//void saveClusteringCoefficientsOverTime();
-	//void saveAverageClusteringCoefficientsOverTime();
-	//void loadClusteringCoefficients(int timeId);
-	//void saveClusteringCoefficientsFrequencies(int timeId);
-	//void saveBalancesClusteringCoefficients(int timeId);
+
 	// connected components
 	void determineConnectedComponents();
 	void printConnectedComponents();
