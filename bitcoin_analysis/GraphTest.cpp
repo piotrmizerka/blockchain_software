@@ -1,6 +1,7 @@
 #include "stdafx.h"
 
-/*void GraphTest::computeClusteringCoefficientsTest(bool smallTests, bool bigTests)
+/*
+void GraphTest::computeClusteringCoefficientsTest(bool smallTests, bool bigTests)
 {
 	cout << "computeClusteringCoefficients test...\n";
 	string relativePath;
@@ -19,7 +20,7 @@
 		loadTestIn(relativePath);
 		computeClusteringCoefficientsVerify(false);
 	}
-}*/
+}
 
 void GraphTest::loadTestIn(string relativePath, bool readWeights, bool readVertices)
 {
@@ -63,7 +64,7 @@ void GraphTest::loadTestIn(string relativePath, bool readWeights, bool readVerti
 	testGraph = Graph(vertices, edges, 2 * edges.size(), 2 * vertices.size(), 100000);
 }
 
-/*void GraphTest::computeClusteringCoefficientsVerify(bool smallTests, int smallId)
+void GraphTest::computeClusteringCoefficientsVerify(bool smallTests, int smallId)
 {
 	string pathxx;
 	FILE *readOut;
@@ -91,7 +92,7 @@ void GraphTest::loadTestIn(string relativePath, bool readWeights, bool readVerti
 	averageRelativeError = relativeErrorSum / double(vertices.size());
 	if (smallTests == true) cout << "small test " << smallId << " average relative error: " << averageRelativeError << endl;
 	else cout << "big test average relative error: " << averageRelativeError << endl;
-}*/
+}
 
 void GraphTest::computeVerticesDegreesVerify(bool smallTests, int smallId)
 {
@@ -234,95 +235,6 @@ GraphTest::GraphTest(int filesNumberx, string pathxx)
 {
 	pathx = pathxx;
 	filesNumber = filesNumberx;
-}
-
-void GraphTest::computeStronglyConnectedComponentsVerify(bool smallTests, int smallId)
-{
-	vector <int> vertices;
-	set<int> verticesx;
-	vector <Edge> edges;
-	Edge edge;
-	vector < set <int> > connectedComponents, connectedComponents2;
-	vector < vector<int> > connectedComponentsx;
-	set<int> component;
-	vector <int> componentIds, componentIds2;
-	string pathxx;
-	FILE *readOut;
-	if (smallTests == true)pathxx = pathx + "computeStronglyConnectedComponents\\small" + dec2String(smallId) + "_out.txt";
-	else pathxx = pathx + "computeStronglyConnectedComponents\\big_out.txt";
-	readOut = fopen(pathxx.c_str(), "r");
-	testGraph.computeStronglyConnectedComponents();
-	connectedComponentsx = testGraph.getStronglyConnectedComponents();
-	connectedComponents.clear();
-	FOREACH(componentx, connectedComponentsx)
-	{
-		component.clear();
-		FOREACH(v, *componentx)component.insert(*v);
-		connectedComponents.push_back(component);
-	}
-	connectedComponents2.clear();
-	int n, v;
-	while (!feof(readOut))
-	{
-		component.clear();
-		fscanf(readOut, "%i", &n);
-		for (int i = 0;i < n;i++)
-		{
-			fscanf(readOut, "%i", &v);
-			component.insert(v);
-		}
-		connectedComponents2.push_back(component);
-	}
-	fclose(readOut);
-	vertices = testGraph.getVertices();
-	componentIds.resize(10 * vertices.size());
-	componentIds2.resize(10 * vertices.size());
-	for (int i = 0;i < connectedComponents.size();i++)FOREACH(v, connectedComponents[i])componentIds[*v] = i;
-	for (int i = 0;i < connectedComponents2.size();i++)FOREACH(v, connectedComponents2[i])componentIds2[*v] = i;
-	bool check = true;
-	for (int i = 0;i < vertices.size();i++)
-	{
-		if (connectedComponents[componentIds[vertices[i]]].size() != connectedComponents2[componentIds2[vertices[i]]].size())
-		{
-			check = false;
-		}
-		else
-		{
-			FOREACH(v, connectedComponents[componentIds[vertices[i]]])
-			{
-				if (connectedComponents2[componentIds2[vertices[i]]].find(*v) == connectedComponents2[componentIds2[vertices[i]]].end())
-				{
-					check = false;
-				}
-			}
-		}
-	}
-	if (smallTests == true)
-	{
-		cout << "small test " << smallId << ": ";
-		if (check == true)cout << "OK" << endl;
-		else
-		{
-			cout << "FAILED\n\Proper strongly connected components:\n";
-			FOREACH(component, connectedComponents2)
-			{
-				FOREACH(v, *component)cout << *v << " ";
-				cout << endl;
-			}
-			cout << "Obtained strongly connected components:\n";
-			FOREACH(component, connectedComponents)
-			{
-				FOREACH(v, *component)cout << *v << " ";
-				cout << endl;
-			}
-		}
-	}
-	else
-	{
-		cout << "big test: ";
-		if (check == true)cout << "OK" << endl;
-		else cout << "FAILED\n";
-	}
 }
 
 void GraphTest::determineConnectedComponentsVerify(bool smallTests, int smallId)
@@ -899,7 +811,7 @@ void GraphTest::testAll(bool smallTests, bool bigTests)
 	edgesWeightSumTest(smallTests, bigTests);
 }
 
-/*void GraphTest::generateBigTestAll(int edgesNumber, int verticesNumber)
+void GraphTest::generateBigTestAll(int edgesNumber, int verticesNumber)
 {
 	computeClusteringCoefficientsGenerateBigTest(edgesNumber, 2*verticesNumber);
 	determineConnectedComponentsGenerateBigTest(edgesNumber/20, verticesNumber/2);
@@ -908,7 +820,7 @@ void GraphTest::testAll(bool smallTests, bool bigTests)
 	averageDirectedDegreeGenerateBigTest(edgesNumber, verticesNumber);
 	directedDegreeSumGenerateBigTest(edgesNumber, verticesNumber);
 	edgesWeightSumGenerateBigTest(edgesNumber);
-}*/
+}
 
 void GraphTest::computeStronglyConnectedComponentsGenerateBigTest(int edgesNumber, int verticesNumber)
 {
@@ -932,7 +844,7 @@ void GraphTest::computeStronglyConnectedComponentsGenerateBigTest(int edgesNumbe
 	fclose(saveOut);
 }
 
-/*void GraphTest::computeClusteringCoefficientsGenerateBigTest(int edgesNumber, int verticesNumber)
+void GraphTest::computeClusteringCoefficientsGenerateBigTest(int edgesNumber, int verticesNumber)
 {
 	cout << "computeClusteringCoefficients big test generating...\n";
 	FILE *saveOut;
@@ -950,4 +862,5 @@ void GraphTest::computeStronglyConnectedComponentsGenerateBigTest(int edgesNumbe
 		fprintf(saveOut, "%d %.3lf\n", elt->first, elt->second);
 	}
 	fclose(saveOut);
-}*/
+}
+*/

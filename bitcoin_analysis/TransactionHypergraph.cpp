@@ -16,7 +16,7 @@ void TransactionHypergraph::cluster()
 	Graph graph(addresses, edges);
 	graph.createUndirectedNeighborsSet();
 	graph.determineConnectedComponents();
-	clusters = graph.getConnectedComponents();
+	//clusters = graph.getConnectedComponents();
 }
 
 void TransactionHypergraph::createUsersGraph()

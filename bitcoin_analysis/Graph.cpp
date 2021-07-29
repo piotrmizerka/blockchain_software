@@ -1,52 +1,5 @@
 #include "stdafx.h"
 
-void Graph::determineConnectedComponents()
-{
-	vector <int> temp;
-	connectedComponents.clear();
-	createUndirectedNeighborsSet();
-	for (int i = 0; i<vertices.size(); i++)
-	{
-		consideredVertices[vertices[i]] = false;
-		toConsider.insert(vertices[i]);
-	}
-	while (!toConsider.empty())
-	{
-		temp.clear();
-		temp.push_back(*toConsider.begin());
-		currentComponent.clear();
-		BFS(temp);
-		connectedComponents.push_back(currentComponent);
-	}
-}
-
-void Graph::BFS(vector<int> firstLayer)
-{
-	vector <int> currentLayer = firstLayer;
-	vector <int> nextLayer;
-	while (!currentLayer.empty())
-	{
-		nextLayer.clear();
-		for (int i = 0; i<currentLayer.size(); i++)
-		{
-			consideredVertices[currentLayer[i]] = true;
-			toConsider.erase(currentLayer[i]);
-			currentComponent.insert(currentLayer[i]);
-		}
-		for (vector<int>::iterator it = currentLayer.begin(); it != currentLayer.end(); ++it)
-		{
-			for (set<int>::iterator jt = neighborsList[*it].begin(); jt != neighborsList[*it].end(); ++jt)
-			{
-				if (!consideredVertices[*jt])
-				{
-					nextLayer.push_back(*jt);
-					consideredVertices[*jt] = true;
-				}
-			}
-		}
-		currentLayer = nextLayer;
-	}
-}
 
 vector < set <int> > Graph::createUndirectedNeighborsSet()
 {
@@ -59,14 +12,6 @@ vector < set <int> > Graph::createUndirectedNeighborsSet()
 		result[e->u].insert(e->v);
 		result[e->v].insert(e->u);
 	}
-	/*for (int i = 0; i<edges.size(); i++)
-	{
-		if (result[edges[i].u].find(edges[i].v) == result[edges[i].u].end())
-		{
-			result[edges[i].u].insert(edges[i].v);
-			result[edges[i].v].insert(edges[i].u);
-		}
-	}*/
 	return result;
 }
 
@@ -264,7 +209,7 @@ Graph Graph::loadUsersGraph(string pathx, bool considerTimes)
 	return result;
 }
 
-void Graph::loadUsersGraphParallel(string pathx, int threadsNumber)
+/*void Graph::loadUsersGraphParallel(string pathx, int threadsNumber)
 {
 	vertices.clear();
 	edges.clear();
@@ -338,7 +283,7 @@ void Graph::loadUsersGraphParallel(string pathx, int threadsNumber)
 			}
 		}
 	}
-}
+}*/
 
 Graph Graph::loadUsersSubgraph(int n, bool multipleEdges)
 {
@@ -1143,7 +1088,7 @@ void Graph::saveVarianceByIntervalsParallel(string componentsPath, string snapsh
 	saveVariance.close();
 }
 
-void Graph::createGraphSnapshotsParallel(string inputPath, string outputPath, int intervalInDays, 
+/*void Graph::createGraphSnapshotsParallel(string inputPath, string outputPath, int intervalInDays, 
 	string parameter, int threadsNumber, bool performSave)
 {
 	loadUsersGraphParallel(inputPath, threadsNumber);
@@ -1223,7 +1168,7 @@ void Graph::createGraphSnapshotsParallel(string inputPath, string outputPath, in
 		}
 		for (int i = 0;i < snapshotsNumber;i++)fclose(save[i]);
 	}
-}
+}*/
 
 void Graph::saveTotalTransactionAmountOverTime()
 {
@@ -1439,61 +1384,6 @@ void Graph::saveLongTermUsersSubgraph(int minimalIntervalInDays,int minimalTrans
 	fclose(save);
 }
 
-/*void Graph::saveClusteringCoefficientsFrequencies(int timeId)
-{
-	loadClusteringCoefficients(timeId);
-	ofstream save;
-	save.open("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\clust_coeffs_frequencies.txt");
-	int coeffsFrequencies[101];
-	for (int i = 0;i < 101;i++)coeffsFrequencies[i] = 0;
-	FOREACH(elt, clusteringCoefficients)
-	{
-		coeffsFrequencies[int(elt->second)]++;
-	}
-	for (int i = 0;i < 101;i++)save << "[" << i << "," << i+1 << "] " << coeffsFrequencies[i] << endl;
-	save.close();
-}*/
-
-void Graph::savePercentageVerticesBiggestSCCOverTime()
-{
-	FILE *save;
-	string pathx;
-	Graph graph;
-	set<int> vertices2Consider;
-	vector<Edge> edgesUpToCurrentTime;
-	vector<int> verticesUpToCurrentTime;
-	vector<int> currentVertices;
-	vector<Edge> currentEdges;
-	vector< vector<int> > SCCs;
-	int maxComponentSize;
-	save = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\biggest_scc_over_time.txt", "w");
-	for (int i = 0;i < 120;i++)
-	{
-		graph = loadUsersSubgraph(i, false);
-		currentVertices = graph.getVertices();
-		currentEdges = graph.getEdges();
-		FOREACH(v, currentVertices)
-		{
-			if (*v > 0)
-			{
-				if (vertices2Consider.find(*v) == vertices2Consider.end())
-				{
-					vertices2Consider.insert(*v);
-					verticesUpToCurrentTime.push_back(*v);
-				}
-			}
-		}
-		FOREACH(edge, currentEdges)edgesUpToCurrentTime.push_back(*edge);
-		graph = Graph(verticesUpToCurrentTime, edgesUpToCurrentTime);
-		graph.computeStronglyConnectedComponents();
-		SCCs = graph.getStronglyConnectedComponents();
-		maxComponentSize = 0;
-		FOREACH(component, SCCs)if (maxComponentSize < component->size())maxComponentSize = component->size();
-		fprintf(save, "%.3lf\n", 100*double(maxComponentSize) / double(verticesUpToCurrentTime.size()));
-	}
-	fclose(save);
-}
-
 void Graph::saveVerticesBalancesOverTime()
 {
 	FILE *save[120];
@@ -1568,16 +1458,6 @@ void Graph::convertUsersGraphTimes()
 	fclose(readTransactions);
 }
 
-void Graph::printConnectedComponents()
-{
-	cout << "connected cmoponents:\n";
-	for (vector< set<int> >::iterator it = connectedComponents.begin(); it != connectedComponents.end(); ++it)
-	{
-		for (set<int>::iterator jt = (*it).begin(); jt != (*it).end(); ++jt)cout << *jt << " ";
-		cout << endl;
-	}
-}
-
 void Graph::printNeighborsList()
 {
 	cout << "neighbors list:\n";
@@ -1616,9 +1496,6 @@ Graph::Graph(vector<int> V, vector<Edge> E, int transactionsNumberx, int usersNu
 	transactionsNumber = transactionsNumberx;
 	usersNumber = usersNumberx;
 	moreThanPossibleBitcoinsAmount = moreThanPossibleBitcoinsAmountx;
-	int maxVal = maxValue(V);
-	consideredVertices = vector <bool>(maxVal + 1, false);
-	neighborsList = vector < set<int> >(maxVal + 1, set <int>());
 	filesNumber = filesNumberx;
 }
 
@@ -1632,11 +1509,6 @@ vector<Edge> Graph::getEdges()
 	return edges;
 }
 
-vector<set<int>> Graph::getConnectedComponents()
-{
-	return connectedComponents;
-}
-
 vector<set<int>> Graph::getNeighborsList()
 {
 	return neighborsList;
@@ -1645,11 +1517,6 @@ vector<set<int>> Graph::getNeighborsList()
 vector<int> Graph::getVerticesDegrees()
 {
 	return verticesDegrees;
-}
-
-vector<vector<int>> Graph::getStronglyConnectedComponents()
-{
-	return stronglyConnectedComponents;
 }
 
 void Graph::setVertices(vector<int> verts)
@@ -1731,76 +1598,41 @@ map<int, double> Graph::computeClusteringCoefficients(int approximationAccuracy)
 	return result;
 }
 
-void Graph::computeStronglyConnectedComponents()
+vector<set<int>> Graph::determineConnectedComponents()
 {
-	index = 0;
-	while (!S.empty())S.pop();
-	int maxVal = maxValue(vertices);
-	indices.resize(maxVal+1);
-	lowlinks.resize(maxVal+1);
-	onStack.resize(maxVal+1);
-	for (int i = 0;i <= maxVal;i++)
+	vector < set <int> > result;
+	vector < set <int> > undirectedNeighborsSet = createUndirectedNeighborsSet();
+	set <int> toConsider, currentComponent;
+	vector <int> currentLayer, nextLayer;
+	vector <bool> consideredVertices(maxValue(vertices) + 1);
+
+	FOREACH(v, vertices)consideredVertices[*v] = false;
+	toConsider = set<int>(vertices.begin(), vertices.end());
+
+	while (!toConsider.empty())
 	{
-		indices[i] = -1;
-		lowlinks[i] = -1;
-		onStack[i] = false;
-	}
-	stronglyConnectedComponents.clear();
-	createDirectedNeighborsList();
-	FOREACH(v, vertices)
-	{
-		if (*v > 0)
+		currentLayer = { *toConsider.begin() };
+		currentComponent.clear();
+		while (!currentLayer.empty())
 		{
-			if (indices[*v] == -1)
+			nextLayer.clear();
+			FOREACH(v, currentLayer)
 			{
-				strongConnect(*v);
+				consideredVertices[*v] = true;
+				toConsider.erase(*v);
+				currentComponent.insert(*v);
 			}
+			FOREACH(v, currentLayer)FOREACH(w, undirectedNeighborsSet[*v])if (!consideredVertices[*w])
+			{
+				nextLayer.push_back(*w);
+				consideredVertices[*w] = true;
+			}
+			currentLayer = nextLayer;
 		}
-	}
-}
-
-void Graph::strongConnect(int v)
-{
-	// Set the depth index for v to the smallest unused index
-	indices[v] = index;
-	lowlinks[v] = index;
-	index++;
-	S.push(v);
-	onStack[v] = true;
-
-	// Consider successors of v
-	FOREACH(w, neighborsList[v])
-	{
-		if (indices[*w] == -1)
-		{
-			// Successor w has not yet been visited; recurse on it
-			strongConnect(*w);
-			lowlinks[v] = min(lowlinks[v], lowlinks[*w]);
-		}
-		else if (onStack[*w] == true)
-		{
-			// Successor w is in stack S and hence in the current SCC
-			// If w is not on stack, then (v, w) is a cross-edge in the DFS tree and must be ignored
-			// Note: The next line may look odd - but is correct.
-			// It says w.index not w.lowlink; that is deliberate and from the original paper
-			lowlinks[v] = min(lowlinks[v], indices[*w]);
-		}
+		result.push_back(currentComponent);
 	}
 
-	// If v is a root node, pop the stack and generate an SCC
-	if (lowlinks[v] == indices[v])
-	{
-		int w;
-		vector<int> currentStronglyConnectedComponent;
-		do
-		{
-			w = S.top();
-			S.pop();
-			onStack[w] = false;
-			currentStronglyConnectedComponent.push_back(w);
-		} while (w != v);
-		stronglyConnectedComponents.push_back(currentStronglyConnectedComponent);
-	}
+	return result;
 }
 
 double Graph::edgesWeightSum()
