@@ -177,22 +177,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="AddressesContractor.h" />
-    <ClInclude Include="AddressesContractorTest.h" />
     <ClInclude Include="auxiliaryFunctions.h" />
-    <ClInclude Include="FileParser.h" />
     <ClInclude Include="Graph.h" />
     <ClInclude Include="GraphTest.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="targetver.h" />
-    <ClInclude Include="TransactionHypergraph.h" />
-    <ClInclude Include="TransactionHypergraphTest.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AddressesContractor.cpp" />
-    <ClCompile Include="AddressesContractorTest.cpp" />
     <ClCompile Include="auxiliaryFunctions.cpp" />
-    <ClCompile Include="FileParser.cpp" />
     <ClCompile Include="Graph.cpp" />
     <ClCompile Include="GraphTest.cpp" />
     <ClCompile Include="main.cpp" />
@@ -202,8 +194,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TransactionHypergraph.cpp" />
-    <ClCompile Include="TransactionHypergraphTest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

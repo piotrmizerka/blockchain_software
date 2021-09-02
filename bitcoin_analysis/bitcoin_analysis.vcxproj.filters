@@ -13,22 +13,7 @@
     <ClCompile Include="Graph.cpp">
       <Filter>algorithms\source_files</Filter>
     </ClCompile>
-    <ClCompile Include="TransactionHypergraph.cpp">
-      <Filter>algorithms\source_files</Filter>
-    </ClCompile>
-    <ClCompile Include="FileParser.cpp">
-      <Filter>data_aquistition\source_files</Filter>
-    </ClCompile>
-    <ClCompile Include="AddressesContractor.cpp">
-      <Filter>data_aquistition\source_files</Filter>
-    </ClCompile>
     <ClCompile Include="GraphTest.cpp">
-      <Filter>tests\source_files</Filter>
-    </ClCompile>
-    <ClCompile Include="TransactionHypergraphTest.cpp">
-      <Filter>tests\source_files</Filter>
-    </ClCompile>
-    <ClCompile Include="AddressesContractorTest.cpp">
       <Filter>tests\source_files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -42,22 +27,7 @@
     <ClInclude Include="Graph.h">
       <Filter>algorithms\headers</Filter>
     </ClInclude>
-    <ClInclude Include="TransactionHypergraph.h">
-      <Filter>algorithms\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="FileParser.h">
-      <Filter>data_aquistition\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="AddressesContractor.h">
-      <Filter>data_aquistition\headers</Filter>
-    </ClInclude>
     <ClInclude Include="GraphTest.h">
-      <Filter>tests\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="TransactionHypergraphTest.h">
-      <Filter>tests\headers</Filter>
-    </ClInclude>
-    <ClInclude Include="AddressesContractorTest.h">
       <Filter>tests\headers</Filter>
     </ClInclude>
     <ClInclude Include="auxiliaryFunctions.h">
@@ -82,15 +52,6 @@
     </Filter>
     <Filter Include="algorithms\source_files">
       <UniqueIdentifier>{b253fa48-84b9-469a-8de9-6ba2c1aa34d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="data_aquistition">
-      <UniqueIdentifier>{d8b3ffcf-04ae-4ccf-bebb-dfc09685c98e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="data_aquistition\headers">
-      <UniqueIdentifier>{965bddc1-c746-43b6-bf6a-497fa525da5c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="data_aquistition\source_files">
-      <UniqueIdentifier>{f1f7c568-bdbe-4494-8730-b6c79872acc2}</UniqueIdentifier>
     </Filter>
     <Filter Include="tests">
       <UniqueIdentifier>{b8082faa-e4f0-49e2-9eb2-86251a8c99f1}</UniqueIdentifier>

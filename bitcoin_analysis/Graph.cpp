@@ -27,15 +27,6 @@ void Graph::createDirectedNeighborsList()
 	}
 }
 
-void Graph::computeVerticesDegrees()
-{
-	verticesDegrees.clear();
-	int maxVal = maxValue(vertices);
-	verticesDegrees.resize(maxVal + 1);
-	for (int i = 0; i < maxVal; i++)verticesDegrees[i] = 0;
-	FOREACH(e, edges)verticesDegrees[e->u]++;
-}
-
 double Graph::verticesNumber()
 {
 	double verticesNumber = 0;
@@ -47,35 +38,6 @@ double Graph::verticesNumber()
 		}
 	}
 	return verticesNumber;
-}
-
-double Graph::directedDegreeSum()
-{
-	double degreeSum = 0;
-	createDirectedNeighborsList();
-	FOREACH(v, vertices)
-	{
-		if (*v > 0)
-		{
-			degreeSum += neighborsList[*v].size();
-		}
-	}
-	return degreeSum;
-}
-
-double Graph::averageDirectedDegree()
-{
-	double verticesNumber = 0, degreeSum = 0;
-	createDirectedNeighborsList();
-	FOREACH(v, vertices)
-	{
-		if (*v > 0)
-		{
-			verticesNumber++;
-			degreeSum += neighborsList[*v].size();
-		}
-	}
-	return degreeSum / verticesNumber;
 }
 
 Graph Graph::contractEdges(bool weightAsEdgesNumber)
@@ -427,155 +389,6 @@ void Graph::saveVerticesEdgesOverTime()
 	}
 	save.close();
 }
-
-void Graph::saveAverageDegreeOverTime()
-{
-	loadTransactionsTimes();
-	double directedDegreeSumUpToCurrentTime = 0;
-	double verticesNumberUpToCurrentTime = 0;
-	ofstream save;
-	save.open("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\average_degree_over_time.txt");
-	Graph graph;
-	time_t unixTime;
-	vector<Edge> edges;
-	for (int i = 0;i < 120;i++)
-	{
-		graph = loadUsersSubgraph(i);
-		directedDegreeSumUpToCurrentTime += graph.directedDegreeSum();
-		verticesNumberUpToCurrentTime += graph.verticesNumber();
-		edges = graph.getEdges();
-		unixTime = transactionsTimes[edges[edges.size() / 2].time];
-		struct tm *tm = localtime(&unixTime);
-		char date[20];
-		strftime(date, sizeof(date), "%Y-%m-%d", tm);
-		save << date << " " << directedDegreeSumUpToCurrentTime / verticesNumberUpToCurrentTime << endl;
-	}
-	save.close();
-}
-
-void Graph::saveBuyersSellersNumberOverTime()
-{
-	FILE *save, *read;
-	string pathx;
-	int vertex;
-	long long balance;
-	int buyersNumber, sellersNumber;
-	save = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\byrs_slrs_no_over_time.txt", "w");
-	for (int i = 0;i < 120;i++)
-	{
-		pathx = "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\vertices_balances_over_time\\vertices_balances_" + dec2String(i) + ".dat";
-		read = fopen(pathx.c_str(), "r");
-		buyersNumber = 0;
-		sellersNumber = 0;
-		while (!feof(read))
-		{
-			fscanf(read, "%i %lld", &vertex, &balance);
-			if (balance > 0)sellersNumber++;
-			else if (balance < 0)buyersNumber++;
-		}
-		fprintf(save, "%d %d\n", buyersNumber, sellersNumber);
-		fclose(read);
-	}
-	fclose(save);
-}
-
-void Graph::saveAverageVerticesBalancesOverTime()
-{
-	FILE *save,*read[120],*readBuyersSellersNo;
-	string pathx;
-	pathx = "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\average_vertices_balances_over_time.txt";
-	save = fopen(pathx.c_str(), "w");
-	readBuyersSellersNo = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\byrs_slrs_no_over_time.txt", "r");
-	for (int i = 0;i < 120;i++)
-	{
-		pathx = "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\vertices_balances_over_time\\vertices_balances_" + dec2String(i) + ".dat";
-		read[i] = fopen(pathx.c_str(), "r");
-	}
-	double totalPositiveBalanceUpToCurrentTime = 0;
-	double totalNegativeBalanceUpToCurrentTime = 0;
-	double averagePositiveBalanceUpToCurrentTime, averageNegativeBalanceUpToCurrentTime;
-	int sellersNumberUpToCurrentTime, buyersNumberUpToCurrentTime;
-	int vertex;
-	long long balance;
-	for (int i = 0;i < 120;i++)
-	{
-		totalPositiveBalanceUpToCurrentTime = 0;
-		totalNegativeBalanceUpToCurrentTime = 0;
-		fscanf(readBuyersSellersNo, "%i %i", &buyersNumberUpToCurrentTime, &sellersNumberUpToCurrentTime);
-		while (!feof(read[i]))
-		{
-			fscanf(read[i], "%i %lld", &vertex, &balance);
-			if(balance>0)totalPositiveBalanceUpToCurrentTime += double(balance);
-			else if (balance < 0)totalNegativeBalanceUpToCurrentTime += double(balance);
-		}
-		fclose(read[i]);
-		averagePositiveBalanceUpToCurrentTime = totalPositiveBalanceUpToCurrentTime / sellersNumberUpToCurrentTime;
-		averageNegativeBalanceUpToCurrentTime = totalNegativeBalanceUpToCurrentTime / buyersNumberUpToCurrentTime;
-		fprintf(save, "%.3lf %.3lf\n", averageNegativeBalanceUpToCurrentTime, averagePositiveBalanceUpToCurrentTime);
-	}
-	fclose(save);
-}
-
-void Graph::saveMedianVerticesBalancesOverTime()
-{
-	FILE *save, *read[120];
-	string pathx;
-	pathx = "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\median_vertices_balances_over_time.txt";
-	save = fopen(pathx.c_str(), "w");
-	for (int i = 0;i < 120;i++)
-	{
-		pathx = "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\vertices_balances_over_time\\vertices_balances_" + dec2String(i) + ".dat";
-		read[i] = fopen(pathx.c_str(), "r");
-	}
-	
-	int vertex;
-	long long balance;
-	vector <long long> positiveBalancesUpToCurrentTime;
-	vector <long long> negativeBalancesUpToCurrentTime;
-	for (int i = 0;i < 120;i++)
-	{
-		positiveBalancesUpToCurrentTime.clear();
-		negativeBalancesUpToCurrentTime.clear();
-		while (!feof(read[i]))
-		{
-			fscanf(read[i], "%i %lld", &vertex, &balance);
-			if(balance>0)positiveBalancesUpToCurrentTime.push_back(balance);
-			else if (balance < 0)negativeBalancesUpToCurrentTime.push_back(balance);
-		}
-		fclose(read[i]);
-		sort(positiveBalancesUpToCurrentTime.begin(), positiveBalancesUpToCurrentTime.end());
-		sort(negativeBalancesUpToCurrentTime.begin(), negativeBalancesUpToCurrentTime.end());
-		fprintf(save, "%lld %lld\n", positiveBalancesUpToCurrentTime[positiveBalancesUpToCurrentTime.size()/2], negativeBalancesUpToCurrentTime[negativeBalancesUpToCurrentTime.size() / 2]);
-	}
-	fclose(save);
-}
-
-/*void Graph::saveBalancesClusteringCoefficients(int timeId)
-{
-	FILE *readBalances, *save;
-	string pathx;
-	pathx = "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\vertices_balances_over_time\\vertices_balances_" + dec2String(timeId) + ".dat";
-	readBalances = fopen(pathx.c_str(), "r");
-	pathx = "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\balances_clustering_coefficients_over_time\\balances_coefficients_" + dec2String(timeId) + ".txt";
-	save = fopen(pathx.c_str(), "w");
-	double balancesSums[101] = { 0 };
-	double balancesNumber[101] = { 0 };
-	loadClusteringCoefficients(timeId);
-	int vertex;
-	long long balance;
-	while (!feof(readBalances))
-	{
-		fscanf(readBalances, "%i %lld", &vertex, &balance);
-		balancesSums[int(clusteringCoefficients[vertex])] += double(balance);
-		balancesNumber[int(clusteringCoefficients[vertex])]++;
-	}
-	fclose(readBalances);
-	for (int i = 0;i <= 100;i++)
-	{
-		fprintf(save,"[%d,%d] %.0lf\n", i, i + 1, balancesSums[i] / balancesNumber[i]);
-	}
-	fclose(save);
-}*/
 
 void Graph::saveLongtermUsersSubgraphContractedEdges()
 {
@@ -1170,69 +983,6 @@ void Graph::saveVarianceByIntervalsParallel(string componentsPath, string snapsh
 	}
 }*/
 
-void Graph::saveTotalTransactionAmountOverTime()
-{
-	loadTransactionsTimes();
-	double sumUpToCurrentTime = 0;
-	ofstream save;
-	save.open("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\total_trans_amount_over_time.txt");
-	Graph graph;
-	time_t unixTime;
-	vector<Edge> edges;
-	for (int i = 0;i < 120;i++)
-	{
-		graph = loadUsersSubgraph(i);
-		sumUpToCurrentTime += graph.edgesWeightSum();
-		edges = graph.getEdges();
-		unixTime = transactionsTimes[edges[edges.size() / 2].time];
-		struct tm *tm = localtime(&unixTime);
-		char date[20];
-		strftime(date, sizeof(date), "%Y-%m-%d", tm);
-		save << date << " " << sumUpToCurrentTime << endl;
-	}
-	save.close();
-}
-
-void Graph::saveGiniCoefficientUsersBalancesOverTime()
-{
-	FILE *save;
-	save = fopen("C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\balances_gini_over_time.txt","w");
-	FILE *read;
-	string pathx;
-	int v;
-	long long balance;
-	vector<double> balances2Consider;
-	double totalSum;
-	double denominator;
-	double fraction2Subtract;
-	double giniCoefficient;
-	for (int i = 0;i < 120;i++)
-	{
-		pathx = "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\vertices_balances_over_time\\vertices_balances_" + dec2String(i) + ".dat";
-		read = fopen(pathx.c_str(),"r");
-		balances2Consider.clear();
-		while (!feof(read))
-		{
-			fscanf(read, "%i %lld",&v, &balance);
-			if (balance > 0)balances2Consider.push_back(balance);
-		}
-		fclose(read);
-		sort(balances2Consider.begin(), balances2Consider.end());
-		totalSum = 0;
-		denominator = 0;
-		for (int i = 0;i < balances2Consider.size();i++)
-		{
-			totalSum += double(i)*balances2Consider[i];
-			denominator += balances2Consider[i];
-		}
-		denominator *= double(balances2Consider.size());
-		fraction2Subtract = (double(balances2Consider.size()) + 1) / double(balances2Consider.size());
-		giniCoefficient = double(2 * totalSum) / double(denominator) - fraction2Subtract;
-		fprintf(save, "%.3lf\n", giniCoefficient);
-	}
-	fclose(save);
-}
-
 void Graph::createGraphSnapshots(string inputPath, string outputPath, int intervalInDays, string parameter)
 {
 	Graph graph = loadUsersGraph(inputPath, true);
@@ -1384,40 +1134,6 @@ void Graph::saveLongTermUsersSubgraph(int minimalIntervalInDays,int minimalTrans
 	fclose(save);
 }
 
-void Graph::saveVerticesBalancesOverTime()
-{
-	FILE *save[120];
-	string pathx;
-	for (int i = 0;i < 120;i++)
-	{
-		pathx = "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\vertices_balances_over_time\\vertices_balances_"+dec2String(i)+".dat";
-		save[i] = fopen(pathx.c_str(), "w");
-	}
-	verticesBalances.clear();
-	verticesBalances.resize(1500000);
-	set <int> vertices2Consider;
-	vertices2Consider.clear();
-	vector <Edge> edges;
-	Graph graph;
-	for (int i = 0;i < 1500000;i++)verticesBalances[i] = moreThanPossibleBitcoinsAmount;
-	for (int i = 0;i < 120;i++)
-	{
-		graph = loadUsersSubgraph(i, false);
-		edges = graph.getEdges();
-		FOREACH(edge, edges)
-		{
-			vertices2Consider.insert(edge->u);
-			vertices2Consider.insert(edge->v);
-			if (verticesBalances[edge->u] == moreThanPossibleBitcoinsAmount)verticesBalances[edge->u] = 0;
-			if (verticesBalances[edge->v] == moreThanPossibleBitcoinsAmount)verticesBalances[edge->v] = 0;
-			verticesBalances[edge->u] -= long long(edge->weight);
-			verticesBalances[edge->v] += long long(edge->weight);
-		}
-		FOREACH(v, vertices2Consider)fprintf(save[i], "%d %lld\n", *v, verticesBalances[*v]);
-		fclose(save[i]);
-	}
-}
-
 void Graph::convertUsersGraphTimes()
 {
 	Graph graph= loadUsersGraph( "C:\\Users\\Administrator\\Desktop\\bitcoin\\pliki_wegrow_2018_luty\\users_graphs\\users_graph.dat" );
@@ -1514,11 +1230,6 @@ vector<set<int>> Graph::getNeighborsList()
 	return neighborsList;
 }
 
-vector<int> Graph::getVerticesDegrees()
-{
-	return verticesDegrees;
-}
-
 void Graph::setVertices(vector<int> verts)
 {
 	vertices = verts;
@@ -1566,78 +1277,4 @@ int maxValueParallel(vector<int> vect, int threadsNumber)
 		for (int i = 0; i < vect.size(); i++)if (vect[i] > maxVal)maxVal = vect[i];
 	}
 	return maxVal;
-}
-
-map<int, double> Graph::computeClusteringCoefficients(int approximationAccuracy)
-{
-	map<int, double> result;
-
-	vector< set<int> > undirectedNeighborsSet = createUndirectedNeighborsSet();
-	FOREACH(v, vertices)if (*v > 0)result[*v] = 0;
-	set<pair<int, int> > adjacencyPairs;
-	FOREACH(e, edges)if (adjacencyPairs.find(make_pair(e->u, e->v)) == adjacencyPairs.end())adjacencyPairs.insert(make_pair(e->u, e->v));
-
-	double trianglesNumber, it = 0;
-	vector <int> neighborsVector, neighbors2Consider;
-	FOREACH(v, vertices)if (*v > 0&& undirectedNeighborsSet[*v].size() >= 2)
-	{
-		it = max(approximationAccuracy, 1);
-		neighborsVector = vector<int>(undirectedNeighborsSet[*v].begin(), undirectedNeighborsSet[*v].end());
-		neighbors2Consider.clear();
-		for (int i = 0;i < neighborsVector.size();i += it)neighbors2Consider.push_back(neighborsVector[i]);
-		trianglesNumber = 0;
-		if (neighbors2Consider.size() < 2)neighbors2Consider.push_back(neighborsVector[neighborsVector.size() / 2]);
-		for (int i = 0;i < neighbors2Consider.size();i++)for (int j = 0;j < i;j++)
-		{
-			if (adjacencyPairs.find(make_pair(neighbors2Consider[i], neighbors2Consider[j])) != adjacencyPairs.end())trianglesNumber++;
-			if (adjacencyPairs.find(make_pair(neighbors2Consider[j], neighbors2Consider[i])) != adjacencyPairs.end())trianglesNumber++;
-		}
-		result[*v] = trianglesNumber / (double(neighbors2Consider.size())*double(neighbors2Consider.size() - 1));
-	}
-
-	return result;
-}
-
-vector<set<int>> Graph::determineConnectedComponents()
-{
-	vector < set <int> > result;
-	vector < set <int> > undirectedNeighborsSet = createUndirectedNeighborsSet();
-	set <int> toConsider, currentComponent;
-	vector <int> currentLayer, nextLayer;
-	vector <bool> consideredVertices(maxValue(vertices) + 1);
-
-	FOREACH(v, vertices)consideredVertices[*v] = false;
-	toConsider = set<int>(vertices.begin(), vertices.end());
-
-	while (!toConsider.empty())
-	{
-		currentLayer = { *toConsider.begin() };
-		currentComponent.clear();
-		while (!currentLayer.empty())
-		{
-			nextLayer.clear();
-			FOREACH(v, currentLayer)
-			{
-				consideredVertices[*v] = true;
-				toConsider.erase(*v);
-				currentComponent.insert(*v);
-			}
-			FOREACH(v, currentLayer)FOREACH(w, undirectedNeighborsSet[*v])if (!consideredVertices[*w])
-			{
-				nextLayer.push_back(*w);
-				consideredVertices[*w] = true;
-			}
-			currentLayer = nextLayer;
-		}
-		result.push_back(currentComponent);
-	}
-
-	return result;
-}
-
-double Graph::edgesWeightSum()
-{
-	double result = 0;
-	FOREACH(edge, edges)result += edge->weight;
-	return result;
 }

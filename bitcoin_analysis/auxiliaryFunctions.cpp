@@ -29,48 +29,6 @@ string double2String(double x, int decimalPlaces) // lower - decimal estimate
 	return result;
 }
 
-double vectorAngle(double x1, double y1, double x2, double y2)
-{
-	double x = x2 - x1, y = y2 - y1;
-	double angle = asin(y / (sqrt(x*x + y * y)));
-	if (x >= 0)return angle;
-	else return PI - angle;
-}
-
-double normalizeAngle(double angle)
-{
-	double result = angle;
-	if (angle < 0)
-	{
-		while (result < 0)result += (2 * PI);
-	}
-	else if (angle >= 2 * PI)
-	{
-		while (result >= 2 * PI)result -= (2 * PI);
-	}
-	return result;
-}
-
-double smallerAngleDifference(double normalizedAngle1, double normalizedAngle2)
-{
-	double result;
-	if (abs(normalizedAngle1 - normalizedAngle2) <= PI)result = abs(normalizedAngle1 - normalizedAngle2);
-	else result = 2 * PI - abs(normalizedAngle1 - normalizedAngle2);
-	return result;
-}
-
-pair<double, double> arcMiddlePoint(double x1, double y1, double x2, double y2, double rotationCenterX, double rotationCenterY)
-{
-	pair<double, double> result;
-	double a = 0.5*(x1 + x2) - rotationCenterX, b = 0.5*(y1 + y2) - rotationCenterY;
-	double rSquare = (x1 - rotationCenterX)*(x1 - rotationCenterX) + (y1 - rotationCenterY)*(y1 - rotationCenterY);
-	double t = sqrt(rSquare / (a*a + b * b));
-	result.first = a * t + rotationCenterX;
-	result.second = b * t + rotationCenterY;
-
-	return result;
-}
-
 int bigRandom(int bigNumber)
 {
 	if (bigNumber > 30000)

@@ -22,53 +22,24 @@ class Graph
 	int filesNumber;
 
 	/// functional variables
-	vector<long long> verticesBalances;
-	vector <int> verticesDegrees;
 	vector<map<pair<int, int>, long long> > snapshots;
 	
 	/// inner variables
 	vector < set <int> > neighborsList;
 	vector <long long> transactionsTimes;
-	// data for SCC
-	stack<int> S;
-	vector<int> indices, lowlinks;
-	vector<bool> onStack;
-	int index;
 
 public:
 	/// functionalities
-
-	// Computes the clustering coefficients vor each vertex. This is an approximate solution.
-	// The approximation paramater, an integer "approximationAccuracy", specifies to consider only every approximationAccuracy neighbor for each vertex into account. For example, if the vertex v0 has neihbors v1, v2, v3, and v4, appearing in that order on the neighbors list of v0, and approximationAccuracy = 2, the function below takes into account the neihbors v1 and v3 only.
-	map<int, double> computeClusteringCoefficients(int approximationAccuracy = 1);
-
-	// connected components
-	vector < set <int> > determineConnectedComponents();
-
-	// vertices balances
-	void saveVerticesBalancesOverTime();
-	void saveAverageVerticesBalancesOverTime();
-	void saveMedianVerticesBalancesOverTime();
-	void saveBuyersSellersNumberOverTime();
-	// vertices degrees
-	void computeVerticesDegrees();
-	double averageDirectedDegree();/*TO VERIFY*/
-	double directedDegreeSum();
-	void saveAverageDegreeOverTime();/*degree here donotes number of out-neighbors*/
-	// transaction amount
-	void saveTotalTransactionAmountOverTime();
-	// Gini coefficient
-	void saveGiniCoefficientUsersBalancesOverTime();
 	// long-term core and active core
 	void saveLongTermUsersSubgraph(int minimalIntervalInDays, int minimalTransactionsNumber);
 	void saveActiveUsersSubgraph(int usersNumber2Consider);
 	void saveLongtermUsersSubgraphContractedEdges();
 	void saveActiveUsersSubgraphContractedEdges();
+
 	// vertices and edges number
 	double verticesNumber();
 	void saveVerticesEdgesOverTime();
-	// edge weight sum
-	double edgesWeightSum();
+
 	// graph snapshots
 	void createGraphSnapshots(string inputPath, string outputPath, int intervalInDays, string parameter = "transaction_number");
 	void normalizeSnapshots(string directoryPath, int intervalInDays);/*normalizes snapshots so that they include all possible edges (i.e. occuring in the last snapshots) and ids are from the set {0,...,n}*/
@@ -83,6 +54,7 @@ public:
 	void saveTransactionTimeSeriesMoreComponentsParallel(string snapshotsPath, 
 		string componentsPathTransNumber, string componentsPathTransValue,
 		int lastComponentId = 5, int intervalInDays = 1, int threadsNumber = omp_get_max_threads());
+
 	// pca
 	void saveVarianceByIntervalsParallel(string componentsPath, string snapshotsPath, int threadsNumber = omp_get_max_threads(),
 		int componentId = 0, int intervalInDays = 365, int begTime = 1367107200); /*componentId = -1 means calculating total variance*/
@@ -91,6 +63,7 @@ public:
 	// neighbors list
 	vector < set <int> > createUndirectedNeighborsSet();
 	void createDirectedNeighborsList();
+
 	// transaction times
 	void saveTransactionsTimes();
 	void loadTransactionsTimes();
@@ -100,6 +73,7 @@ public:
 	// contracting edges
 	Graph contractEdges(bool weightAsEdgesNumber = false);/*ADD EDGES COUNTER*/
 	void contractEdgesSeparated();
+
 	// other file operations
 	void saveUsersGraph(int begTime, int endTime);
 	Graph loadUsersGraph(string pathx, bool considerTimes = true);
@@ -109,7 +83,7 @@ public:
 	void createUsersIdDictionaries();/*normalizes ids of core networks to lie in the set {0,...,n}*/
 	void saveSubgraphTimeInterval(string sourceGraphPath, string destinationGraphPath, int begTime, int endTime);/*saves subgraph of a given graph in a given time interval*/
 
-	/// printing methods
+	// printing methods
 	void printNeighborsList();
 	void printEdges();
 
@@ -119,7 +93,6 @@ public:
 	vector <int> getVertices();
 	vector < Edge > getEdges();
 	vector < set<int> > getNeighborsList();
-	vector <int> getVerticesDegrees();
 	void setVertices(vector <int> verts);
 	void setEdges(vector< Edge > eds);
 	vector<map<pair<int, int>, long long> > getSnapshots();
