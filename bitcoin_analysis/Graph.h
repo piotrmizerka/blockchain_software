@@ -30,6 +30,10 @@ class Graph
 
 public:
 	/// functionalities
+
+	// long-term subgraph (as describet in REFERENCE) creation
+	Graph longTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalIntervalInDays, int minimalTransactionsNumber, string usersGraphPath, string contractedAddressesPath);
+
 	// long-term core and active core
 	void saveLongTermUsersSubgraph(int minimalIntervalInDays, int minimalTransactionsNumber);
 	void saveActiveUsersSubgraph(int usersNumber2Consider);
