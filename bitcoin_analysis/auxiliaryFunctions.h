@@ -1,5 +1,6 @@
 #pragma once
 
+Graph longTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalIntervalInDays, int minimalTransactionsNumber, string usersGraphPath, string contractedAddressesPath);
 string dec2String(long long n);
 string double2String(double x,int decimalPlaces);/*lower-decimal estimate*/
 int bigRandom(int bigNumber);/*generates random numbers for bigger limits*/

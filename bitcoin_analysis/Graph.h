@@ -30,9 +30,8 @@ class Graph
 
 public:
 	/// functionalities
+	void saveGraph(string path);
 
-	// long-term subgraph (as describet in REFERENCE) creation
-	Graph longTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalIntervalInDays, int minimalTransactionsNumber, string usersGraphPath, string contractedAddressesPath);
 
 	// long-term core and active core
 	void saveLongTermUsersSubgraph(int minimalIntervalInDays, int minimalTransactionsNumber);
@@ -79,11 +78,9 @@ public:
 	void contractEdgesSeparated();
 
 	// other file operations
-	void saveUsersGraph(int begTime, int endTime);
 	Graph loadUsersGraph(string pathx, bool considerTimes = true);
 	//void loadUsersGraphParallel(string pathx, int threadsNumber = omp_get_max_threads());
 	Graph loadUsersSubgraph(int n, bool multipleEdges = true);
-	void saveGraph(string pathx);/*the best way to do this and the most general*/
 	void createUsersIdDictionaries();/*normalizes ids of core networks to lie in the set {0,...,n}*/
 	void saveSubgraphTimeInterval(string sourceGraphPath, string destinationGraphPath, int begTime, int endTime);/*saves subgraph of a given graph in a given time interval*/
 
