@@ -11,14 +11,18 @@
 #
 # (1) -bp|--blockchainDirPath - the path to the folder containing blockchain data files
 
-# It is also possible to specify the following two additional parameter:
-# (2) -bn|--blocksNumber - number of blocks to consider
+# It is also possible to specify the following additional parameters:
+# (2) -bn|--blocksNumber - number of blocks to consider,
+# The next three parameters apply to the long-term subgraph:
+# (3) -mran|--minimalRepresantativeAddressesNumber - consider only the users represented by at least this number of bitcoin addresses,
+# (4) -mid|--minimalIntervalInDays - consider users whose time distance between their first and last transaction is at least minimalIntervalInDays,
+# (5) -mtn|--minimalTransationsNumber - consider users who participated in at least that number of transactions.
 
 # If the additional parameter hasn't been specified:
 #   ./main.sh -bp blockchainDirPath
 
 # If the additional parameter has been specified:
-#   ./main.sh -bp blockchainDirPath -bn blocksNumber
+#   ./main.sh -bp blockchainDirPath -bn blocksNumber -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber
 
 # Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
 
@@ -34,6 +38,21 @@ do
         ;;
         -bn|--blocksNumber)
         blocksNumber="$2"
+        shift # past argument
+        shift # past value
+        ;;
+        -mran|--minimalRepresantativeAddressesNumber)
+        minimalRepresantativeAddressesNumber="$2"
+        shift # past argument
+        shift # past value
+        ;;
+        -mid|--minimalIntervalInDays)
+        minimalIntervalInDays="$2"
+        shift # past argument
+        shift # past value
+        ;;
+        -mtn|--minimalTransationsNumber)
+        minimalTransationsNumber="$2"
         shift # past argument
         shift # past value
         ;;
@@ -68,3 +87,6 @@ fi
 ./usersGraph.sh ./dumped_files ./contractions
 
 rm -rf ./dumped_files
+
+# derive long-term subgraph from the users graph
+./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid $minimalIntervalInDays -mtn $minimalTransationsNumber -ugp ./contractions/usersGraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/long_term_subgraph.dat
