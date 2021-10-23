@@ -59,4 +59,10 @@ do
     esac
 done
 
+# derive long-term subgraph from the users graph
+if [ ! -f "./necessary_programs/users-graph-analysis/longTermSubgraph" ] # check if longTermSubgraph is compiled
+then
+    g++ -o ./necessary_programs/users-graph-analysis/longTermSubgraph ./necessary_programs/users-graph-analysis/Graph.cpp ./necessary_programs/users-graph-analysis/stdafx.cpp ./necessary_programs/users-graph-analysis/main.cpp
+fi
+
 ./necessary_programs/users-graph-analysis/longTermSubgraph $minimalRepresantativeAddressesNumber $minimalIntervalInDays $minimalTransationsNumber $usersGraphPath $contractedAddressesPath $longTermSubgraphPath 

@@ -88,5 +88,4 @@ fi
 
 rm -rf ./dumped_files
 
-# derive long-term subgraph from the users graph
 ./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid $minimalIntervalInDays -mtn $minimalTransationsNumber -ugp ./contractions/usersGraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/long_term_subgraph.dat
