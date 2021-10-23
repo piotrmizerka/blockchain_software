@@ -53,8 +53,8 @@ edgesNumber=${edgesNumberInfoArray[0]}
 # Contraction process
 if [[ ! -z "$scc32sPath" ]] # check if the scc32s repo path was given
 then
-    $scc32sPath/sccs32s -N $edgesNumber -t sccstmp -r < $contractionDataPath/addr_edges_sorted.dat > $connectedComponentsPath
+    $scc32sPath/sccs32s -N $edgesNumber -t sccstmp -r < $contractionDataPath/addr_edges_sorted.dat > $connectedComponentsPath > /dev/null 2>&1
 else # if the sccs32s repo path not given, assume the txedge executable is in ./necessary_programs folder
-    ./necessary_programs/sccs32s -N $edgesNumber -t sccstmp -r < $contractionDataPath/addr_edges_sorted.dat > $connectedComponentsPath
+    ./necessary_programs/sccs32s -N $edgesNumber -t sccstmp -r < $contractionDataPath/addr_edges_sorted.dat > $connectedComponentsPath > /dev/null 2>&1
 fi
 rm -f $contractionDataPath/addr_edges_sorted.dat

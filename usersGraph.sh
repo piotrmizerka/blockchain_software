@@ -53,11 +53,11 @@ echo "STEP (2). Creatiing edges from Bitcoin transactions - the result being sav
 
 # Create transaction timestamps
 echo "STEP (3). Computing transaction timestamps - the result being saved to the txTimes.sh file..."
-./txTimes.sh $dumpedDirPath/tx.dat $dumpedDirPath/bh.dat $contractionsDirPath/tx_times.dat $joinUtilsRepoPath
+./txTimes.sh $dumpedDirPath/tx.dat $dumpedDirPath/bh.dat $contractionsDirPath/tx_times.dat $joinUtilsRepoPath > /dev/null 2>&1
 
 # Create timestamps of elementary edges
 echo "STEP (4). Adding timestamps to edges - the result being saved to the txEdgesTimes.sh file..."
-./txEdgesTimes.sh $contractionsDirPath/tx_times.dat $contractionsDirPath/txedges.dat $contractionsDirPath/tx_edges_times.dat $joinUtilsRepoPath
+./txEdgesTimes.sh $contractionsDirPath/tx_times.dat $contractionsDirPath/txedges.dat $contractionsDirPath/tx_edges_times.dat $joinUtilsRepoPath > /dev/null 2>&1
 
 # Contract bitcoin addresses to users' idies
 echo "STEP (5). Computing user idies of Bitcoin addresses in the contraction process - the result being saved to the contractedAddresses.sh file..."
