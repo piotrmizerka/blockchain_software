@@ -1,5 +1,6 @@
 createGraph
 .vscode
 necessary_programs/bitcoin
+necessary_programs/users-graph-analysis/longTermSubgraph
 contractions
 dumped_files
