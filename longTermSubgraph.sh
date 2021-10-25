@@ -1,7 +1,7 @@
 #!/bin/bash
 
 
-# This script generates the long term subgraph from the users graph as specified at REFERENCE
+# This script generates the long term subgraph from the users graph as specified in https://doi.org/10.1016/j.frl.2020.101489, Appendix, section 2
 
 # The script requires the following 2 parameters:
 #

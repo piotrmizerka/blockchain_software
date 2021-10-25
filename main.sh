@@ -1,7 +1,9 @@
 #!/bin/bash
 
-# This scripts creates the Bitcoin users' graph from the original blockchain data. 
-# The output file contains rows of the following form
+# This scripts creates the Bitcoin users' graph and the long-term-subgraph 
+# from the original blockchain data. 
+#
+# The output files contain rows of the following form
 #
 #	inputUserId	outputUserId	bitcoinAmount timeStamp
 #
@@ -19,7 +21,7 @@
 # (5) -mtn|--minimalTransationsNumber - consider users who participated in at least that number of transactions.
 
 # If the additional parameter hasn't been specified:
-#   ./main.sh -bp blockchainDirPath
+#   ./main.sh -bp blockchainDirPath -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber
 
 # If the additional parameter has been specified:
 #   ./main.sh -bp blockchainDirPath -bn blocksNumber -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber
