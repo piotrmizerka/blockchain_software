@@ -1,6 +1,6 @@
 #include "stdafx.h"
 
-// long-term subgraph (as described in REFERENCE) creation
+// long-term subgraph creation
 Graph longTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalIntervalInDays, int minimalTransactionsNumber, string usersGraphPath, string contractedAddressesPath)
 {
     // Determine users represented by at least minimalRepresentativeAddressesNumber
@@ -40,7 +40,7 @@ Graph longTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalInte
     }
     fclose(readUsersGraph);
 
-    // Extract the long-term subgraph as described in REFERENCE
+    // Extract the long-term subgraph
     vector <int> V;
     vector < Edge > E;
     int transactionsNumber = 0;
