@@ -2,6 +2,8 @@
 
 
 # This script generates the long term subgraph from the users graph as specified in https://doi.org/10.1016/j.frl.2020.101489, Appendix, section 2
+# The description of creating of the long-term subgraph with its subtleties may be also found
+# at the beginning of ./necessary_programs/users-graph-analysis/main.cpp file.
 
 # The script requires the following 2 parameters:
 #
