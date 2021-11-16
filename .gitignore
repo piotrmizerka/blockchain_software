@@ -5,3 +5,4 @@ necessary_programs/users-graph-analysis/longTermSubgraph
 createGraph
 contractions
 dumped_files
+snapshots

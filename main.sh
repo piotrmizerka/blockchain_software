@@ -16,15 +16,18 @@
 # It is also possible to specify the following additional parameters:
 # (2) -bn|--blocksNumber - number of blocks to consider,
 # The next three parameters apply to the long-term subgraph:
-# (3) -mran|--minimalRepresantativeAddressesNumber - consider only the users represented by at least this number of bitcoin addresses,
-# (4) -mid|--minimalIntervalInDays - consider users whose time distance between their first and last transaction is at least minimalIntervalInDays,
-# (5) -mtn|--minimalTransationsNumber - consider users who participated in at least that number of transactions.
+# (3) -mran|--minimalRepresantativeAddressesNumber - consider only the users represented by at least this number of bitcoin addresses, default value = 10, TODO: DAFAULT!!
+# (4) -mid|--minimalIntervalInDays - consider users whose time distance between their first and last transaction is at least minimalIntervalInDays, default value = 1200 TODO: DAFAULT!!
+# (5) -mtn|--minimalTransationsNumber - consider users who participated in at least that number of transactions, dafault value = 200. TODO: DAFAULT!!
+# The following parameters concern the snapshot subgraphs:
+# (6) -sdp|--snapshotPeriodInDays - the timespan of snapshots in days, default value = 7, TODO: DAFAULT!!
+# (7) -ewp|--snapshotEdgeWeightParameter - "w" for considering of Bitcoin amount as edges, "n" for the number of elementary transactions, default value = W, TODO: DAFAULT!!
 
 # If the additional parameter hasn't been specified:
-#   ./main.sh -bp blockchainDirPath -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber
+#   ./main.sh -bp blockchainDirPath
 
 # If the additional parameter has been specified:
-#   ./main.sh -bp blockchainDirPath -bn blocksNumber -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber
+#   ./main.sh -bp blockchainDirPath -bn blocksNumber -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber -sdp snapshotPeriodInDays -ewp snapshotEdgeWeightParameter
 
 # Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
 
@@ -55,6 +58,16 @@ do
         ;;
         -mtn|--minimalTransationsNumber)
         minimalTransationsNumber="$2"
+        shift # past argument
+        shift # past value
+        ;;
+        -sdp|--snapshotPeriodInDays)
+        snapshotPeriodInDays="$2"
+        shift # past argument
+        shift # past value
+        ;;
+        -ewp|--snapshotEdgeWeightParameter)
+        snapshotEdgeWeightParameter="$2"
         shift # past argument
         shift # past value
         ;;
@@ -94,5 +107,16 @@ echo "STEP (7). Creating the long-term subgraph..."
 ./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid 0 -mtn 0 -ugp ./contractions/usersGraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/active_users_subgraph.dat
 ./longTermSubgraph.sh -mran 0 -mid $minimalIntervalInDays -mtn $minimalTransationsNumber -ugp ./contractions/active_users_subgraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/long_term_subgraph.dat
 # ./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid $minimalIntervalInDays -mtn $minimalTransationsNumber -ugp ./contractions/usersGraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/long_term_subgraph.dat # in case we would like to create the long-term subgraph at once - note that it may be potentially larger!
-
 rm -rf ./contractions/active_users_subgraph.dat
+
+echo "STEP (8). Creating snapshots..."
+# if [[ -z "$snapshotPeriodInDays" ]] PARSING ARGS WHEN NOT GIVEN: TODO: NOT WORKING!!
+# then
+#     snapshotPeriodInDays = 7
+# fi
+# if [[ -z "$snapshotEdgeWeightParameter" ]]
+# then
+#     snapshotEdgeWeightParameter = "w"
+# fi
+chmod +x ./snapshots.sh
+./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp $snapshotEdgeWeightParameter
