@@ -43,38 +43,32 @@ int main(int argc, char* argv[])
     for(int i=0;i<snapshotsNumber;i++)
     {
         timeInfo = localtime(&snapShotTimestamp);
-        // fileName = "../../snapshots/"+dateToString(timeInfo)+".dat";
-        // fileName = "/home/piotr/Desktop/bitcoin/blockchain_software/snapshots/text.dat";
-        // fileName = "/home/piotr/Desktop/bitcoin/blockchain_software/snapshots/"+dateToString(timeInfo)+".dat";
         fileName = snapshotPath+"/"+dateToString(timeInfo)+".dat";
         saveSnapshots[i] = fopen(fileName.c_str(), "w");
-
-        // cout << saveSnapshots[i]->_flags << endl;
-
         snapShotTimestamp += snapshotPeriodInDays*86400;
     }
 
-    // readLongTermSubgraph = fopen(longTermSubgraphPath.c_str(), "r");
-    // while(!feof(readLongTermSubgraph))
-    // {
-    //     fscanf(readLongTermSubgraph, "%i %i %lld %lld", &u, &v, &bitcoinAmountSatoshis, &timeStamp);
-    //     if(snapshotEdgeWeightParameter == "w")
-    //     {
-    //         snapshotGraphEdges[(timeStamp-beginningOfBitcoin)/(snapshotPeriodInDays*86400)][make_pair(u,v)] += bitcoinAmountSatoshis;
-    //     }
-    //     else 
-    //     {
-    //         snapshotGraphEdges[(timeStamp-beginningOfBitcoin)/(snapshotPeriodInDays*86400)][make_pair(u,v)]++;
-    //     }
-    // }
-    // fclose(readLongTermSubgraph);
+    readLongTermSubgraph = fopen(longTermSubgraphPath.c_str(), "r");
+    while(!feof(readLongTermSubgraph))
+    {
+        fscanf(readLongTermSubgraph, "%i %i %lld %lld", &u, &v, &bitcoinAmountSatoshis, &timeStamp);
+        if(snapshotEdgeWeightParameter == "w")
+        {
+            snapshotGraphEdges[(timeStamp-beginningOfBitcoin)/(snapshotPeriodInDays*86400)][make_pair(u,v)] += bitcoinAmountSatoshis;
+        }
+        else 
+        {
+            snapshotGraphEdges[(timeStamp-beginningOfBitcoin)/(snapshotPeriodInDays*86400)][make_pair(u,v)]++;
+        }
+    }
+    fclose(readLongTermSubgraph);
 
-    // // Saving the snapshots
-    // for(int i=0;i<snapshotsNumber;i++)
-    // {
-    //     FOREACH(edge, snapshotGraphEdges[i])fprintf(saveSnapshots[i], "%i %i %lld\n", (edge->first).first, (edge->first).second, edge->second);
-    //     fclose(saveSnapshots[i]);
-    // }
+    // Saving the snapshots
+    for(int i=0;i<snapshotsNumber;i++)
+    {
+        FOREACH(edge, snapshotGraphEdges[i])fprintf(saveSnapshots[i], "%i %i %lld\n", (edge->first).first, (edge->first).second, edge->second);
+        fclose(saveSnapshots[i]);
+    }
 
     return 0;
 }
