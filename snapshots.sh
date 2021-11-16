@@ -51,7 +51,7 @@ done
 
 if [ ! -f "./necessary_programs/snapshots/snapshots" ] # check if snaphots script is compiled
 then
-    g++ -o ./necessary_programs/snapshots/snapshots ./necessary_programs/snapshots/main.cpp ./necessary_programs/snapshots/stdafx.cpp
+    g++ -o ./necessary_programs/snapshots_creation/snapshots ./necessary_programs/snapshots_creation/main.cpp ./necessary_programs/snapshots_creation/stdafx.cpp
 fi
 
-./necessary_programs/snapshots/snapshots $longTermSubgraphPath $snapshotPeriodInDays $snapshotEdgeWeightParameter ./snapshots
+./necessary_programs/snapshots_creation/snapshots $longTermSubgraphPath $snapshotPeriodInDays $snapshotEdgeWeightParameter ./snapshots
