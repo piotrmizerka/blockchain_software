@@ -21,13 +21,15 @@
 # (5) -mtn|--minimalTransationsNumber - consider users who participated in at least that number of transactions, dafault value = 200. TODO: DAFAULT!!
 # The following parameters concern the snapshot subgraphs:
 # (6) -sdp|--snapshotPeriodInDays - the timespan of snapshots in days, default value = 7, TODO: DAFAULT!!
-# (7) -ewp|--snapshotEdgeWeightParameter - "w" for considering of Bitcoin amount as edges, "n" for the number of elementary transactions, default value = W, TODO: DAFAULT!!
+# (7) -ewp|--snapshotEdgeWeightParameter - "w" for considering of Bitcoin amount as edges, "n" for the number of elementary transactions, default value = w, TODO: DAFAULT!!
+# The last parameter is the number of principal components (and the number of time series in turn):
+# (8) -cn|--componentsNumber - number of principal components (base graphs) to consider (default = 3). TODO: DEFAULT
 
-# If the additional parameter hasn't been specified:
+# If the additional parameters haven't been specified:
 #   ./main.sh -bp blockchainDirPath
 
-# If the additional parameter has been specified:
-#   ./main.sh -bp blockchainDirPath -bn blocksNumber -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber -sdp snapshotPeriodInDays -ewp snapshotEdgeWeightParameter
+# If the additional parameters have been specified:
+#   ./main.sh -bp blockchainDirPath -bn blocksNumber -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber -sdp snapshotPeriodInDays -ewp snapshotEdgeWeightParameter -cn componentsNumber
 
 # Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
 
@@ -68,6 +70,11 @@ do
         ;;
         -ewp|--snapshotEdgeWeightParameter)
         snapshotEdgeWeightParameter="$2"
+        shift # past argument
+        shift # past value
+        ;;
+        -cn|--componentsNumber)
+        componentsNumber="$2"
         shift # past argument
         shift # past value
         ;;
@@ -120,3 +127,7 @@ echo "STEP (8). Creating snapshots..."
 # fi
 chmod +x ./snapshots.sh
 ./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp $snapshotEdgeWeightParameter
+
+echo "STEP (9). Computing time series of principal components from snapshots..."
+chmod +x ./timeSeries.sh
+./timeSeries.sh -sp ./snapshots -tsp ./time_series -cn $componentsNumber

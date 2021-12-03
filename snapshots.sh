@@ -54,4 +54,6 @@ then
     g++ -o ./necessary_programs/snapshots_creation/snapshots ./necessary_programs/snapshots_creation/main.cpp ./necessary_programs/snapshots_creation/stdafx.cpp
 fi
 
+rm -rf ./snapshots
+mkdir ./snapshots
 ./necessary_programs/snapshots_creation/snapshots $longTermSubgraphPath $snapshotPeriodInDays $snapshotEdgeWeightParameter ./snapshots
