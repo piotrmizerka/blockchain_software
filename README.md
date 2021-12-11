@@ -3,18 +3,18 @@ This repository accompanies the article https://doi.org/10.1016/j.frl.2020.10148
 
 The data used in the article https://doi.org/10.1016/j.frl.2020.101489 can be obtained using this repository. It is also possible to obtain the most recent data to keep the research up-to-date. The scripts contained in this repository can be used to obtain the time series derived from the Bitcoin users' graph. For the information about the time series:
 - for the definition of the time series, see our article, Appendix, section 2. - the time series are denoted by *s<sub>i</sub>'*,
-- how the time series defined above are incorporated into the main regression model, see our article, section 3.3 - the time series are defined there by the values *UsersGraphProperty<sub>i,j,t$</sub>*, where *t=1,...,T* and *T* is the number of subsequent periods taken into account. 
+- how the time series defined above are incorporated into the main regression model, see our article, section 3.3 - the time series are defined there by the values *UsersGraphProperty<sub>i,j,t</sub>*, where *t=1,...,T* and *T* is the number of subsequent periods taken into account. 
 
 The whole process of obtaining the aforementioned time series can be divided into the following steps:
 
 1. **Users' graph extraction** - the creation of the graph is explained, e. g., in the subsection 4.1 of the Article of D. Maesa et. al., https://www.researchgate.net/publication/320026355_Data-driven_analysis_of_Bitcoin_properties_exploiting_the_users_graph. 
-In the users' graph extraction process, we use the modified Bitcoin client of D. Kondor. The github repository of this client is available here: https://github.com/dkondor/bitcoin. Apart from the modified Bitcoin client, we use as well the following three repositories of D. Kondor: https://github.com/dkondor/txedges, https://github.com/dkondor/join-utils, https://github.com/dkondor/sccs32s.
+In the users' graph extraction process, we use the modified Bitcoin client of D. Kondor. The github repository of this client is available here: https://github.com/dkondor/bitcoin. Apart from the modified Bitcoin client, we use as well the following three repositories of D. Kondor: https://github.com/dkondfor/txedges, https://github.com/dkondor/join-utils, https://github.com/dkondor/sccs32s.
 
 2. **Long-term subgraph extraction** - from the users' graph, we can extract as well a subgraph (called the "long-term-subgraph") which contains users who were active in a period long enough, took part in sufficient amount of transactions, and are represented by sufficient number of Bitcoin addresses. The idea of looking at the long-term-subgraph goes back to D. Kondor et. al, https://iopscience.iop.org/article/10.1088/1367-2630/16/12/125003. This concept has been also used in our article (see Appendix, 2. Obtaining values of variables from the users graph).
 
 3. **Snapshots' creation** - we create snapshots for the periods taken into account as described in our article in Appendix in section 2. The snapshots are denoted there by *S<sub>i</sub>*, where *i=1,...,T*.
 
-4. **Time series extraction** - using Principal Component Analysis, we exctract the time series $s_i'$ from the snapshots as described in our article, Appendix, section 2.
+4. **Time series extraction** - using Principal Component Analysis, we exctract the time series *s<sub>i</sub>'* from the snapshots as described in our article, Appendix, section 2.
 
 # Usage
 All the scripts described below can be run on Linux. Assumming, you run the terminal in main project folder, you shall give the execution permission to all the project scripts (e.g. with `chmod +x path_to_script` command).
