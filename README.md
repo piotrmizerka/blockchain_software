@@ -32,17 +32,10 @@ Note that you may be prompted for interaction which should concern providing you
 
 Each of the commands above generates the following data:
 
-1. Bitcoin users' graph which is saved in the **contractions/usersGraph.dat** file. Each line of this file contains the following four parameters:
-<code>
-  userInputID userOutputID bitcoinAmountInSatoshis timeStamp.</code>
-The auxiliary ouput files generated in the **contractions** folder are: **txedges.dat**, **tx_times.dat**, **tx_edges_times.dat**, and **contracted_addresses.dat**. For their specification, see [txEdges.sh](./txEdges.sh), [txTimes.sh](./txTimes.sh), [txEdgesTimes.sh](./txEdgesTimes.sh), and [contractedAddresses.sh](./contractedAddresses.sh) respectively. If you wish to dump files only, see [dumpProcess.sh](./dumpProcess.sh), and if you wish to create the users graph from the dumped files, see [usersGraph.sh](./usersGraph.sh).
+1. Bitcoin users' graph which is saved in the **contractions/usersGraph.dat** file. Each line of this file contains the following four parameters: *userInputID, userOutputID, bitcoinAmountInSatoshis, timeStamp*. The auxiliary ouput files generated in the **contractions** folder are: **txedges.dat**, **tx_times.dat**, **tx_edges_times.dat**, and **contracted_addresses.dat**. For their specification, see [txEdges.sh](./txEdges.sh), [txTimes.sh](./txTimes.sh), [txEdgesTimes.sh](./txEdgesTimes.sh), and [contractedAddresses.sh](./contractedAddresses.sh) respectively. If you wish to dump files only, see [dumpProcess.sh](./dumpProcess.sh), and if you wish to create the users graph from the dumped files, see [usersGraph.sh](./usersGraph.sh).
 
 2. Long-term subgraph saved in the **contractions/long_term_subgraph.dat** file whose structure is the same as that of the users' graph. In order to generate only the long-term subgraph from the previously created users' graph, see the description in the [longTermSubgraph.sh](./longTermSubgraph.sh) script.
 
-3. Snapshots - saved in separate files (one file for each snapshot, named with the date of the snapshot period) in the **snapshots** folder. The structure of each line in each snapshot file is as follows:
-<code>
-  userInputID userOutputID edgeWeight,
-</code>
-where *edgeWeight* is the total number or amount of Bitcoins sent (whether the number or Bitcoin amount depends on the parameter *snapshotEdgeWeightParameter* from the main command) between the users with *userInptID* and *userOutputID* in the period for a given snapshot. To generate the snapshots separately (from the previously created long-term subgraph), see the description in the [snapshots.sh](./snapshots.sh) script.
+3. Snapshots - saved in separate files (one file for each snapshot, named with the date of the snapshot period) in the **snapshots** folder. The structure of each line in each snapshot file is as follows: *userInputID userOutputID edgeWeight,* where *edgeWeight* is the total number or amount of Bitcoins sent (whether the number or Bitcoin amount depends on the parameter *snapshotEdgeWeightParameter* from the main command) between the users with *userInptID* and *userOutputID* in the period for a given snapshot. To generate the snapshots separately (from the previously created long-term subgraph), see the description in the [snapshots.sh](./snapshots.sh) script.
 
 4. Time series - saved in the *time_series* folder. As each time series is defined by the corresponding principal component (see our article, Appendix, section 2.), the files containing snapshots' data are named with components' idies. Each such file contains the column of $T$ numbers defining the corresponding time series. To generate the time series separately (from the previously created snapshots), see the description in the [timeSeries.sh](./timeSeries.sh) script.
