@@ -2,8 +2,8 @@
 This repository accompanies the article https://doi.org/10.1016/j.frl.2020.101489 in which we analysed relationships between financial markets and the network of Bitcoin users (the so called *Bitcoin users' graph*). We were inspired by the idea of comparing the users' graph properties to Bitcoin price. This idea goes back to Kondor et al., https://iopscience.iop.org/article/10.1088/1367-2630/16/12/125003/pdf. 
 
 The data used in the article https://doi.org/10.1016/j.frl.2020.101489 can be obtained using this repository. It is also possible to obtain the most recent data to keep the research up-to-date. The scripts contained in this repository can be used to obtain the time series derived from the Bitcoin users' graph. For the information about the time series:
-- for the definition of the time series, see our article, Appendix, section 2. - the time series are denoted by $s_i'$,
-- how the time series defined above are incorporated into the main regression model, see our article, section 3.3 - the time series are defined there by the values *UsersGraphProperty<sub>${i,j,t}$</sub>*, where $t=1,\ldots,T$ and $T$ is the number of subsequent periods taken into account. 
+- for the definition of the time series, see our article, Appendix, section 2. - the time series are denoted by *s<sub>i</sub>'*,
+- how the time series defined above are incorporated into the main regression model, see our article, section 3.3 - the time series are defined there by the values *UsersGraphProperty<sub>i,j,t$</sub>*, where *t=1,...,T* and *T* is the number of subsequent periods taken into account. 
 
 The whole process of obtaining the aforementioned time series can be divided into the following steps:
 
@@ -12,7 +12,7 @@ In the users' graph extraction process, we use the modified Bitcoin client of D.
 
 2. **Long-term subgraph extraction** - from the users' graph, we can extract as well a subgraph (called the "long-term-subgraph") which contains users who were active in a period long enough, took part in sufficient amount of transactions, and are represented by sufficient number of Bitcoin addresses. The idea of looking at the long-term-subgraph goes back to D. Kondor et. al, https://iopscience.iop.org/article/10.1088/1367-2630/16/12/125003. This concept has been also used in our article (see Appendix, 2. Obtaining values of variables from the users graph).
 
-3. **Snapshots' creation** - we create snapshots for the periods taken into account as described in our article in Appendix in section 2. The snapshots are denoted there by $S_i$, where $i=1,\ldots,T$.
+3. **Snapshots' creation** - we create snapshots for the periods taken into account as described in our article in Appendix in section 2. The snapshots are denoted there by *S<sub>i</sub>*, where *i=1,...,T*.
 
 4. **Time series extraction** - using Principal Component Analysis, we exctract the time series $s_i'$ from the snapshots as described in our article, Appendix, section 2.
 
@@ -38,4 +38,4 @@ Each of the commands above generates the following data:
 
 3. Snapshots - saved in separate files (one file for each snapshot, named with the date of the snapshot period) in the **snapshots** folder. The structure of each line in each snapshot file is as follows: *userInputID userOutputID edgeWeight,* where *edgeWeight* is the total number or amount of Bitcoins sent (whether the number or Bitcoin amount depends on the parameter *snapshotEdgeWeightParameter* from the main command) between the users with *userInptID* and *userOutputID* in the period for a given snapshot. To generate the snapshots separately (from the previously created long-term subgraph), see the description in the [snapshots.sh](./snapshots.sh) script.
 
-4. Time series - saved in the *time_series* folder. As each time series is defined by the corresponding principal component (see our article, Appendix, section 2.), the files containing snapshots' data are named with components' idies. Each such file contains the column of $T$ numbers defining the corresponding time series. To generate the time series separately (from the previously created snapshots), see the description in the [timeSeries.sh](./timeSeries.sh) script.
+4. Time series - saved in the *time_series* folder. As each time series is defined by the corresponding principal component (see our article, Appendix, section 2.), the files containing snapshots' data are named with components' idies. Each such file contains the column of *T* numbers defining the corresponding time series. To generate the time series separately (from the previously created snapshots), see the description in the [timeSeries.sh](./timeSeries.sh) script.
