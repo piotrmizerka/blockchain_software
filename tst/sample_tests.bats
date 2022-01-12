@@ -7,6 +7,8 @@
 # (2) run "bats path-to-your-test-file"
 # @test is works the same as @testset in Julia ;)
 
+# test change to ignore
+
 @test "addition using bc" {
   result="$(echo 2+2 | bc)"
   [ "$result" -eq 4 ]
