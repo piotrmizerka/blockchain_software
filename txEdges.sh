@@ -12,8 +12,8 @@
 #
 # The script requires the following 3 path parameters (appearing as parameters in that order):
 #
-# (1) txinPath - the path to the txin.dat file (not compressed) as specified at https://senseable2015-6.mit.edu/bitcoin/,
-# (2) txoutPath - the path to the txout.dat file (not compressed) as specified at as specified at https://senseable2015-6.mit.edu/bitcoin/,
+# (1) txinPath - the path to the txin.dat file (not compressed) as specified at https://github.com/dkondor/bitcoin, Usage (dump mode),
+# (2) txoutPath - the path to the txout.dat file (not compressed) as specified at as specified at https://github.com/dkondor/bitcoin, Usage (dump mode),
 # (3) txedgesPath - the path to the output file (whose form has been specified at the beginning - lines 6 - 11),
 #
 # It is also possible to specify the additional 4th paramater txedgesRepoPath which is the path to the cloned repository 
