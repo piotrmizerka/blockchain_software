@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-@test "txTimes: sample data" {
+@test "contractedAddresses: sample data" {
     txinPath=./tst/txin.dat
     txoutPath=./tst/txout.dat
     contractionDataPath=./tst/contractions

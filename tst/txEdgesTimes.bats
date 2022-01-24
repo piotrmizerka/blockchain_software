@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-@test "txTimes: sample data" {
+@test "txEdgesTimes: sample data" {
     txTimesPath=./tst/tx_times.dat
     txEdgesPath=./tst/txedges.dat
     txEdgesTimesPath=./tst/tx_edges_times.dat
