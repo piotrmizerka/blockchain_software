@@ -27,6 +27,7 @@
     echo "3	0	6	8000" >> $txoutPath
     echo "4	0	6	7000" >> $txoutPath
     
+    chmod +x ./contractedAddresses.sh
     ./contractedAddresses.sh $txinPath $txoutPath $contractionDataPath $connectedComponentsPath
 
     [ $(grep -c "1	1" $connectedComponentsPath) -eq 1 ]

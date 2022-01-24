@@ -26,6 +26,7 @@
     echo "3	4	6	6000" >> $txEdgesPath
     echo "4	5	6	7000" >> $txEdgesPath
     
+    chmod +x ./txEdgesTimes.sh
     ./txEdgesTimes.sh $txTimesPath $txEdgesPath $txEdgesTimesPath
 
     [ $(grep -c "1	5	5000	111111111" $txEdgesTimesPath) -eq 1 ]
