@@ -21,9 +21,14 @@ Graph::Graph(vector<int> V, vector<Edge> E, int transactionsNumber, int usersNum
 
 void Graph::saveGraph(string path)
 {
-    FILE* save;
-    save = fopen(path.c_str(), "w");
-    FOREACH(edge,edges)fprintf(save, "%d %d %lld %d\n", edge->u, edge->v, 
-                               (long long)(edge->weight), edge->time);
-    fclose(save);
+    if(edges.size()>0)
+    {
+        FILE* save;
+        save = fopen(path.c_str(), "w");
+        int edgesSize = edges.size();
+        // last edges is repeated when read from users graph
+        for(int i=0;i<edgesSize-1;i++)fprintf(save, "%d %d %lld %d\n", edges[i].u, edges[i].v, 
+                                              (long long)(edges[i].weight), edges[i].time);
+        fclose(save);
+    }
 }
