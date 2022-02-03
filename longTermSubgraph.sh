@@ -5,7 +5,7 @@
 # The description of creating of the long-term subgraph with its subtleties may be also found
 # at the beginning of ./necessary_programs/users-graph-analysis/main.cpp file.
 
-# The script requires the following 2 parameters:
+# The script requires the following 6 parameters:
 #
 # (1) -mran|--minimalRepresantativeAddressesNumber - consider only the users represented by at least this number of bitcoin addresses,
 # (2) -mid|--minimalIntervalInDays - consider users whose time distance between their first and last transaction is at least minimalIntervalInDays,
