@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-@test "createGraph: sample data" {
+@test "longTermSubgraph: sample data" {
     usersGraphPath=./tst/users_graph.dat
     contractedAddressesPath=./tst/contracted_addresses.dat
     longTermSubgraphPath=./tst/long_term_subgraph.dat
