@@ -125,7 +125,7 @@ echo "STEP (8). Creating snapshots..."
 #     snapshotEdgeWeightParameter = "w"
 # fi
 chmod +x ./snapshots.sh
-./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp $snapshotEdgeWeightParameter
+./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp $snapshotEdgeWeightParameter -sp ./snapshots
 
 echo "STEP (9). Computing time series of principal components from snapshots..."
 chmod +x ./timeSeries.sh
