@@ -49,11 +49,12 @@ do
     esac
 done
 
-if [ ! -f "./necessary_programs/snapshots/snapshots" ] # check if snaphots script is compiled
+if [ ! -f "./necessary_programs/snapshots_creation/snapshots" ] # check if snaphots script is compiled
 then
     g++ -o ./necessary_programs/snapshots_creation/snapshots ./necessary_programs/snapshots_creation/main.cpp ./necessary_programs/snapshots_creation/stdafx.cpp
 fi
 
-rm -rf ./snapshots
-mkdir ./snapshots
-./necessary_programs/snapshots_creation/snapshots $longTermSubgraphPath $snapshotPeriodInDays $snapshotEdgeWeightParameter ./snapshots
+rm -rf $snapshotsPath
+mkdir $snapshotsPath
+
+./necessary_programs/snapshots_creation/snapshots $longTermSubgraphPath $snapshotPeriodInDays $snapshotEdgeWeightParameter $snapshotsPath
