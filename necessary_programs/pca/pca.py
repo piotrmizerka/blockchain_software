@@ -17,21 +17,18 @@ def dataMatrix(snapShotsFolder):
 
     X = []
     for row in Xx:
-        norm = 0
+        sum = 0
         for elt in row:
-            norm += (elt*elt)
+            sum += elt
         vector = []
-        if norm != 0:
+        if sum != 0:
             for elt in row:
-                vector.append( elt/math.sqrt( norm ) )
+                vector.append( elt/float(sum) )
         else:
             for elt in row:
                 vector.append( 0 )
         X.append( vector )
-    
-    return X
 
-def pca_sklearn(X, snapShotsFolder): # TODO: determine why this gives different singular values than svd way
     for i in range( 0, len( X[0] ) ):
         sum = 0
         for j in range( 0, len( X ) ):
@@ -40,6 +37,10 @@ def pca_sklearn(X, snapShotsFolder): # TODO: determine why this gives different 
         for j in range( 0, len( X ) ):
             X[j][i] -= average
 
+    return X
+
+# An equivalent way to perform PCA - we do not apply this, however - we apply SVD - see below
+def pca_sklearn(X, snapShotsFolder):
     pca = PCA(n_components=4)
     pca.fit(X)
     return pca.explained_variance_ratio_, pca.singular_values_, pca.components_
@@ -47,7 +48,7 @@ def pca_sklearn(X, snapShotsFolder): # TODO: determine why this gives different 
 def pca_svd(X, snapShotsFolder):
     U, S, V = np.linalg.svd(X, full_matrices=True)
 
-    return V
+    return U, S, V
 
 def saveTimeSeries(X, V, savePath, componentsNumber):
     L = len(V[0])
@@ -64,5 +65,5 @@ snapshotsPath = sys.argv[1]
 timeSeriesPath = sys.argv[2]
 componentsNumber = int(sys.argv[3])
 X = dataMatrix(snapShotsFolder = snapshotsPath)
-V = pca_svd(X, snapShotsFolder = snapshotsPath)
+U, S, V = pca_svd(X, snapShotsFolder = snapshotsPath)
 saveTimeSeries(X, V, timeSeriesPath, componentsNumber)
