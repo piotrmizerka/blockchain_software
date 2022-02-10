@@ -65,4 +65,4 @@ echo "STEP (5). Computing user idies of Bitcoin addresses in the contraction pro
 
 # Create Bitcoin users' graph
 echo "STEP (6). Creating users graph..."
-./createGraph.sh $contractionsDirPath/contracted_addresses.dat $contractionsDirPath/tx_edges_times.dat $contractionsDirPath/usersGraph.dat
+./createGraph.sh -cap $contractionsDirPath/contracted_addresses.dat -tetp $contractionsDirPath/tx_edges_times.dat -ugp $contractionsDirPath/users_graph.dat
