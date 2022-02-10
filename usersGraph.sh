@@ -48,19 +48,19 @@ echo "STEP (1). Sorting txin.dat and txout.dat if necessary..."
 ./sortTx.sh $dumpedDirPath/txin.dat $dumpedDirPath/txout.dat
 
 # Create elementary edges from transactions
-echo "STEP (2). Creatiing edges from Bitcoin transactions - the result being saved to the txEdges.sh file..."
+echo "STEP (2). Creatiing edges from Bitcoin transactions - the result being saved to the txedges.dat file..."
 ./txEdges.sh $dumpedDirPath/txin.dat $dumpedDirPath/txout.dat $contractionsDirPath/txedges.dat $txedgesRepoPath
 
 # Create transaction timestamps
-echo "STEP (3). Computing transaction timestamps - the result being saved to the txTimes.sh file..."
+echo "STEP (3). Computing transaction timestamps - the result being saved to the tx_times.dat file..."
 ./txTimes.sh $dumpedDirPath/tx.dat $dumpedDirPath/bh.dat $contractionsDirPath/tx_times.dat $joinUtilsRepoPath > /dev/null 2>&1
 
 # Create timestamps of elementary edges
-echo "STEP (4). Adding timestamps to edges - the result being saved to the txEdgesTimes.sh file..."
+echo "STEP (4). Adding timestamps to edges - the result being saved to the tx_edges_times.dat file..."
 ./txEdgesTimes.sh $contractionsDirPath/tx_times.dat $contractionsDirPath/txedges.dat $contractionsDirPath/tx_edges_times.dat $joinUtilsRepoPath > /dev/null 2>&1
 
 # Contract bitcoin addresses to users' idies
-echo "STEP (5). Computing user idies of Bitcoin addresses in the contraction process - the result being saved to the contractedAddresses.sh file..."
+echo "STEP (5). Computing user idies of Bitcoin addresses in the contraction process - the result being saved to the contracted_addresses.dat file..."
 ./contractedAddresses.sh $dumpedDirPath/txin.dat $dumpedDirPath/txout.dat $contractionsDirPath $contractionsDirPath/contracted_addresses.dat $sccs32sPath
 
 # Create Bitcoin users' graph
