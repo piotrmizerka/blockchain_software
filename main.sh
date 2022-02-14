@@ -110,7 +110,7 @@ fi
 rm -rf ./dumped_files
 
 echo "STEP (7). Creating the long-term subgraph..."
-./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid 0 -mtn 0 -ugp ./contractions/usersGraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/active_users_subgraph.dat
+./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid 0 -mtn 0 -ugp ./contractions/users_graph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/active_users_subgraph.dat
 ./longTermSubgraph.sh -mran 0 -mid $minimalIntervalInDays -mtn $minimalTransationsNumber -ugp ./contractions/active_users_subgraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/long_term_subgraph.dat
 # ./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid $minimalIntervalInDays -mtn $minimalTransationsNumber -ugp ./contractions/usersGraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/long_term_subgraph.dat # in case we would like to create the long-term subgraph at once - note that it may be potentially larger!
 rm -rf ./contractions/active_users_subgraph.dat
