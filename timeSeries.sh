@@ -41,6 +41,7 @@ do
     esac
 done
 
-rm -rf ./time_series
-mkdir ./time_series
+rm -rf $timeSeriesPath
+mkdir $timeSeriesPath
+# TODO: create and activate Python environment if this has not been done
 ./necessary_programs/pca/pca_venv/bin/python ./necessary_programs/pca/pca.py $snapshotsPath $timeSeriesPath $componentsNumber

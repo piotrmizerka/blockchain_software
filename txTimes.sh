@@ -14,8 +14,8 @@
 #
 # The script requires the following 4 parameter paths (appearing as parameters in that order):
 #
-# (1) txPath - the path to the tx.dat file (not compressed) as specified at https://senseable2015-6.mit.edu/bitcoin/,
-# (2) bhPath - the path to the bh.dat file (not compressed) as specifed at https://senseable2015-6.mit.edu/bitcoin/,
+# (1) txPath - the path to the tx.dat file (not compressed) as specified at https://github.com/dkondor/bitcoin, Usage (dump mode),
+# (2) bhPath - the path to the bh.dat file (not compressed) as specifed at https://github.com/dkondor/bitcoin, Usage (dump mode),
 # (3) tx_timesPath - the path to the output file (whose form has been specified at the beginning - lines 8 - 12),
 #
 # It is also possible to specify the additional 4th paramater joinutilsPath which is the path to the cloned repository https://github.com/dkondor/join-utils 

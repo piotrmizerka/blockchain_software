@@ -24,7 +24,7 @@
 // long-term subgraph creation
 Graph longTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalIntervalInDays, int minimalTransactionsNumber, string usersGraphPath, string contractedAddressesPath)
 {
-    // Determine users represented by at least minimalRepresentativeAddressesNumber
+    // Determine the representative addresses number for each user
     FILE* readContractedAddresses;
     readContractedAddresses = fopen(contractedAddressesPath.c_str(), "r");
     int maxUserId = 0, addressId, userId;
@@ -110,6 +110,7 @@ int main(int argc, char* argv[])
     int minimalTransationsNumber = atoi(argv[3]);
     string usersGraphPath = argv[4];
     string contractedAddressesPath = argv[5];
+
     Graph longTermSubgraphx = longTermSubgraph(minimalRepresantativeAddressesNumber, minimalIntervalInDays,
                                                minimalTransationsNumber, usersGraphPath, contractedAddressesPath);
     

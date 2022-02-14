@@ -8,6 +8,7 @@
 #	inputUserId	outputUserId	bitcoinAmount timeStamp
 #
 # (bitcoinAmount is in Satoshis).
+# TODO: description of further output: snapshots and time series!
 
 # The script requires the following parameters:
 #
@@ -32,7 +33,6 @@
 #   ./main.sh -bp blockchainDirPath -bn blocksNumber -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber -sdp snapshotPeriodInDays -ewp snapshotEdgeWeightParameter -cn componentsNumber
 
 # Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
-
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
@@ -111,7 +111,7 @@ fi
 rm -rf ./dumped_files
 
 echo "STEP (7). Creating the long-term subgraph..."
-./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid 0 -mtn 0 -ugp ./contractions/usersGraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/active_users_subgraph.dat
+./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid 0 -mtn 0 -ugp ./contractions/users_graph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/active_users_subgraph.dat
 ./longTermSubgraph.sh -mran 0 -mid $minimalIntervalInDays -mtn $minimalTransationsNumber -ugp ./contractions/active_users_subgraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/long_term_subgraph.dat
 # ./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid $minimalIntervalInDays -mtn $minimalTransationsNumber -ugp ./contractions/usersGraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/long_term_subgraph.dat # in case we would like to create the long-term subgraph at once - note that it may be potentially larger!
 rm -rf ./contractions/active_users_subgraph.dat
@@ -126,7 +126,7 @@ echo "STEP (8). Creating snapshots..."
 #     snapshotEdgeWeightParameter = "w"
 # fi
 chmod +x ./snapshots.sh
-./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp $snapshotEdgeWeightParameter
+./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp $snapshotEdgeWeightParameter -sp ./snapshots
 
 echo "STEP (9). Computing time series of principal components from snapshots..."
 chmod +x ./timeSeries.sh

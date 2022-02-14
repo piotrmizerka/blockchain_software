@@ -13,14 +13,14 @@
 # The script requires the following 4 path parameters (appearing as parameters in that order):
 #
 # (1) txinPath - the path to the txin.dat file,
-# (1) txoutPath - the path to the txout.dat file,
-# (2) contractionDataPath - the path to the auxiliary folder where the auxiliary contraction files are to be stored,
-# (3) connectedComponentsPath - the path to the output file
+# (2) txoutPath - the path to the txout.dat file,
+# (3) contractionDataPath - the path to the auxiliary folder where the auxiliary contraction files are to be stored,
+# (4) connectedComponentsPath - the path to the output file (whose form has been specified at the beginning - lines 8 - 12),
 #
 # It is also possible to specify the additional 5th paramater scc32sPath which is the path to the cloned 
 # repository https://github.com/dkondor/sccs32s (the scc32sPath package is assummed to be compiled in advance).
 #
-# (5) scc32sPath - the path to the output file (whose form has been specified at the beginning - lines 8 - 12),
+# (5) scc32sPath - the path to the executable of scc32s
 #
 #
 # Example usage (assuming you are in the same directory as the contractedAdresses.sh script file):

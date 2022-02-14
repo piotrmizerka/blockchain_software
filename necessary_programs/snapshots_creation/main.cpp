@@ -21,15 +21,17 @@ int main(int argc, char* argv[])
     // Initialize the underlying edges occuring in each snapshot (they are the same for each snapshot).
     time_t now = time(0);
     time_t beginningOfBitcoin = 1231722000;
-    int snapshotsNumber = (now-beginningOfBitcoin)/(snapshotPeriodInDays*86400)+1;
+    int snapshotsNumber = int(double(now-beginningOfBitcoin)/double(snapshotPeriodInDays*86400))+1;
     map< pair<int,int>, long long > snapshotGraphEdges[snapshotsNumber];
     int u, v;
     long long bitcoinAmountSatoshis, timeStamp;
     FILE* readLongTermSubgraph = fopen(longTermSubgraphPath.c_str(), "r");
+    int linesNumber = 0;
     while(!feof(readLongTermSubgraph))
     {
         fscanf(readLongTermSubgraph, "%i %i %lld %lld", &u, &v, &bitcoinAmountSatoshis, &timeStamp);
         for(int i=0;i<snapshotsNumber;i++)snapshotGraphEdges[i][make_pair(u,v)] = 0;
+        linesNumber++;
     }
     fclose(readLongTermSubgraph);
 
@@ -49,16 +51,20 @@ int main(int argc, char* argv[])
     }
 
     readLongTermSubgraph = fopen(longTermSubgraphPath.c_str(), "r");
-    while(!feof(readLongTermSubgraph))
+    for(int i=0;i<linesNumber-1;i++)
     {
         fscanf(readLongTermSubgraph, "%i %i %lld %lld", &u, &v, &bitcoinAmountSatoshis, &timeStamp);
+
+        // I don't know why I had to add one id - this seems to be irrelevant for the sake of experiments, though:
+        int snapshotId = int(double(timeStamp-beginningOfBitcoin)/double(snapshotPeriodInDays*86400))+1; 
+        
         if(snapshotEdgeWeightParameter == "w")
         {
-            snapshotGraphEdges[(timeStamp-beginningOfBitcoin)/(snapshotPeriodInDays*86400)][make_pair(u,v)] += bitcoinAmountSatoshis;
+            snapshotGraphEdges[snapshotId][make_pair(u,v)] += bitcoinAmountSatoshis;
         }
         else 
         {
-            snapshotGraphEdges[(timeStamp-beginningOfBitcoin)/(snapshotPeriodInDays*86400)][make_pair(u,v)]++;
+            snapshotGraphEdges[snapshotId][make_pair(u,v)]++;
         }
     }
     fclose(readLongTermSubgraph);
