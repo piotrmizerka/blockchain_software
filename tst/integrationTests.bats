@@ -52,3 +52,31 @@
     rm -rf $dumpedDirPath
     rm -rf $contractionsDirPath
 }
+
+@test "main: sample run" {
+    # skip # comment this and substitute the parameter below with appropriate values if you want the integration test to run
+
+    blockchainDirPath=/home/piotr/Desktop/bitcoin/blockchain_data
+
+    ./main.sh -bp $blockchainDirPath -bn 40000 -mran 10 -mid 1 -mtn 2 -sdp 1 -ewp w -cn 3
+
+    # users' graph and its long-term subgraph
+    [ $(wc -l < ./contractions/contracted_addresses.dat) -ge 1 ]
+    [ $(wc -l < ./contractions/long_term_subgraph.dat) -ge 1 ]
+    [ $(wc -l < ./contractions/tx_edges_times.dat) -ge 1 ]
+    [ $(wc -l < ./contractions/tx_times.dat) -ge 1 ]
+    [ $(wc -l < ./contractions/txedges.dat) -ge 1 ]
+    [ $(wc -l < ./contractions/users_graph.dat) -ge 1 ]
+
+    # snapshots of the long-term subgraph
+    [ $(ls ./snapshots | wc -l) -ge 10 ]
+
+    # time series with PCA
+    [ $(ls ./time_series | wc -l) -eq 3 ]
+    [ $(wc -l < ./time_series/component_1.dat) -ge 4000 ]
+
+    rm -rf ./contractions
+    rm -rf ./snapshots
+    rm -rf ./time_series
+}
+
