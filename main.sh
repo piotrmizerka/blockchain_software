@@ -8,6 +8,7 @@
 #	inputUserId	outputUserId	bitcoinAmount timeStamp
 #
 # (bitcoinAmount is in Satoshis).
+# TODO: description of further output: snapshots and time series!
 
 # The script requires the following parameters:
 #
