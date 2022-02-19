@@ -1,6 +1,6 @@
 #!/usr/bin/env bats
 
-@test "users graph unit script tests" {
+@test "users graph script unit tests" {
     bats ./tst/txEdges.bats
     bats ./tst/txTimes.bats
     bats ./tst/txEdgesTimes.bats
