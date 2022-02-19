@@ -108,7 +108,7 @@ fi
 # create users graph from the dumped files
 ./usersGraph.sh ./dumped_files ./contractions
 
-rm -rf ./dumped_files
+rm -rf ./dumped_files ./contractions/tx_edges_times.dat ./contractions/tx_times.dat ./contractions/txedges.dat
 
 echo "STEP (7). Creating the long-term subgraph..."
 ./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid 0 -mtn 0 -ugp ./contractions/users_graph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/active_users_subgraph.dat
