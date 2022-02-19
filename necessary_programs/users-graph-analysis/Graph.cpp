@@ -4,14 +4,15 @@ Graph::Graph(vector<int> V, vector<Edge> E, int transactionsNumber, int usersNum
 {
     if (E.size() > 0 && V.size() == 0)
     {
-        set <int> verticesx;
+        vector <bool> verticesIdPresence(usersNumber+1, false);
         FOREACH(edge, E)
         {
-            verticesx.insert(edge->u);
-            verticesx.insert(edge->v);
+            verticesIdPresence[edge->u] = true;
+            verticesIdPresence[edge->v] = true;
         }
+
         vertices.clear();
-        FOREACH(v, verticesx)vertices.push_back(*v);
+        for(int i=0;i<=usersNumber;i++)if(verticesIdPresence[i])vertices.push_back(i);
     }
     else vertices = V;
     edges = E;
