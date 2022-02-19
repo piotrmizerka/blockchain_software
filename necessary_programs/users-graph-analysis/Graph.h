@@ -15,7 +15,7 @@ class Graph
     // parameters
     vector <int> vertices;
     vector <Edge> edges;
-    int transactionsNumber = 3000000;
+    long long transactionsNumber = 3000000;
     int usersNumber = 1500000; // max users number bound
 
 public:
@@ -24,5 +24,5 @@ public:
 
     // contructor
     Graph(vector <int> V = vector<int>(0), vector<Edge> E = vector<Edge>(0),
-          int transactionsNumber = 3000000, int usersNumber = 1500000);
+          long long transactionsNumber = 3000000, int usersNumber = 1500000);
 };

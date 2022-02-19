@@ -72,7 +72,7 @@ Graph longTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalInte
     // Extract the long-term subgraph
     vector <int> V;
     vector < Edge > E;
-    int transactionsNumber = 0;
+    long long transactionsNumber = 0;
     vector<bool> consideredVertices(maxUserId, false);
     readUsersGraph = fopen(usersGraphPath.c_str(), "r");
     while (!feof(readUsersGraph))
