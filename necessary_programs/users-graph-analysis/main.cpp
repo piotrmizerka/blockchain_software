@@ -22,7 +22,9 @@
 #include "stdafx.h"
 
 // long-term subgraph creation
-Graph longTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalIntervalInDays, int minimalTransactionsNumber, string usersGraphPath, string contractedAddressesPath)
+void saveLongTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalIntervalInDays, 
+                          int minimalTransactionsNumber, string usersGraphPath, 
+                          string contractedAddressesPath, string savePath)
 {
     // Determine the representative addresses number for each user
     FILE* readContractedAddresses;
@@ -99,7 +101,8 @@ Graph longTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalInte
     }
     fclose(readUsersGraph);
 
-    return Graph(V, E, transactionsNumber, maxUserId);
+    Graph longTermSubgraph = Graph(V, &E, transactionsNumber, maxUserId);
+    longTermSubgraph.saveGraph(savePath);
 }
 
 int main(int argc, char* argv[])
@@ -110,12 +113,11 @@ int main(int argc, char* argv[])
     int minimalTransationsNumber = atoi(argv[3]);
     string usersGraphPath = argv[4];
     string contractedAddressesPath = argv[5];
-
-    Graph longTermSubgraphx = longTermSubgraph(minimalRepresantativeAddressesNumber, minimalIntervalInDays,
-                                               minimalTransationsNumber, usersGraphPath, contractedAddressesPath);
-    
     string savePath = argv[6];
-    longTermSubgraphx.saveGraph(savePath);
+
+    saveLongTermSubgraph(minimalRepresantativeAddressesNumber, minimalIntervalInDays,
+                         minimalTransationsNumber, usersGraphPath, 
+                         contractedAddressesPath, savePath);
 
     return 0;
 }

@@ -14,7 +14,7 @@ class Graph
 {
     // parameters
     vector <int> vertices;
-    vector <Edge> edges;
+    vector <Edge> *edges;
     long long transactionsNumber = 3000000;
     int usersNumber = 1500000; // max users number bound
 
@@ -23,6 +23,6 @@ public:
     void saveGraph(string path);
 
     // contructor
-    Graph(vector <int> V = vector<int>(0), vector<Edge> E = vector<Edge>(0),
+    Graph(vector <int> V = vector<int>(0), vector<Edge> *E = new vector<Edge>(0),
           long long transactionsNumber = 3000000, int usersNumber = 1500000);
 };
