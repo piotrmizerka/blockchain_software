@@ -63,9 +63,6 @@
     # users' graph and its long-term subgraph
     [ $(wc -l < ./contractions/contracted_addresses.dat) -ge 1 ]
     [ $(wc -l < ./contractions/long_term_subgraph.dat) -ge 1 ]
-    [ $(wc -l < ./contractions/tx_edges_times.dat) -ge 1 ]
-    [ $(wc -l < ./contractions/tx_times.dat) -ge 1 ]
-    [ $(wc -l < ./contractions/txedges.dat) -ge 1 ]
     [ $(wc -l < ./contractions/users_graph.dat) -ge 1 ]
 
     # snapshots of the long-term subgraph
