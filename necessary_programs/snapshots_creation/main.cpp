@@ -19,8 +19,8 @@ int main(int argc, char* argv[])
     string snapshotPath = argv[4];
 
     // Initialize the underlying edges occuring in each snapshot (they are the same for each snapshot).
-    time_t now = time(0);
-    time_t beginningOfBitcoin = 1231722000;
+    time_t now = time(0); // TODO: change for the time of the last considered block!!!!!
+    time_t beginningOfBitcoin = 1231722000; // TODO: add beggining time parameter!!!
     int snapshotsNumber = int(double(now-beginningOfBitcoin)/double(snapshotPeriodInDays*86400))+1;
     map< pair<int,int>, long long > snapshotGraphEdges[snapshotsNumber];
     int u, v;
