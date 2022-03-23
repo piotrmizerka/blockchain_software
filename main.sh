@@ -1,14 +1,26 @@
 #!/bin/bash
 
-# This scripts creates the Bitcoin users' graph and the long-term-subgraph 
-# from the original blockchain data. 
+# This is the main script creatingfrom the original blockchain data the following: 
+#   - the Bitcoin users' graph, 
+#   - the long-term-subgraph,
+#   - snapshots,
+#   - time series.
+# The descriptions of the above are contained in our article, 
+# https://doi.org/10.1016/j.frl.2020.101489, in Appendix.
 #
-# The output files contain rows of the following form
+# The users' graph, the long-term subgraph, and each snapshot contain rows of the following form
 #
-#	inputUserId	outputUserId	bitcoinAmount timeStamp
+#	inputUserId outputUserId    bitcoinAmount   timeStamp
 #
 # (bitcoinAmount is in Satoshis).
-# TODO: description of further output: snapshots and time series!
+# 
+# We create the snapshots from the long-term subgraph. Each snapshots is a subgraph
+# of the long-term subgraph corresponding to a given period (we divide the time into equal periods).
+
+# For each principal component, we compute an associated time series in a specially defined way,
+# as descirbed in our article, https://doi.org/10.1016/j.frl.2020.101489,  in Appendix, section 2.
+# The structure of each time series is quite simple - it contains a single column of real numbers
+# (the amount of these numbers is equal to the number of periods which is equal to snapshots' number).
 
 # The script requires the following parameters:
 #
