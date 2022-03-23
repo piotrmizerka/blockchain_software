@@ -54,7 +54,7 @@
 }
 
 @test "main: sample run" {
-    # skip # comment this and substitute the parameter below with appropriate values if you want the integration test to run
+    skip # comment this and substitute the parameter below with appropriate values if you want the integration test to run
 
     blockchainDirPath=/home/piotr/Desktop/bitcoin/blockchain_data
 
