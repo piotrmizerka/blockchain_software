@@ -45,7 +45,8 @@ sccs32sPath=$4
 
 # Sort txin.dat and txout.dat if necessary
 echo "STEP (1). Sorting txin.dat and txout.dat if necessary..."
-./sortTx.sh $dumpedDirPath/txin.dat $dumpedDirPath/txout.dat
+sort -n -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -o $dumpedDirPath/txin.dat $dumpedDirPath/txin.dat
+sort -n -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -o $dumpedDirPath/txout.dat $dumpedDirPath/txout.dat
 
 # Create elementary edges from transactions
 echo "STEP (2). Creatiing edges from Bitcoin transactions - the result being saved to the txedges.dat file..."
