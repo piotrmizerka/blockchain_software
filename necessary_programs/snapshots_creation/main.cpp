@@ -19,14 +19,14 @@ int main(int argc, char* argv[])
     string snapshotPath = argv[4];
 
     // Initialize the underlying edges occuring in each snapshot (they are the same for each snapshot).
-    time_t now = time(0);
-    time_t beginningOfBitcoin = 1231722000;
+    time_t now = time(0); // TODO: change for the time of the last considered block!!!!!
+    time_t beginningOfBitcoin = 1231722000; // TODO: add beggining time parameter!!!
     int snapshotsNumber = int(double(now-beginningOfBitcoin)/double(snapshotPeriodInDays*86400))+1;
     map< pair<int,int>, long long > snapshotGraphEdges[snapshotsNumber];
     int u, v;
     long long bitcoinAmountSatoshis, timeStamp;
     FILE* readLongTermSubgraph = fopen(longTermSubgraphPath.c_str(), "r");
-    int linesNumber = 0;
+    long long linesNumber = 0;
     while(!feof(readLongTermSubgraph))
     {
         fscanf(readLongTermSubgraph, "%i %i %lld %lld", &u, &v, &bitcoinAmountSatoshis, &timeStamp);
@@ -39,7 +39,7 @@ int main(int argc, char* argv[])
     struct tm * timeInfo;
     string fileName;
 
-    FILE* saveSnapshots[snapshotsNumber];
+    FILE* saveSnapshots[snapshotsNumber+10];
     time_t snapShotTimestamp = beginningOfBitcoin;
 
     for(int i=0;i<snapshotsNumber;i++)
@@ -51,13 +51,13 @@ int main(int argc, char* argv[])
     }
 
     readLongTermSubgraph = fopen(longTermSubgraphPath.c_str(), "r");
-    for(int i=0;i<linesNumber-1;i++)
+
+    for(long long i=0;i<linesNumber-1;i++)
     {
         fscanf(readLongTermSubgraph, "%i %i %lld %lld", &u, &v, &bitcoinAmountSatoshis, &timeStamp);
 
         // I don't know why I had to add one id - this seems to be irrelevant for the sake of experiments, though:
         int snapshotId = int(double(timeStamp-beginningOfBitcoin)/double(snapshotPeriodInDays*86400))+1; 
-        
         if(snapshotEdgeWeightParameter == "w")
         {
             snapshotGraphEdges[snapshotId][make_pair(u,v)] += bitcoinAmountSatoshis;
