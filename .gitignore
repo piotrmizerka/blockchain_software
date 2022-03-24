@@ -2,6 +2,8 @@ createGraph
 .vscode
 necessary_programs/bitcoin
 necessary_programs/users-graph-analysis/longTermSubgraph
+necessary_programs/pca/pca_venv
+necessary_programs/snapshots_creation/snapshots
 createGraph
 contractions
 dumped_files
