@@ -54,7 +54,7 @@ edgesNumber=${edgesNumberInfoArray[0]}
 if [[ ! -z "$scc32sPath" ]] # check if the scc32s repo path was given
 then
     $scc32sPath/sccs32s -N $edgesNumber -t sccstmp -r < $contractionDataPath/addr_edges_sorted.dat > $connectedComponentsPath
-else # if the sccs32s repo path not given, assume the txedge executable is in ./necessary_programs folder
+else # if the sccs32s repo path not given, assume the sccs32s executable is in ./necessary_programs folder
     ./necessary_programs/sccs32s -N $edgesNumber -t sccstmp -r < $contractionDataPath/addr_edges_sorted.dat > $connectedComponentsPath
 fi
 rm -f $contractionDataPath/addr_edges_sorted.dat
