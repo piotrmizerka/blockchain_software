@@ -27,16 +27,16 @@
 # (1) -bp|--blockchainDirPath - the path to the folder containing blockchain data files
 
 # It is also possible to specify the following additional parameters:
-# (2) -bn|--blocksNumber - number of blocks to consider,
+# (2) -bn|--blocksNumber - number of blocks to consider; default: consider the whole downloaded blockchain
 # The next three parameters apply to the long-term subgraph:
-# (3) -mran|--minimalRepresantativeAddressesNumber - consider only the users represented by at least this number of bitcoin addresses, default value = 10, TODO: DAFAULT!!
-# (4) -mid|--minimalIntervalInDays - consider users whose time distance between their first and last transaction is at least minimalIntervalInDays, default value = 1200 TODO: DAFAULT!!
-# (5) -mtn|--minimalTransationsNumber - consider users who participated in at least that number of transactions, dafault value = 200. TODO: DAFAULT!!
+# (3) -mran|--minimalRepresantativeAddressesNumber - consider only the users represented by at least this number of bitcoin addresses, default value = 10
+# (4) -mid|--minimalIntervalInDays - consider users whose time distance between their first and last transaction is at least minimalIntervalInDays, default value = 1200
+# (5) -mtn|--minimalTransationsNumber - consider users who participated in at least that number of transactions, dafault value = 200.
 # The following parameters concern the snapshot subgraphs:
-# (6) -sdp|--snapshotPeriodInDays - the timespan of snapshots in days, default value = 7, TODO: DAFAULT!!
-# (7) -ewp|--snapshotEdgeWeightParameter - "w" for considering of Bitcoin amount as edges, "n" for the number of elementary transactions, default value = w, TODO: DAFAULT!!
+# (6) -sdp|--snapshotPeriodInDays - the timespan of snapshots in days, default value = 7
+# (7) -ewp|--snapshotEdgeWeightParameter - "w" for considering of Bitcoin amount as edges, "n" for the number of elementary transactions, default value = w
 # The last parameter is the number of principal components (and the number of time series in turn):
-# (8) -cn|--componentsNumber - number of principal components (base graphs) to consider (default = 3). TODO: DEFAULT
+# (8) -cn|--componentsNumber - number of principal components (base graphs) to consider (default value = 3).
 
 # If the additional parameters haven't been specified:
 #   ./main.sh -bp blockchainDirPath
@@ -122,6 +122,31 @@ fi
 
 rm -rf ./dumped_files ./contractions/tx_edges_times.dat ./contractions/tx_times.dat ./contractions/txedges.dat
 
+if [[ -z "$minimalRepresantativeAddressesNumber" ]]
+then
+    minimalRepresantativeAddressesNumber=10
+fi
+if [[ -z "$minimalIntervalInDays" ]]
+then
+    minimalIntervalInDays=1200
+fi
+if [[ -z "$minimalTransationsNumber" ]]
+then
+    minimalTransationsNumber=200
+fi
+if [[ -z "$snapshotPeriodInDays" ]]
+then
+    snapshotPeriodInDays=7
+fi
+if [[ -z "$snapshotEdgeWeightParameter" ]]
+then
+    snapshotEdgeWeightParameter="w"
+fi
+if [[ -z "$componentsNumber" ]]
+then
+    componentsNumber=3
+fi
+
 echo "STEP (7). Creating the long-term subgraph..."
 ./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid 0 -mtn 0 -ugp ./contractions/users_graph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/active_users_subgraph.dat
 ./longTermSubgraph.sh -mran 0 -mid $minimalIntervalInDays -mtn $minimalTransationsNumber -ugp ./contractions/active_users_subgraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/long_term_subgraph.dat
@@ -129,14 +154,6 @@ echo "STEP (7). Creating the long-term subgraph..."
 rm -rf ./contractions/active_users_subgraph.dat
 
 echo "STEP (8). Creating snapshots..."
-# if [[ -z "$snapshotPeriodInDays" ]] PARSING ARGS WHEN NOT GIVEN: TODO: NOT WORKING!!
-# then
-#     snapshotPeriodInDays = 7
-# fi
-# if [[ -z "$snapshotEdgeWeightParameter" ]]
-# then
-#     snapshotEdgeWeightParameter = "w"
-# fi
 chmod +x ./snapshots.sh
 ./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp $snapshotEdgeWeightParameter -sp ./snapshots
 
