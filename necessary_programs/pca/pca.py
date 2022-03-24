@@ -1,6 +1,5 @@
 from sklearn.decomposition import PCA
 import os
-import math
 import numpy as np
 import sys
 
