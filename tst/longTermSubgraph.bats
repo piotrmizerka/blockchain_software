@@ -1,13 +1,12 @@
 #!/usr/bin/env bats
 
 @test "longTermSubgraph: sample data" {
-    usersGraphPath=./tst/users_graph.dat
-    contractedAddressesPath=./tst/contracted_addresses.dat
-    longTermSubgraphPath=./tst/long_term_subgraph.dat
+    rm -rf ./tst/temp_data
+    mkdir ./tst/temp_data
 
-    rm -rf $usersGraphPath
-    rm -rf $contractedAddressesPath
-    rm -rf $longTermSubgraphPath
+    usersGraphPath=./tst/temp_data/users_graph.dat
+    contractedAddressesPath=./tst/temp_data/contracted_addresses.dat
+    longTermSubgraphPath=./tst/temp_data/long_term_subgraph.dat
     
     touch $usersGraphPath
     echo "1 5 5000 0" >> $usersGraphPath
@@ -51,7 +50,5 @@
     [ $(grep -c "5 6 7000 864002" $longTermSubgraphPath) -eq 1 ]
     [ $(wc -l < $longTermSubgraphPath) -eq 9 ]
 
-    rm -rf $usersGraphPath
-    rm -rf $contractedAddressesPath
-    rm -rf $longTermSubgraphPath
+    rm -rf ./tst/temp_data
 }

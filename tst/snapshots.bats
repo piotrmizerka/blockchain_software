@@ -1,11 +1,11 @@
 #!/usr/bin/env bats
 
 @test "snapshots: sample data" {
-    longTermSubgraphPath=./tst/long_term_subgraph.dat
-    snapshotsPath=./tst/snapshots
+    rm -rf ./tst/temp_data
+    mkdir ./tst/temp_data
 
-    rm -rf $longTermSubgraphPath
-    rm -rf $snapshotsPath
+    longTermSubgraphPath=./tst/temp_data/long_term_subgraph.dat
+    snapshotsPath=./tst/temp_data/snapshots
     blockhashPath=./tst/temp_data/bh.dat
     
     # 1640995611 is on 2022.01.01
@@ -76,6 +76,5 @@
     [ $(grep -c "5 6 7000" $snapshotsPath/2022_01_05.dat) -eq 1 ]
     [ $(wc -l < $snapshotsPath/2022_01_02.dat) -eq 3 ]
 
-    rm -rf $longTermSubgraphPath
-    rm -rf $snapshotsPath
+    rm -rf ./tst/temp_data
 }

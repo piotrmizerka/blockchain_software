@@ -1,14 +1,14 @@
 #!/usr/bin/env bats
 
 @test "contractedAddresses: sample data" {
-    txinPath=./tst/txin.dat
-    txoutPath=./tst/txout.dat
-    contractionDataPath=./tst/contractions
+    rm -rf ./tst/temp_data
+    mkdir ./tst/temp_data
+
+    txinPath=./tst/temp_data/txin.dat
+    txoutPath=./tst/temp_data/txout.dat
+    contractionDataPath=./tst/temp_data/contractions
     connectedComponentsPath=$contractionDataPath/contracted_addresses.dat
 
-    rm -rf $txinPath
-    rm -rf $txoutPath
-    rm -rf $contractionDataPath
     mkdir $contractionDataPath
     
     touch $txinPath
@@ -38,7 +38,5 @@
     [ $(grep -c "6	6" $connectedComponentsPath) -eq 1 ]
     [ $(wc -l < $connectedComponentsPath) -eq 6 ]
 
-    rm -rf $txinPath
-    rm -rf $txoutPath
-    rm -rf $contractionDataPath
+    rm -rf ./tst/temp_data
 }

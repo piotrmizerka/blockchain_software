@@ -1,13 +1,12 @@
 #!/usr/bin/env bats
 
 @test "txTimes: sample data" {
-    txPath=./tst/tx.dat
-    bhPath=./tst/bh.dat
-    txTimesPath=./tst/tx_times.dat
+    rm -rf ./tst/temp_data
+    mkdir ./tst/temp_data
 
-    rm -rf $txPath
-    rm -rf $bhPath
-    rm -rf $txTimesPath
+    txPath=./tst/temp_data/tx.dat
+    bhPath=./tst/temp_data/bh.dat
+    txTimesPath=./tst/temp_data/tx_times.dat
     
     touch $txPath
     echo "1	10	2	1" >> $txPath
@@ -27,7 +26,5 @@
     [ $(grep -c "4	999999999" $txTimesPath) -eq 1 ]
     [ $(wc -l < $txTimesPath) -eq 4 ]
 
-    rm -rf $txPath
-    rm -rf $bhPath
-    rm -rf $txTimesPath
+    rm -rf ./tst/temp_data
 }

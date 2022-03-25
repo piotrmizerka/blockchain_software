@@ -1,8 +1,11 @@
 #!/usr/bin/env bats
 
 @test "usersGraph: sample data" {
-    dumpedDirPath=./tst/dumped_dir
-    contractionsDirPath=./tst/contractions
+    rm -rf ./tst/temp_data
+    mkdir ./tst/temp_data
+
+    dumpedDirPath=./tst/temp_data/dumped_dir
+    contractionsDirPath=./tst/temp_data/contractions
     
     rm -rf $dumpedDirPath
     rm -rf $contractionsDirPath
@@ -49,8 +52,7 @@
     [ $(grep -c "5 6 7000 999999999" $contractionsDirPath/users_graph.dat) -eq 1 ]
     [ $(wc -l < $contractionsDirPath/users_graph.dat) -eq 9 ]
 
-    rm -rf $dumpedDirPath
-    rm -rf $contractionsDirPath
+    rm -rf ./tst/temp_data
 }
 
 @test "main: sample run" {
@@ -70,7 +72,7 @@
 
     # time series with PCA
     [ $(ls ./time_series | wc -l) -eq 3 ]
-    [ $(wc -l < ./time_series/component_1.dat) -ge 4000 ]
+    [ $(wc -l < ./time_series/component_1.dat) -ge 370 ]
 
     rm -rf ./contractions
     rm -rf ./snapshots

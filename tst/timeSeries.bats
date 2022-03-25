@@ -3,12 +3,13 @@
 # data for this test taken partially from Wikipedia example: https://en.wikipedia.org/wiki/Singular_value_decomposition/, Example section
 # TODO: arrange more readible test!
 @test "timeSeries: sample data" {
-    snapshotsPath=./tst/snapshots
-    timeSeriesPath=./tst/time_series
+    rm -rf ./tst/temp_data
+    mkdir ./tst/temp_data
 
-    rm -rf $snapshotsPath
+    snapshotsPath=./tst/temp_data/snapshots
+    timeSeriesPath=./tst/temp_data/time_series
+
     mkdir $snapshotsPath
-    rm -rf $timeSeriesPath
     
     touch $snapshotsPath/snapshot_1.dat
     echo "x x 1" >> $snapshotsPath/snapshot_1.dat
@@ -54,6 +55,5 @@
     [ $(grep -c "0.26" $timeSeriesPath/component_3.dat) -eq 1 ]
     [ $(wc -l < $timeSeriesPath/component_3.dat) -eq 4 ]
     
-    rm -rf $snapshotsPath
-    rm -rf $timeSeriesPath
+    rm -rf ./tst/temp_data
 }

@@ -1,13 +1,12 @@
 #!/usr/bin/env bats
 
 @test "txEdgesTimes: sample data" {
-    txTimesPath=./tst/tx_times.dat
-    txEdgesPath=./tst/txedges.dat
-    txEdgesTimesPath=./tst/tx_edges_times.dat
+    rm -rf ./tst/temp_data
+    mkdir ./tst/temp_data
 
-    rm -rf $txTimesPath
-    rm -rf $txEdgesPath
-    rm -rf $txEdgesTimesPath
+    txTimesPath=./tst/temp_data/tx_times.dat
+    txEdgesPath=./tst/temp_data/txedges.dat
+    txEdgesTimesPath=./tst/temp_data/tx_edges_times.dat
     
     touch $txTimesPath
     echo "1	111111111" >> $txTimesPath
@@ -40,7 +39,5 @@
     [ $(grep -c "5	6	7000	999999999" $txEdgesTimesPath) -eq 1 ]
     [ $(wc -l < $txEdgesTimesPath) -eq 9 ]
 
-    rm -rf $txTimesPath
-    rm -rf $txEdgesPath
-    rm -rf $txEdgesTimesPath
+    rm -rf ./tst/temp_data
 }

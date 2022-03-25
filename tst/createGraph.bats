@@ -1,13 +1,12 @@
 #!/usr/bin/env bats
 
 @test "createGraph: sample data" {
-    contractedAddressesPath=./tst/contracted_addresses.dat
-    txEdgesTimesPath=./tst/tx_edges_times.dat
-    usersGraphPath=./tst/users_graph.dat
+    rm -rf ./tst/temp_data
+    mkdir ./tst/temp_data
 
-    rm -rf $contractedAddressesPath
-    rm -rf $txEdgesTimesPath
-    rm -rf $usersGraphPath
+    contractedAddressesPath=./tst/temp_data/contracted_addresses.dat
+    txEdgesTimesPath=./tst/temp_data/tx_edges_times.dat
+    usersGraphPath=./tst/temp_data/users_graph.dat
     
     touch $contractedAddressesPath
     echo "1 1" >> $contractedAddressesPath
@@ -42,7 +41,5 @@
     [ $(grep -c "5 6 7000 999999999" $usersGraphPath) -eq 1 ]
     [ $(wc -l < $usersGraphPath) -eq 9 ]
 
-    rm -rf $contractedAddressesPath
-    rm -rf $txEdgesTimesPath
-    rm -rf $usersGraphPath
+    rm -rf ./tst/temp_data
 }

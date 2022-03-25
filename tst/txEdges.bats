@@ -10,13 +10,12 @@
 # [expression_to_test] works similar to @test expression_to_test in Julia
 
 @test "txEdges: sample data" {
-    txinPath=./tst/txin.dat
-    txoutPath=./tst/txout.dat
-    txedgesPath=./tst/txedges.dat
-    
-    rm -rf $txinPath
-    rm -rf $txoutPath
-    rm -rf $txedgesPath
+    rm -rf ./tst/temp_data
+    mkdir ./tst/temp_data
+
+    txinPath=./tst/temp_data/txin.dat
+    txoutPath=./tst/temp_data/txout.dat
+    txedgesPath=./tst/temp_data/txedges.dat
     
     touch $txinPath
     echo "1	0	0	0	1	5000" >> $txinPath
@@ -47,7 +46,5 @@
     [ $(grep -c "4	5	6	7000" $txedgesPath) -eq 1 ]
     [ $(wc -l < $txedgesPath) -eq 9 ]
 
-    rm -rf $txinPath
-    rm -rf $txoutPath
-    rm -rf $txedgesPath
+    rm -rf ./tst/temp_data
 }
