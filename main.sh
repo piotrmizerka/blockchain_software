@@ -36,7 +36,10 @@
 # (6) -sdp|--snapshotPeriodInDays - the timespan of snapshots in days, default value = 7
 # (7) -ewp|--snapshotEdgeWeightParameter - "w" for considering of Bitcoin amount as edges, "n" for the number of elementary transactions, default value = w
 # The last parameter is the number of principal components (and the number of time series in turn):
-# (8) -cn|--componentsNumber - number of principal components (base graphs) to consider (default value = 3).
+# (8) -cn|--componentsNumber - number of principal components (base graphs) to consider (default value = 3)
+# (9) -bd|--beginningDate - the date from which we create the snapshots; it is assumed to be
+#                           in the format YYYY_MM_DD, e.g. 2022_03_24; default: 2009_01_12
+#                           (the date of the first Bitcoin transaction)
 
 # If the additional parameters haven't been specified:
 #   ./main.sh -bp blockchainDirPath
@@ -90,6 +93,11 @@ do
         shift # past argument
         shift # past value
         ;;
+        -bd|--beginningDate)
+        beginningDate="$2"
+        shift # past argument
+        shift # past value
+        ;;
         *)    # unknown option
         POSITIONAL+=("$1") # save it in an array for later
         shift # past argument
@@ -120,7 +128,8 @@ fi
 # create users graph from the dumped files
 ./usersGraph.sh ./dumped_files ./contractions
 
-rm -rf ./dumped_files ./contractions/tx_edges_times.dat ./contractions/tx_times.dat ./contractions/txedges.dat
+rm -rf ./dumped_files/txin.dat ./dumped_files/txout.dat ./dumped_files/tx.dat
+rm -rf ./contractions/tx_edges_times.dat ./contractions/tx_times.dat ./contractions/txedges.dat
 
 if [[ -z "$minimalRepresantativeAddressesNumber" ]]
 then
@@ -146,6 +155,10 @@ if [[ -z "$componentsNumber" ]]
 then
     componentsNumber=3
 fi
+if [[ -z "$beginningDate" ]]
+then
+    beginningDate=2009_01_12
+fi
 
 echo "STEP (7). Creating the long-term subgraph..."
 ./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid 0 -mtn 0 -ugp ./contractions/users_graph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/active_users_subgraph.dat
@@ -155,7 +168,9 @@ rm -rf ./contractions/active_users_subgraph.dat
 
 echo "STEP (8). Creating snapshots..."
 chmod +x ./snapshots.sh
-./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp $snapshotEdgeWeightParameter -sp ./snapshots
+./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp $snapshotEdgeWeightParameter -sp ./snapshots -bhp ./dumped_files/bh.dat -bd $beginningDate
+
+rm -rf ./dumped_files/bh.dat
 
 echo "STEP (9). Computing time series of principal components from snapshots..."
 chmod +x ./timeSeries.sh

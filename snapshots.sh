@@ -5,12 +5,15 @@
 # The description of creating of the long-term subgraph with its subtleties may be also found
 # at the beginning of ./necessary_programs/users-graph-analysis/main.cpp file.
 
-# The script requires the following 4 parameters:
+# The script requires the following 6 parameters:
 #
 # (1) -ltsp|--longTermSubgraphPath - the path to the file containing the long-term subgraph,
 # (2) -spd|--snapshotPeriodInDays - the timespan of a snapshot in days,
 # (3) -ewp|--snapshotEdgeWeightParameter - "w" for Bitcoin amount, "n" for the number of elementary transactions,
-# (4) -sp|--snapshotsPath - the path to the snapshots' folder.
+# (4) -sp|--snapshotsPath - the path to the snapshots' folder,
+# (5) -bhp|--blockhashPath - the path to the bh.dat file as described at https://github.com/dkondor/bitcoin,
+# (6) -bd|--beginningDate - the date from which we create the snapshots; it is assumed to be
+#                           in the format YYYY_MM_DD, e.g. 2022_03_24
 
 # Running this srcipt:
 #	./snapshots.sh -ltsp longTermSubgraphPath -sdp snapshotPeriodInDays -ewp snapshotEdgeWeightParameter -sp snapshotsPath
@@ -42,6 +45,16 @@ do
         shift # past argument
         shift # past value
         ;;
+        -bhp|--blockhashPath)
+        blockhashPath="$2"
+        shift # past argument
+        shift # past value
+        ;;
+        -bd|--beginningDate)
+        beginningDate="$2"
+        shift # past argument
+        shift # past value
+        ;;
         *)    # unknown option
         POSITIONAL+=("$1") # save it in an array for later
         shift # past argument
@@ -57,4 +70,4 @@ fi
 rm -rf $snapshotsPath
 mkdir $snapshotsPath
 
-./necessary_programs/snapshots_creation/snapshots $longTermSubgraphPath $snapshotPeriodInDays $snapshotEdgeWeightParameter $snapshotsPath
+./necessary_programs/snapshots_creation/snapshots $longTermSubgraphPath $snapshotPeriodInDays $snapshotEdgeWeightParameter $snapshotsPath $blockhashPath $beginningDate
