@@ -131,6 +131,7 @@ fi
 rm -rf ./dumped_files/txin.dat ./dumped_files/txout.dat ./dumped_files/tx.dat
 rm -rf ./contractions/tx_edges_times.dat ./contractions/tx_times.dat ./contractions/txedges.dat
 
+# Setting default parameters if not given
 if [[ -z "$minimalRepresantativeAddressesNumber" ]]
 then
     minimalRepresantativeAddressesNumber=10
@@ -170,7 +171,7 @@ echo "STEP (8). Creating snapshots..."
 chmod +x ./snapshots.sh
 ./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp $snapshotEdgeWeightParameter -sp ./snapshots -bhp ./dumped_files/bh.dat -bd $beginningDate
 
-rm -rf ./dumped_files/bh.dat
+rm -rf ./dumped_files
 
 echo "STEP (9). Computing time series of principal components from snapshots..."
 chmod +x ./timeSeries.sh
