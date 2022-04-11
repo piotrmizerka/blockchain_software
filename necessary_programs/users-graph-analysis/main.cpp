@@ -9,7 +9,7 @@
 // and only then we extracted from this subgraph the long-term subgraph with minimalIntervalInDays = 1200
 // and minimalTransactionsNumber = 200.
 
-// Note that it is possible also to extract the long-term subgraph with the restriction conccerning minimal number
+// Note that it is possible also to extract the long-term subgraph with the restriction concerning minimal number
 // of Bitcoin addresses at once. In this case, however, the obtained subgraph may be potentially bigger than 
 // the long-term subgraph generated from the already restricted users graph to the most active users
 // (all the parameters all left intact). This is due to the fact that in the latter process we may include
@@ -75,7 +75,7 @@ void saveLongTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalI
     vector <int> V;
     vector < Edge > E;
     long long transactionsNumber = 0;
-    vector<bool> consideredVertices(maxUserId, false);
+    vector<bool> consideredVertices(maxUserId+1, false);
     readUsersGraph = fopen(usersGraphPath.c_str(), "r");
     while (!feof(readUsersGraph))
     {
