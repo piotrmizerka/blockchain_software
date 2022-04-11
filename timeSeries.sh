@@ -44,12 +44,11 @@ done
 rm -rf $timeSeriesPath
 mkdir $timeSeriesPath
 
-if [ ! -f ./necessary_programs/pca/pca_venv/bin ]
-then
-    python3 -m venv ./necessary_programs/pca/pca_venv
-    chmod +x ./necessary_programs/pca/pca_venv/bin/activate
-    source ./necessary_programs/pca/pca_venv/bin/activate
-    python3 -m pip install -U scikit-learn
-fi
+rm -rf ./necessary_programs/pca/pca_venv
+apt-get install python3-venv
+python3 -m venv ./necessary_programs/pca/pca_venv
+chmod +x ./necessary_programs/pca/pca_venv/bin/activate
+source ./necessary_programs/pca/pca_venv/bin/activate
+python3 -m pip install -U scikit-learn
 
 ./necessary_programs/pca/pca_venv/bin/python ./necessary_programs/pca/pca.py $snapshotsPath $timeSeriesPath $componentsNumber
