@@ -45,9 +45,9 @@ def pca_sklearn(X, snapShotsFolder):
     return pca.explained_variance_ratio_, pca.singular_values_, pca.components_
 
 def pca_svd(X, snapShotsFolder):
-    U, S, V = np.linalg.svd(X, full_matrices=True)
+    U, S, VT = np.linalg.svd(X, full_matrices=True)
 
-    return U, S, V
+    return U, S, VT.transpose()
 
 def saveTimeSeries(X, V, savePath, componentsNumber):
     L = len(V[0])
