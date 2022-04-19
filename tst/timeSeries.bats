@@ -39,20 +39,16 @@
     chmod +x ./timeSeries.sh
     ./timeSeries.sh -sp $snapshotsPath -tsp $timeSeriesPath -cn 3
 
-    [ $(grep -c "0.05" $timeSeriesPath/component_1.dat) -eq 1 ]
-    [ $(grep -c "0.54" $timeSeriesPath/component_1.dat) -eq 1 ]
-    [ $(grep -c "0.67" $timeSeriesPath/component_1.dat) -eq 1 ]
-    [ $(grep -c "0.187" $timeSeriesPath/component_1.dat) -eq 1 ]
+    [ $(grep -c "e-17" $timeSeriesPath/component_1.dat) -eq 1 ]
+    [ $(grep -c "0.70" $timeSeriesPath/component_1.dat) -eq 2 ]
+    [ $(grep -c "e-16" $timeSeriesPath/component_1.dat) -eq 1 ]
     [ $(wc -l < $timeSeriesPath/component_1.dat) -eq 4 ]
-    [ $(grep -c "0.26" $timeSeriesPath/component_2.dat) -eq 1 ]
-    [ $(grep -c "0.09" $timeSeriesPath/component_2.dat) -eq 1 ]
-    [ $(grep -c "0.02" $timeSeriesPath/component_2.dat) -eq 1 ]
-    [ $(grep -c "0.14" $timeSeriesPath/component_2.dat) -eq 1 ]
+    [ $(grep -c "e-19" $timeSeriesPath/component_2.dat) -eq 1 ]
+    [ $(grep -c "0.40" $timeSeriesPath/component_2.dat) -eq 2 ]
+    [ $(grep -c "0.81" $timeSeriesPath/component_2.dat) -eq 1 ]
     [ $(wc -l < $timeSeriesPath/component_2.dat) -eq 4 ]
-    [ $(grep -c "0.61" $timeSeriesPath/component_3.dat) -eq 1 ]
-    [ $(grep -c "0.20" $timeSeriesPath/component_3.dat) -eq 1 ]
-    [ $(grep -c "0.14" $timeSeriesPath/component_3.dat) -eq 1 ]
-    [ $(grep -c "0.26" $timeSeriesPath/component_3.dat) -eq 1 ]
+    [ $(grep -c "0.70" $timeSeriesPath/component_3.dat) -eq 1 ]
+    [ $(grep -c "0.23" $timeSeriesPath/component_3.dat) -eq 3 ]
     [ $(wc -l < $timeSeriesPath/component_3.dat) -eq 4 ]
     
     rm -rf ./tst/temp_data
