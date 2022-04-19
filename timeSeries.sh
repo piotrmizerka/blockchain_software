@@ -45,7 +45,7 @@ rm -rf $timeSeriesPath
 mkdir $timeSeriesPath
 
 rm -rf ./necessary_programs/pca/pca_venv
-apt-get install python3-venv
+sudo apt-get install python3-venv
 python3 -m venv ./necessary_programs/pca/pca_venv
 chmod +x ./necessary_programs/pca/pca_venv/bin/activate
 source ./necessary_programs/pca/pca_venv/bin/activate
