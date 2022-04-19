@@ -40,6 +40,9 @@
 # (9) -bd|--beginningDate - the date from which we create the snapshots; it is assumed to be
 #                           in the format YYYY_MM_DD, e.g. 2022_03_24; default: 2009_01_12
 #                           (the date of the first Bitcoin transaction)
+# (10) -cs|--creationStrategy - 0 for creating complete bipartite graph for each transaction 
+#                              (way of D. Kondor), 1 - the way we created the graph for our article;
+#                              see description in "createGraph.cpp"; default 1
 
 # If the additional parameters haven't been specified:
 #   ./main.sh -bp blockchainDirPath
@@ -98,38 +101,17 @@ do
         shift # past argument
         shift # past value
         ;;
+        -cs|--creationStrategy)
+        creationStrategy="$2"
+        shift # past argument
+        shift # past value
+        ;;
         *)    # unknown option
         POSITIONAL+=("$1") # save it in an array for later
         shift # past argument
         ;;
     esac
 done
-
-rm -rf ./dumped_files ./contractions
-mkdir ./dumped_files ./contractions
-
-if [[ ! -z "$blocksNumber" ]]
-then
-    if [ -d ./necessary_programs/bitcoin ] # check if bitcoin dump version is already installed in the repos subdirectory
-    then 
-        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files -bn $blocksNumber -bdvp $(pwd)/necessary_programs/bitcoin
-    else
-        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files -bn $blocksNumber
-    fi
-else # dump the whole downloaded blockchain if the number of blocks hasn't been specified
-    if [ -d ./necessary_programs/bitcoin ] # check if bitcoin dump version is already installed in the repos subdirectory
-    then 
-        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files -bdvp $(pwd)/necessary_programs/bitcoin
-    else
-        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files
-    fi
-fi
-
-# create users graph from the dumped files
-./usersGraph.sh ./dumped_files ./contractions
-
-rm -rf ./dumped_files/txin.dat ./dumped_files/txout.dat ./dumped_files/tx.dat
-rm -rf ./contractions/tx_edges_times.dat ./contractions/tx_times.dat ./contractions/txedges.dat
 
 # Setting default parameters if not given
 if [[ -z "$minimalRepresantativeAddressesNumber" ]]
@@ -160,6 +142,36 @@ if [[ -z "$beginningDate" ]]
 then
     beginningDate=2009_01_12
 fi
+if [[ -z "$creationStrategy" ]]
+then
+    creationStrategy=1
+fi
+
+rm -rf ./dumped_files ./contractions
+mkdir ./dumped_files ./contractions
+
+if [[ ! -z "$blocksNumber" ]]
+then
+    if [ -d ./necessary_programs/bitcoin ] # check if bitcoin dump version is already installed in the repos subdirectory
+    then 
+        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files -bn $blocksNumber -bdvp $(pwd)/necessary_programs/bitcoin
+    else
+        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files -bn $blocksNumber
+    fi
+else # dump the whole downloaded blockchain if the number of blocks hasn't been specified
+    if [ -d ./necessary_programs/bitcoin ] # check if bitcoin dump version is already installed in the repos subdirectory
+    then 
+        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files -bdvp $(pwd)/necessary_programs/bitcoin
+    else
+        ./dumpProcess.sh -bp $blockchainDirPath -dp $(pwd)/dumped_files
+    fi
+fi
+
+# create users graph from the dumped files
+./usersGraph.sh ./dumped_files ./contractions 1
+
+rm -rf ./dumped_files/txin.dat ./dumped_files/txout.dat ./dumped_files/tx.dat
+rm -rf ./contractions/tx_edges_times.dat ./contractions/tx_times.dat ./contractions/txedges.dat
 
 echo "STEP (7). Creating the long-term subgraph..."
 ./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid 0 -mtn 0 -ugp ./contractions/users_graph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/active_users_subgraph.dat

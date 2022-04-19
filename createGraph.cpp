@@ -31,24 +31,125 @@ int main(int argc, char **argv)
     fclose(readContractedAddresses);
 
     // Save users graph in the dedicated file - usersGraph.dat
-    FILE *readTxEdgesTimes, *saveUsersGraph;
-    readTxEdgesTimes = fopen(argv[2],"r");
+    FILE *saveUsersGraph;
     saveUsersGraph = fopen(argv[3],"w");
-    int inputBitcoinAddress, outputBitcoinAddress, timeStamp;
+
+    FILE *readTxEdgesTimes;
+    readTxEdgesTimes = fopen(argv[2],"r");
+    int motherTxId, inputBitcoinAddress, outputBitcoinAddress, timeStamp;
     float bitcoinAmount;
 
-    // The four lines of code below taken from: https://stackoverflow.com/questions/3072795/how-to-count-lines-of-a-file-in-c (Billy ONeal's answer)
-    long long linesNumber = 0;
-    ifstream in(argv[2]);
-    string unused;
-    while (getline(in, unused))++linesNumber;
-
-    for(long long i=0;i<linesNumber;i++)
+    int maxTxId = -1;
+    while(
+            fscanf(
+                readTxEdgesTimes,"%i %i %i %f %i",
+                &motherTxId, 
+                &inputBitcoinAddress, 
+                &outputBitcoinAddress, 
+                &bitcoinAmount, 
+                &timeStamp
+            ) == 5
+    )
     {
-        fscanf(readTxEdgesTimes,"%i %i %f %i", &inputBitcoinAddress, &outputBitcoinAddress, &bitcoinAmount, &timeStamp);
-        fprintf(saveUsersGraph, "%i %i %.0lf %i\n",userId[inputBitcoinAddress],userId[outputBitcoinAddress],bitcoinAmount,timeStamp);
+        if(maxTxId<motherTxId)maxTxId = motherTxId;
     }
     fclose(readTxEdgesTimes);
+    
+    // Use the method of D. Kondor - each transaction contributes a complete bibartite graph of
+    // elementary transactions (potantially more edges)
+    if(atoi(argv[4]) == 0)
+    {
+        readTxEdgesTimes = fopen(argv[2],"r");
+        while(
+            fscanf(
+                    readTxEdgesTimes,"%i %i %i %f %i",
+                    &motherTxId, 
+                    &inputBitcoinAddress, 
+                    &outputBitcoinAddress, 
+                    &bitcoinAmount, 
+                    &timeStamp
+            ) == 5
+        )
+        {
+            fprintf(
+                    saveUsersGraph, "%i %i %.0lf %i\n",
+                    userId[inputBitcoinAddress],
+                    userId[outputBitcoinAddress],
+                    bitcoinAmount,
+                    timeStamp
+            );
+        }
+        fclose(readTxEdgesTimes);
+    }
+
+    // Use a method we used for generating the data in our article - each transaction output conrtibutes
+    // only one edge whose source is a representative of transaction's input Bitcoin addresses.
+    // Note that in this approach the number of edges in the users graph is equal to the number
+    // of lines in the txout.dat file.
+    else
+    {
+        // read timestamps for each transaction from readTxEdgesTimes
+        vector <int> transactionTimestamps(maxTxId+1);
+        readTxEdgesTimes = fopen(argv[2],"r");
+        while(!feof(readTxEdgesTimes))
+        {
+            fscanf(
+                    readTxEdgesTimes,"%i %i %i %f %i",
+                    &motherTxId, 
+                    &inputBitcoinAddress, 
+                    &outputBitcoinAddress, 
+                    &bitcoinAmount, 
+                    &timeStamp
+            );
+            transactionTimestamps[motherTxId] = timeStamp;
+        }
+        fclose(readTxEdgesTimes);
+
+        // Determine representatives of input addresses for each transaction
+        FILE *readTxIn;
+        readTxIn = fopen(argv[5],"r");
+        int txID, notImportant1, notImportant2, notImportant3, addrID;
+        long long sum;
+        vector <int> transactionRepresentatives(maxTxId+1,-1);
+        while(!feof(readTxIn))
+        {
+            fscanf(
+                readTxIn,"%i %i %i %i %i %lld",
+                &txID,
+                &notImportant1, 
+                &notImportant2,
+                &notImportant3,
+                &addrID,
+                &sum
+            );
+            if(transactionRepresentatives[txID] == -1)transactionRepresentatives[txID] = addrID;
+        }
+        fclose(readTxIn);
+
+        // determine the edges in the users graph
+        FILE *readTxOut;
+        readTxOut = fopen(argv[6], "r");
+        while (
+            fscanf(
+                readTxOut,"%i %i %i %lld",
+                &txID,
+                &notImportant1, 
+                &addrID,
+                &sum
+            ) == 4 
+        )
+        {
+            fprintf(
+                    saveUsersGraph, "%i %i %lld %i\n",
+                    userId[transactionRepresentatives[txID]],
+                    userId[addrID],
+                    sum,
+                    transactionTimestamps[txID]
+            );
+        }
+        fclose(readTxOut);
+    }
+
     fclose(saveUsersGraph);
 
     return 0;

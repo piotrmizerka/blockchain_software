@@ -14,16 +14,19 @@
 # (bitcoinAmount is in Satoshis).
 #
 #
-# The script requires the following 2 parameters (in that order):
+# The script requires the following 3 parameters (in that order):
 #
-# (1) dumpedDirPath - the path to the folder containing dumped files as specified at https://github.com/dkondor/bitcoin 
-# (2) contractionsDirPath - the path to the folder where the users' graph will be stored,
+# (1) -dp|--dumpedDirPath - the path to the folder containing dumped files as specified at https://github.com/dkondor/bitcoin 
+# (2) -cdp|--contractionsDirPath - the path to the folder where the users' graph will be stored,
+# (3) -cs|--creationStrategy - 0 for creating complete bipartite graph for each transaction 
+#                              (way of D. Kondor), 1 - the way we created the graph for our article;
+#                              see description in "createGraph.cpp"
 #
 # It is also possible to specify the paths to the following 3 repositiories:
-# (3) txedgesRepoPath - the path to the cloned repository: https://github.com/dkondor/txedges 
-# (4) joinUtilsRepoPath - the path to the cloned repository: https://github.com/dkondor/join-utils 
-# (5) sccs32sPath - the path to the cloned repository: https://github.com/dkondor/sccs32s 
-#
+# (4) -terp||--txedgesRepoPath - the path to the cloned repository: https://github.com/dkondor/txedges 
+# (5) -jurp|--joinUtilsRepoPath - the path to the cloned repository: https://github.com/dkondor/join-utils 
+# (6) -sccs|--sccs32sPath - the path to the cloned repository: https://github.com/dkondor/sccs32s, 
+
 # All other script files (i. e. contractedAddresses.sh, sortTx.sh, txEdges.sh, txEdgesTimes.sh,
 # and txTimes.sh) are assumed to be in the same folder as usersGraph.sh and the script should be run
 # from that folder only.
@@ -39,9 +42,10 @@
 
 dumpedDirPath=$1
 contractionsDirPath=$2
-txedgesRepoPath=$3
-joinUtilsRepoPath=$3
-sccs32sPath=$4
+creationStrategy=$3
+txedgesRepoPath=$4
+joinUtilsRepoPath=$5
+sccs32sPath=$6
 
 # Sort txin.dat and txout.dat if necessary
 echo "STEP (1). Sorting txin.dat and txout.dat if necessary..."
@@ -66,4 +70,4 @@ echo "STEP (5). Computing user idies of Bitcoin addresses in the contraction pro
 
 # Create Bitcoin users' graph
 echo "STEP (6). Creating users graph..."
-./createGraph.sh -cap $contractionsDirPath/contracted_addresses.dat -tetp $contractionsDirPath/tx_edges_times.dat -ugp $contractionsDirPath/users_graph.dat
+./createGraph.sh -cap $contractionsDirPath/contracted_addresses.dat -tetp $contractionsDirPath/tx_edges_times.dat -ugp $contractionsDirPath/users_graph.dat -cs $creationStrategy -tip $dumpedDirPath/txin.dat -top $dumpedDirPath/txout.dat

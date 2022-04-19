@@ -36,9 +36,10 @@
     echo "10	hash_not_important	111111111	2" >> $dumpedDirPath/bh.dat
     echo "20	hash_not_important	999999999	2" >> $dumpedDirPath/bh.dat
     
-    # creating users graph
     chmod +x ./usersGraph.sh
-    ./usersGraph.sh $dumpedDirPath $contractionsDirPath
+
+    # creating users graph - the way of D. Kondor
+    ./usersGraph.sh $dumpedDirPath $contractionsDirPath 0
 
     # testing whether the created graph is correct
     [ $(grep -c "1 5 5000 111111111" $contractionsDirPath/users_graph.dat) -eq 1 ]
@@ -51,6 +52,17 @@
     [ $(grep -c "1 6 6000 999999999" $contractionsDirPath/users_graph.dat) -eq 1 ]
     [ $(grep -c "5 6 7000 999999999" $contractionsDirPath/users_graph.dat) -eq 1 ]
     [ $(wc -l < $contractionsDirPath/users_graph.dat) -eq 9 ]
+
+    # creating users graph - the way in our article
+    ./usersGraph.sh $dumpedDirPath $contractionsDirPath 1
+
+    # testing whether the created graph is correct
+    [ $(grep -c "1 5 6000 111111111" $contractionsDirPath/users_graph.dat) -eq 1 ]
+    [ $(grep -c "1 5 1000 111111111" $contractionsDirPath/users_graph.dat) -eq 1 ]
+    [ $(grep -c "1 6 2000 111111111" $contractionsDirPath/users_graph.dat) -eq 1 ]
+    [ $(grep -c "1 6 8000 999999999" $contractionsDirPath/users_graph.dat) -eq 1 ]
+    [ $(grep -c "5 6 7000 999999999" $contractionsDirPath/users_graph.dat) -eq 1 ]
+    [ $(wc -l < $contractionsDirPath/users_graph.dat) -eq 5 ]
 
     rm -rf ./tst/temp_data
 }

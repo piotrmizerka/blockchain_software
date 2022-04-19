@@ -7,7 +7,7 @@
 
 # This scripts creates the elementary Bitcoin transactions' info. The output file contains rows of the following form
 #
-#	bitcoinInputAddress	bitcoinOutputAddress	bitcoinAmount timeStamp
+#	(mother)transactionId bitcoinInputAddress	bitcoinOutputAddress	bitcoinAmount timeStamp
 #
 # (bitcoinAmount is in Satoshis).
 #
@@ -40,8 +40,8 @@ joinutilsPath=$4
 # The commands below analogous as at https://github.com/dkondor/txedges/blob/master/txedges_whole.sh
 if [[ ! -z "$joinutilsPath" ]] # check if the join-utils repo path was given
 then
-    $joinutilsPath/numjoin -j 1 -o1 2,3,4 -o2 2 $txedgesPath $tx_timesPath > $tx_edges_timesPath
+    $joinutilsPath/numjoin -j 1 -o1 1,2,3,4 -o2 2 $txedgesPath $tx_timesPath > $tx_edges_timesPath
 else # if the join-utils repo path not given, assume the txedge executable is in ./necessary_programs folder
-    ./necessary_programs/numjoin -j 1 -o1 2,3,4 -o2 2 $txedgesPath $tx_timesPath > $tx_edges_timesPath
+    ./necessary_programs/numjoin -j 1 -o1 1,2,3,4 -o2 2 $txedgesPath $tx_timesPath > $tx_edges_timesPath
 fi
 
