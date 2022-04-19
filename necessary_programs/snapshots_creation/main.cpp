@@ -68,12 +68,16 @@ int main(int argc, char* argv[])
     int u, v;
     long long bitcoinAmountSatoshis, timeStamp;
     FILE* readLongTermSubgraph = fopen(longTermSubgraphPath.c_str(), "r");
-    long long linesNumber = 0;
-    while(!feof(readLongTermSubgraph))
+    while(
+        fscanf(readLongTermSubgraph, "%i %i %lld %lld", 
+               &u, 
+               &v, 
+               &bitcoinAmountSatoshis, 
+               &timeStamp
+        ) == 4
+    )
     {
-        fscanf(readLongTermSubgraph, "%i %i %lld %lld", &u, &v, &bitcoinAmountSatoshis, &timeStamp);
         for(int i=0;i<snapshotsNumber;i++)snapshotGraphEdges[i][make_pair(u,v)] = 0;
-        linesNumber++;
     }
     fclose(readLongTermSubgraph);
 
@@ -94,10 +98,15 @@ int main(int argc, char* argv[])
 
     readLongTermSubgraph = fopen(longTermSubgraphPath.c_str(), "r");
 
-    for(long long i=0;i<linesNumber-1;i++)
+    while(
+        fscanf(readLongTermSubgraph, "%i %i %lld %lld", 
+               &u, 
+               &v, 
+               &bitcoinAmountSatoshis, 
+               &timeStamp
+        ) == 4
+    )
     {
-        fscanf(readLongTermSubgraph, "%i %i %lld %lld", &u, &v, &bitcoinAmountSatoshis, &timeStamp);
-
         if(timeStamp >= beginningDateTimestamp)
         {
             // I don't know why I had to add one id - this seems to be irrelevant for the sake of experiments, though:
