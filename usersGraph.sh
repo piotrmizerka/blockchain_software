@@ -16,16 +16,16 @@
 #
 # The script requires the following 3 parameters (in that order):
 #
-# (1) -dp|--dumpedDirPath - the path to the folder containing dumped files as specified at https://github.com/dkondor/bitcoin 
-# (2) -cdp|--contractionsDirPath - the path to the folder where the users' graph will be stored,
-# (3) -cs|--creationStrategy - 0 for creating complete bipartite graph for each transaction 
+# (1) dumpedDirPath - the path to the folder containing dumped files as specified at https://github.com/dkondor/bitcoin 
+# (2) contractionsDirPath - the path to the folder where the users' graph will be stored,
+# (3) creationStrategy - 0 for creating complete bipartite graph for each transaction 
 #                              (way of D. Kondor), 1 - the way we created the graph for our article;
 #                              see description in "createGraph.cpp"
 #
 # It is also possible to specify the paths to the following 3 repositiories:
-# (4) -terp||--txedgesRepoPath - the path to the cloned repository: https://github.com/dkondor/txedges 
-# (5) -jurp|--joinUtilsRepoPath - the path to the cloned repository: https://github.com/dkondor/join-utils 
-# (6) -sccs|--sccs32sPath - the path to the cloned repository: https://github.com/dkondor/sccs32s, 
+# (4) txedgesRepoPath - the path to the cloned repository: https://github.com/dkondor/txedges 
+# (5) joinUtilsRepoPath - the path to the cloned repository: https://github.com/dkondor/join-utils 
+# (6) sccs32sPath - the path to the cloned repository: https://github.com/dkondor/sccs32s, 
 
 # All other script files (i. e. contractedAddresses.sh, sortTx.sh, txEdges.sh, txEdgesTimes.sh,
 # and txTimes.sh) are assumed to be in the same folder as usersGraph.sh and the script should be run
@@ -35,7 +35,7 @@
 #
 # If the paths to repositoties weren't specified, the txedge, numjoin, and sccs32s executables
 # are assumed to be in the ./necessary_programs folder. The sample run is then as follows:
-#   ./usersGraph.sh dumped_dir_path contractions_dir_path
+#   ./usersGraph.sh dumped_dir_path contractions_dir_path creation_strategy
 #
 # If the paths to the repositoties were specifed:
 #	./usersGraph.sh dumped_dir_path contractions_dir_path txedges_repo_path join_utils_repo_path sccs32s_path
