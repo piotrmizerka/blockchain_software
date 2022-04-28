@@ -2,6 +2,7 @@ from sklearn.decomposition import PCA
 import os
 import numpy as np
 import sys
+import math
 
 def dataMatrix(snapShotsFolder):
     Xx = []
@@ -18,11 +19,11 @@ def dataMatrix(snapShotsFolder):
     for row in Xx:
         sum = 0
         for elt in row:
-            sum += elt
+            sum += elt #(elt*elt)
         vector = []
         if sum != 0:
             for elt in row:
-                vector.append( elt/float(sum) )
+                vector.append( elt/float(sum) ) #vector.append( elt/math.sqrt(sum) )
         else:
             for elt in row:
                 vector.append( 0 )
