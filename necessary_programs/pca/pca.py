@@ -45,7 +45,7 @@ def pca_sklearn(X, snapShotsFolder):
     return pca.explained_variance_ratio_, pca.singular_values_, pca.components_
 
 def pca_svd(X, snapShotsFolder):
-    U, S, VT = np.linalg.svd(X, full_matrices=True)
+    U, S, VT = np.linalg.svd(X, full_matrices=False)
 
     return U, S, VT.transpose()
 
