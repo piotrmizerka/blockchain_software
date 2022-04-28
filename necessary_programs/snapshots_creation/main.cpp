@@ -77,7 +77,7 @@ int main(int argc, char* argv[])
         ) == 4
     )
     {
-        for(int i=0;i<snapshotsNumber;i++)snapshotGraphEdges[i][make_pair(u,v)] = 0;
+        if(timeStamp >= beginningDateTimestamp)for(int i=0;i<snapshotsNumber;i++)snapshotGraphEdges[i][make_pair(u,v)] = 0;
     }
     fclose(readLongTermSubgraph);
 
