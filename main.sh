@@ -168,7 +168,7 @@ else # dump the whole downloaded blockchain if the number of blocks hasn't been 
 fi
 
 # create users graph from the dumped files
-./usersGraph.sh ./dumped_files ./contractions 1
+./usersGraph.sh ./dumped_files ./contractions $creationStrategy
 
 rm -rf ./dumped_files/txin.dat ./dumped_files/txout.dat ./dumped_files/tx.dat
 rm -rf ./contractions/tx_edges_times.dat ./contractions/tx_times.dat ./contractions/txedges.dat
