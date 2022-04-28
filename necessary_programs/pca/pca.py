@@ -36,7 +36,7 @@ def dataMatrix(snapShotsFolder):
         for j in range( 0, len( X ) ):
             X[j][i] -= average
 
-    return X
+    return Xx, X
 
 # An equivalent way to perform PCA - we do not apply this, however - we apply SVD - see below
 def pca_sklearn(X, snapShotsFolder):
@@ -63,6 +63,6 @@ def saveTimeSeries(X, V, savePath, componentsNumber):
 snapshotsPath = sys.argv[1] 
 timeSeriesPath = sys.argv[2]
 componentsNumber = int(sys.argv[3])
-X = dataMatrix(snapShotsFolder = snapshotsPath)
-U, S, V = pca_svd(X, snapShotsFolder = snapshotsPath)
-saveTimeSeries(X, V, timeSeriesPath, componentsNumber)
+originalSnapshots, modifiedSnapshots = dataMatrix(snapShotsFolder = snapshotsPath)
+U, S, V = pca_svd(modifiedSnapshots, snapShotsFolder = snapshotsPath)
+saveTimeSeries(originalSnapshots, V, timeSeriesPath, componentsNumber)
