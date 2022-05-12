@@ -19,11 +19,13 @@ def dataMatrix(snapShotsFolder):
     for row in Xx:
         sum = 0
         for elt in row:
-            sum += elt #(elt*elt)
+            #sum += elt 
+            sum += (elt*elt)
         vector = []
         if sum != 0:
             for elt in row:
-                vector.append( elt/float(sum) ) #vector.append( elt/math.sqrt(sum) )
+                #vector.append( elt/float(sum) ) 
+                vector.append( elt/math.sqrt(sum) )
         else:
             for elt in row:
                 vector.append( 0 )
