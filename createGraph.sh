@@ -72,13 +72,10 @@ then
     txoutPath=./dumped_files/txout.dat
 fi
 
-if [ ! -f ./createGraph ]
-then
-    echo " Compiling the cpp script to create the users graph and setting the permissions to the compiled executable..."
-    g++ ./createGraph.cpp -o createGraph
-    chmod +x ./createGraph
-    echo " Creating the graph with the compiled script..."
-fi
+rm -rf ./createGraph
+g++ ./createGraph.cpp -o createGraph
+chmod +x ./createGraph
+
 
 if [[ $creationStrategy == 1 ]]
 then
