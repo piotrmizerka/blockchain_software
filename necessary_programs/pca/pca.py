@@ -53,7 +53,7 @@ def pca_svd(X, snapShotsFolder):
     return U, S, VT.transpose()
 
 def saveTimeSeries(X, V, savePath, componentsNumber):
-    L = len(V[0])
+    L = len(V)
     for i in range(0,componentsNumber):
         save = open( savePath+"/component_"+str(i+1)+".dat", "w" )
         for t in range(0,len(X)):
