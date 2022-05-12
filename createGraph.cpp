@@ -83,7 +83,8 @@ int main(int argc, char **argv)
     }
 
     // Use a method we used for generating the data in our article - each transaction output conrtibutes
-    // only one edge whose source is a representative of transaction's input Bitcoin addresses.
+    // only one edge whose source is a representative of transaction's input Bitcoin addresses
+    // Moreover, loops are removed.
     // Note that in this approach the number of edges in the users graph is equal to the number
     // of lines in the txout.dat file.
     else
@@ -139,13 +140,16 @@ int main(int argc, char **argv)
             ) == 4 
         )
         {
-            fprintf(
+            if(userId[transactionRepresentatives[txID]] != userId[addrID]) // removing loops
+            {
+                fprintf(
                     saveUsersGraph, "%i %i %lld %i\n",
                     userId[transactionRepresentatives[txID]],
                     userId[addrID],
                     sum,
                     transactionTimestamps[txID]
-            );
+                );
+            }
         }
         fclose(readTxOut);
     }
