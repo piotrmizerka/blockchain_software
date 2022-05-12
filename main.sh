@@ -173,10 +173,22 @@ fi
 rm -rf ./dumped_files/txin.dat ./dumped_files/txout.dat ./dumped_files/tx.dat
 rm -rf ./contractions/tx_edges_times.dat ./contractions/tx_times.dat ./contractions/txedges.dat
 
+echo "STEP (6.A) Saving statistics of contraction process..."
+rm -rf ./control_statistics/mostRepresentedUsers ./control_statistics/most_represented_users_statistics.txt
+g++ ./control_statistics/mostRepresentedUsers.cpp -o ./control_statistics/mostRepresentedUsers
+chmod +x ./control_statistics/mostRepresentedUsers
+./control_statistics/mostRepresentedUsers ./contractions/contracted_addresses.dat ./control_statistics/most_represented_users_statistics.txt
+
 echo "STEP (7). Creating the long-term subgraph..."
 ./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid 0 -mtn 0 -ugp ./contractions/users_graph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/active_users_subgraph.dat
 ./longTermSubgraph.sh -mran 0 -mid $minimalIntervalInDays -mtn $minimalTransationsNumber -ugp ./contractions/active_users_subgraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/long_term_subgraph.dat
 # ./longTermSubgraph.sh -mran $minimalRepresantativeAddressesNumber -mid $minimalIntervalInDays -mtn $minimalTransationsNumber -ugp ./contractions/usersGraph.dat -cap ./contractions/contracted_addresses.dat -ltsp ./contractions/long_term_subgraph.dat # in case we would like to create the long-term subgraph at once - note that it may be potentially larger!
+echo "STEP (7.A) Saving active subgraph's and long-term subgraph's statistics..."
+rm -rf ./control_statistics/graphStatistics ./control_statistics/active_subgraph_statistics.txt ./control_statistics/long_term_subgraph_statistics.txt
+g++ ./control_statistics/graphStatistics.cpp -o ./control_statistics/graphStatistics
+chmod +x ./control_statistics/graphStatistics
+./control_statistics/graphStatistics ./contractions/active_users_subgraph.dat ./control_statistics/active_subgraph_statistics.txt 2011_04_29
+./control_statistics/graphStatistics ./contractions/long_term_subgraph.dat ./control_statistics/long_term_subgraph_statistics.txt 2009_01_12
 rm -rf ./contractions/active_users_subgraph.dat
 
 echo "STEP (8). Creating snapshots..."
