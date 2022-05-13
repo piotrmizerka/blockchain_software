@@ -20,12 +20,7 @@
 # (2) contractionsDirPath - the path to the folder where the users' graph will be stored,
 # (3) creationStrategy - 0 for creating complete bipartite graph for each transaction 
 #                              (way of D. Kondor), 1 - the way we created the graph for our article;
-#                              see description in "createGraph.cpp"
-#
-# It is also possible to specify the paths to the following 3 repositiories:
-# (4) txedgesRepoPath - the path to the cloned repository: https://github.com/dkondor/txedges 
-# (5) joinUtilsRepoPath - the path to the cloned repository: https://github.com/dkondor/join-utils 
-# (6) sccs32sPath - the path to the cloned repository: https://github.com/dkondor/sccs32s, 
+#                              see description in "createGraph.cpp".
 
 # All other script files (i. e. contractedAddresses.sh, sortTx.sh, txEdges.sh, txEdgesTimes.sh,
 # and txTimes.sh) are assumed to be in the same folder as usersGraph.sh and the script should be run
@@ -43,9 +38,6 @@
 dumpedDirPath=$1
 contractionsDirPath=$2
 creationStrategy=$3
-txedgesRepoPath=$4
-joinUtilsRepoPath=$5
-sccs32sPath=$6
 
 # Sort txin.dat and txout.dat if necessary
 echo "STEP (1). Sorting txin.dat and txout.dat if necessary..."
@@ -54,15 +46,15 @@ sort -n -k 1 -k 2 -k 3 -k 4 -k 5 -k 6 -o $dumpedDirPath/txout.dat $dumpedDirPath
 
 # Create elementary edges from transactions
 echo "STEP (2). Creatiing edges from Bitcoin transactions - the result being saved to the txedges.dat file..."
-./txEdges.sh $dumpedDirPath/txin.dat $dumpedDirPath/txout.dat $contractionsDirPath/txedges.dat $txedgesRepoPath
+./txEdges.sh $dumpedDirPath/txin.dat $dumpedDirPath/txout.dat $contractionsDirPath/txedges.dat
 
 # Create transaction timestamps
 echo "STEP (3). Computing transaction timestamps - the result being saved to the tx_times.dat file..."
-./txTimes.sh $dumpedDirPath/tx.dat $dumpedDirPath/bh.dat $contractionsDirPath/tx_times.dat $joinUtilsRepoPath > /dev/null 2>&1
+./txTimes.sh $dumpedDirPath/tx.dat $dumpedDirPath/bh.dat $contractionsDirPath/tx_times.dat > /dev/null 2>&1
 
 # Create timestamps of elementary edges
 echo "STEP (4). Adding timestamps to edges - the result being saved to the tx_edges_times.dat file..."
-./txEdgesTimes.sh $contractionsDirPath/tx_times.dat $contractionsDirPath/txedges.dat $contractionsDirPath/tx_edges_times.dat $joinUtilsRepoPath > /dev/null 2>&1
+./txEdgesTimes.sh $contractionsDirPath/tx_times.dat $contractionsDirPath/txedges.dat $contractionsDirPath/tx_edges_times.dat > /dev/null 2>&1
 
 # Contract bitcoin addresses to users' idies
 echo "STEP (5). Computing user idies of Bitcoin addresses in the contraction process - the result being saved to the contracted_addresses.dat file..."
