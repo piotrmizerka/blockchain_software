@@ -32,15 +32,14 @@
 # (3) -mran|--minimalRepresantativeAddressesNumber - consider only the users represented by at least this number of bitcoin addresses, default value = 10
 # (4) -mid|--minimalIntervalInDays - consider users whose time distance between their first and last transaction is at least minimalIntervalInDays, default value = 1200
 # (5) -mtn|--minimalTransationsNumber - consider users who participated in at least that number of transactions, dafault value = 200.
-# The following parameters concern the snapshot subgraphs:
+# The following parameter concerns the snapshot subgraphs:
 # (6) -sdp|--snapshotPeriodInDays - the timespan of snapshots in days, default value = 7
-# (7) -ewp|--snapshotEdgeWeightParameter - "w" for considering of Bitcoin amount as edges, "n" for the number of elementary transactions, default value = w
 # The last parameter is the number of principal components (and the number of time series in turn):
-# (8) -cn|--componentsNumber - number of principal components (base graphs) to consider (default value = 3)
-# (9) -bd|--beginningDate - the date from which we create the snapshots; it is assumed to be
+# (7) -cn|--componentsNumber - number of principal components (base graphs) to consider (default value = 3)
+# (8) -bd|--beginningDate - the date from which we create the snapshots; it is assumed to be
 #                           in the format YYYY_MM_DD, e.g. 2022_03_24; default: 2009_01_12
 #                           (the date of the first Bitcoin transaction)
-# (10) -cs|--creationStrategy - 0 for creating complete bipartite graph for each transaction 
+# (9) -cs|--creationStrategy - 0 for creating complete bipartite graph for each transaction 
 #                              (way of D. Kondor), 1 - the way we created the graph for our article;
 #                              see description in "createGraph.cpp"; default 1
 
@@ -48,7 +47,7 @@
 #   ./main.sh -bp blockchainDirPath
 
 # If the additional parameters have been specified:
-#   ./main.sh -bp blockchainDirPath -bn blocksNumber -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber -sdp snapshotPeriodInDays -ewp snapshotEdgeWeightParameter -cn componentsNumber
+#   ./main.sh -bp blockchainDirPath -bn blocksNumber -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber -sdp snapshotPeriodInDays -cn componentsNumber
 
 # Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
 POSITIONAL=()
@@ -83,11 +82,6 @@ do
         ;;
         -sdp|--snapshotPeriodInDays)
         snapshotPeriodInDays="$2"
-        shift # past argument
-        shift # past value
-        ;;
-        -ewp|--snapshotEdgeWeightParameter)
-        snapshotEdgeWeightParameter="$2"
         shift # past argument
         shift # past value
         ;;
@@ -129,10 +123,6 @@ fi
 if [[ -z "$snapshotPeriodInDays" ]]
 then
     snapshotPeriodInDays=7
-fi
-if [[ -z "$snapshotEdgeWeightParameter" ]]
-then
-    snapshotEdgeWeightParameter="w"
 fi
 if [[ -z "$componentsNumber" ]]
 then
@@ -193,10 +183,12 @@ rm -rf ./contractions/active_users_subgraph.dat
 
 echo "STEP (8). Creating snapshots..."
 chmod +x ./snapshots.sh
-./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp $snapshotEdgeWeightParameter -sp ./snapshots -bhp ./dumped_files/bh.dat -bd $beginningDate
+./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp n -sp ./snapshots_number -bhp ./dumped_files/bh.dat -bd $beginningDate
+./snapshots.sh -ltsp ./contractions/long_term_subgraph.dat -sdp $snapshotPeriodInDays -ewp w -sp ./snapshots_value -bhp ./dumped_files/bh.dat -bd $beginningDate
 
 rm -rf ./dumped_files
 
 echo "STEP (9). Computing time series of principal components from snapshots..."
 chmod +x ./timeSeries.sh
-./timeSeries.sh -sp ./snapshots -tsp ./time_series -cn $componentsNumber
+./timeSeries.sh -sp ./snapshots_number -tsp ./time_series_number -cn $componentsNumber
+./timeSeries.sh -sp ./snapshots_value -tsp ./time_series_value -cn $componentsNumber

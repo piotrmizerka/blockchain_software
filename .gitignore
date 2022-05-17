@@ -10,8 +10,10 @@ necessary_programs/numjoin
 necessary_programs/sccs32s_exe
 contractions
 dumped_files
-snapshots
-time_series
+snapshots_number
+snapshots_value
+time_series_number
+time_series_value
 tst/temp_data
 control_statistics/*.txt
 control_statistics/mostRepresentedUsers

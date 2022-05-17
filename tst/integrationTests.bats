@@ -80,14 +80,17 @@
     [ $(wc -l < ./contractions/users_graph.dat) -ge 1 ]
 
     # snapshots of the long-term subgraph
-    [ $(ls ./snapshots | wc -l) -ge 10 ]
+    [ $(ls ./snapshots_number | wc -l) -ge 10 ]
+    [ $(ls ./snapshots_value | wc -l) -ge 10 ]
 
     # time series with PCA
-    [ $(ls ./time_series | wc -l) -eq 3 ]
-    [ $(wc -l < ./time_series/component_1.dat) -ge 370 ]
+    [ $(ls ./time_series_number | wc -l) -eq 3 ]
+    [ $(ls ./time_series_value | wc -l) -eq 3 ]
+    [ $(wc -l < ./time_series_number/component_1.dat) -ge 370 ]
+    [ $(wc -l < ./time_series_value/component_1.dat) -ge 370 ]
 
     rm -rf ./contractions
-    rm -rf ./snapshots
-    rm -rf ./time_series
+    rm -rf ./snapshots_number ./snapshots_value
+    rm -rf ./time_series_number ./time_series_value
 }
 
