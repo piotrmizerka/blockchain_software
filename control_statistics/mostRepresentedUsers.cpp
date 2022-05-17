@@ -12,9 +12,22 @@ int main(int argc, char **argv)
 {
     FILE *readContractedAddresses;
     readContractedAddresses = fopen(argv[1], "r");
+    int usersMaxId = 0;
     int userID, bitcoinAddress;
-    vector <int> userRepresentativesNumber(400000000, 0);
+    while(
+        fscanf(
+            readContractedAddresses, "%i %i", 
+            &bitcoinAddress, 
+            &userID
+        ) == 2
+    )
+    {
+        if(usersMaxId < userID)usersMaxId = userID;
+    }
+    fclose(readContractedAddresses);
+    vector <int> userRepresentativesNumber(usersMaxId, 0);
     set <int> users, addresses;
+    readContractedAddresses = fopen(argv[1], "r");
     while(
         fscanf(
             readContractedAddresses, "%i %i", 
