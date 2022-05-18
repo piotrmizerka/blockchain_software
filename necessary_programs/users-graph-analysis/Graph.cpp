@@ -27,10 +27,16 @@ void Graph::saveGraph(string path)
     {
         FILE* save;
         save = fopen(path.c_str(), "w");
-        long long edgesSize = (*edges).size();
-        // last edges is repeated when read from users graph
-        for(long long i=0;i<edgesSize-1;i++)fprintf(save, "%d %d %lld %d\n", (*edges)[i].u, (*edges)[i].v, 
-                                              (long long)((*edges)[i].weight), (*edges)[i].time);
+        for(long long i=0;i<(*edges).size();i++)
+        {
+            fprintf(
+                save, "%d %d %lld %d\n", 
+                (*edges)[i].u, 
+                (*edges)[i].v, 
+                (long long)((*edges)[i].weight), 
+                (*edges)[i].time
+            );
+        }
 
         fclose(save);
     }

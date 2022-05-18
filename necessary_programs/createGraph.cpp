@@ -13,9 +13,14 @@ int main(int argc, char **argv)
     FILE *readContractedAddresses;
     int bitcoinAddress, userIdx;
     readContractedAddresses = fopen(argv[1], "r");
-    while(!feof(readContractedAddresses))
+    while(
+        fscanf(
+            readContractedAddresses,"%i %i",
+            &bitcoinAddress,
+            &userIdx
+        ) == 2
+    )
     {
-        fscanf(readContractedAddresses,"%i %i",&bitcoinAddress,&userIdx);
         if(maxAddress<bitcoinAddress)maxAddress = bitcoinAddress;
     }
     fclose(readContractedAddresses);
@@ -23,9 +28,14 @@ int main(int argc, char **argv)
     // Save user idies for Bitcoin addresses in the memory - in the vector
     vector<int> userId(maxAddress+1);
     readContractedAddresses = fopen(argv[1], "r");
-    while(!feof(readContractedAddresses))
+    while(
+        fscanf(
+            readContractedAddresses,"%i %i",
+            &bitcoinAddress,
+            &userIdx
+        ) == 2
+    )
     {
-        fscanf(readContractedAddresses,"%i %i",&bitcoinAddress,&userIdx);
         userId[bitcoinAddress] = userIdx;
     }
     fclose(readContractedAddresses);
@@ -92,8 +102,7 @@ int main(int argc, char **argv)
         // read timestamps for each transaction from readTxEdgesTimes
         vector <int> transactionTimestamps(maxTxId+1);
         readTxEdgesTimes = fopen(argv[2],"r");
-        while(!feof(readTxEdgesTimes))
-        {
+        while(
             fscanf(
                     readTxEdgesTimes,"%i %i %i %f %i",
                     &motherTxId, 
@@ -101,7 +110,9 @@ int main(int argc, char **argv)
                     &outputBitcoinAddress, 
                     &bitcoinAmount, 
                     &timeStamp
-            );
+            ) == 5
+        )
+        {
             transactionTimestamps[motherTxId] = timeStamp;
         }
         fclose(readTxEdgesTimes);
@@ -112,8 +123,7 @@ int main(int argc, char **argv)
         int txID, notImportant1, notImportant2, notImportant3, addrID;
         long long sum;
         vector <int> transactionRepresentatives(maxTxId+1,-1);
-        while(!feof(readTxIn))
-        {
+        while(
             fscanf(
                 readTxIn,"%i %i %i %i %i %lld",
                 &txID,
@@ -122,7 +132,9 @@ int main(int argc, char **argv)
                 &notImportant3,
                 &addrID,
                 &sum
-            );
+            ) == 6
+        )
+        {
             if(transactionRepresentatives[txID] == -1)transactionRepresentatives[txID] = addrID;
         }
         fclose(readTxIn);

@@ -51,9 +51,16 @@ int main(int argc, char* argv[])
     long long blockTimestamp, maxBlockTimestamp = 0;
     int blockId, blockTransactionsNumber;
     char hashx[300];
-    while(!feof(readBh))
+    while(
+        fscanf(
+            readBh, "%i %299s %lld %i", 
+            &blockId, 
+            hashx, 
+            &blockTimestamp, 
+            &blockTransactionsNumber
+        ) == 4
+    )
     {
-        fscanf(readBh, "%i %299s %lld %i", &blockId, hashx, &blockTimestamp, &blockTransactionsNumber);
         if(maxBlockTimestamp < blockTimestamp)maxBlockTimestamp = blockTimestamp;
     }
     fclose(readBh);

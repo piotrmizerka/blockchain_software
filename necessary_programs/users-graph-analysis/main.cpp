@@ -30,9 +30,14 @@ void saveLongTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalI
     FILE* readContractedAddresses;
     readContractedAddresses = fopen(contractedAddressesPath.c_str(), "r");
     int maxUserId = 0, addressId, userId;
-    while (!feof(readContractedAddresses))
+    while (
+        fscanf(
+            readContractedAddresses, "%i %i", 
+            &addressId, 
+            &userId
+        ) == 2
+    )
     {
-        fscanf(readContractedAddresses, "%i %i", &addressId, &userId);
         if (maxUserId < userId)maxUserId = userId;
     }
     fclose(readContractedAddresses);
@@ -40,9 +45,14 @@ void saveLongTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalI
     if(minimalRepresentativeAddressesNumber > 0)
     {
         readContractedAddresses = fopen(contractedAddressesPath.c_str(), "r");
-        while (!feof(readContractedAddresses))
+        while (
+            fscanf(
+                readContractedAddresses, "%i %i", 
+                &addressId, 
+                &userId
+            ) == 2
+        )
         {
-            fscanf(readContractedAddresses, "%i %i", &addressId, &userId);
             representativeAddressesNumber[userId]++;
         }
         fclose(readContractedAddresses);
@@ -58,9 +68,16 @@ void saveLongTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalI
     if(minimalIntervalInDays > 0 || minimalTransactionsNumber > 0)
     {
         readUsersGraph = fopen(usersGraphPath.c_str(), "r");
-        while (!feof(readUsersGraph))
+        while (
+            fscanf(
+                readUsersGraph, "%i %i %lld %i", 
+                &userInputID, 
+                &userOutputID, 
+                &bitcoinAmountInSatoshis, 
+                &timeStamp
+            ) == 4
+        )
         {
-            fscanf(readUsersGraph, "%i %i %lld %i", &userInputID, &userOutputID, &bitcoinAmountInSatoshis, &timeStamp);
             if (timeStamp < usersActivityData[userInputID].first.first)usersActivityData[userInputID].first.first = timeStamp;
             if (timeStamp > usersActivityData[userInputID].first.second)usersActivityData[userInputID].first.second = timeStamp;
             if (timeStamp < usersActivityData[userOutputID].first.first)usersActivityData[userOutputID].first.first = timeStamp;
@@ -77,9 +94,16 @@ void saveLongTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalI
     long long transactionsNumber = 0;
     vector<bool> consideredVertices(maxUserId+1, false);
     readUsersGraph = fopen(usersGraphPath.c_str(), "r");
-    while (!feof(readUsersGraph))
+    while (
+        fscanf(
+            readUsersGraph, "%i %i %lld %i", 
+            &userInputID, 
+            &userOutputID, 
+            &bitcoinAmountInSatoshis, 
+            &timeStamp
+        ) == 4
+    )
     {
-        fscanf(readUsersGraph, "%i %i %lld %i", &userInputID, &userOutputID, &bitcoinAmountInSatoshis, &timeStamp);
         if (representativeAddressesNumber[userInputID] >= minimalRepresentativeAddressesNumber && representativeAddressesNumber[userOutputID] >= minimalRepresentativeAddressesNumber &&
         (double(usersActivityData[userInputID].first.second - usersActivityData[userInputID].first.first) / 86400) >= minimalIntervalInDays &&
         (double(usersActivityData[userOutputID].first.second - usersActivityData[userOutputID].first.first) / 86400) >= minimalIntervalInDays &&
