@@ -72,14 +72,14 @@ then
     txoutPath=./dumped_files/txout.dat
 fi
 
-rm -rf ./createGraph
-g++ ./createGraph.cpp -o createGraph
-chmod +x ./createGraph
+rm -rf ./necessary_programs/createGraph
+g++ ./necessary_programs/createGraph.cpp -o ./necessary_programs/createGraph
+chmod +x ./necessary_programs/createGraph
 
 
 if [[ $creationStrategy == 1 ]]
 then
-    ./createGraph $contractedAddressesPath $txEdgesTimesPath $usersGraphPath 1 $txinPath $txoutPath
+    ./necessary_programs/createGraph $contractedAddressesPath $txEdgesTimesPath $usersGraphPath 1 $txinPath $txoutPath
 else
-    ./createGraph $contractedAddressesPath $txEdgesTimesPath $usersGraphPath 0
+    ./necessary_programs/createGraph $contractedAddressesPath $txEdgesTimesPath $usersGraphPath 0
 fi
