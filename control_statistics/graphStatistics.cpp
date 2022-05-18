@@ -33,15 +33,16 @@ time_t dateToTimestamp(string date)
     return mktime(&tm)+localGMTDifference;
 }
 
+const int WEEKS_NUMBER = 2000; // (2000 weeks is appr. 39 years)
+
 int main(int argc, char **argv)
 {
     FILE *readActiveUsersSubgraph;
     readActiveUsersSubgraph = fopen(argv[1], "r");
     int userInputID, userOutputID, timeStamp;
     long long bitcoinAmountInSatoshis;
-    vector <long long> bitcoinAmountWeekly(600,0), edgesNumberWeekly(600,0);
-    vector <int> nodesNumberWeekly(600,0);
-    //vector <bool> vertsCons(300000000,false);
+    vector <long long> bitcoinAmountWeekly(WEEKS_NUMBER,0), edgesNumberWeekly(WEEKS_NUMBER,0);
+    vector <int> nodesNumberWeekly(WEEKS_NUMBER,0);
     set<int> vertsCons;
     string beginningDate = argv[3];
     long long begTimeStamp = dateToTimestamp(beginningDate);
@@ -84,7 +85,7 @@ int main(int argc, char **argv)
     int nodesNumberCumulative = 0;
     long long bitcoinAmountCumulative = 0;
     long long edgesNumberCumulative = 0;
-    for(int i=0;i<600;i++)
+    for(int i=0;i<WEEKS_NUMBER;i++)
     {
         fprintf(
             saveActiveSubgraphStatistics,
