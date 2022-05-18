@@ -23,7 +23,7 @@ Graph::Graph(vector<int> V, vector<Edge> *E, long long transactionsNumber, int u
 
 void Graph::saveGraph(string path)
 {
-    if((*edges).size()>0) //TODO: handle edge size = 0!! - make fscanf peoper everywhere
+    if((*edges).size()>0) //TODO: handle edge size = 0!! - make fscanf proper everywhere
     {
         FILE* save;
         save = fopen(path.c_str(), "w");

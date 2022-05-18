@@ -7,20 +7,18 @@
 
 # The script requires the following 2 parameters:
 #
-# (1) -bp|--blockchainDirPath - the path to the folder containing blockchain data files
-# (2) -dp|--dumpedDirPath - the path to the folder where the dumped files will be stored,
+# (1) -bp|--blockchainDirPath - the path to the folder containing blockchain data files,
+# (2) -dp|--dumpedDirPath - the path to the folder where the dumped files will be stored.
 #
 # It is also possible to specify the following two additional parameters:
 # (3) -bn|--blocksNumber - number of blocks to consider
 # (4) -bdvp|--bitcoinDumpVersionPath - the path to the bitcoin dump version from the repository: https://github.com/dkondor/bitcoin  
 
-# If the two additional parameters weren't specified:
+# Sample usage: if the two additional parameters weren't specified:
 #   ./dumpProcess.sh -bp blockchainDirPath -dp dumpedDirPath
 
-# If the two additional parameters were specifed:
+# Sample usage: if the two additional parameters were specifed:
 #	./dumpProcess.sh -bp blockchainDirPath -dp dumpedDirPath -bn blocksNumber -bdvp bitcoinDumpVersionPath
-
-# Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
 
 
 # Check if the appropriate dependencies are installed
@@ -57,6 +55,7 @@ fetchBitcoinDumpVersion()
     make
 }
 
+# Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
@@ -69,22 +68,22 @@ do
         ;;
         -dp|--dumpedDirPath)
         dumpedDirPath="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -bn|--blocksNumber)
         blocksNumber="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -bdvp|--bitcoinDumpVersionPath)
         bitcoinDumpVersionPath="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         *)    # unknown option
         POSITIONAL+=("$1") # save it in an array for later
-        shift # past argument
+        shift
         ;;
     esac
 done
@@ -111,7 +110,7 @@ then
         cd ..
         cd ..
     fi
-else # dump the whole downloaded blockchain if the number of blocks hasn't been specified
+else # dump the whole downloaded blockchain if the number of blocks number hasn't been specified
     if [[ ! -z "$bitcoinDumpVersionPath" ]]
     then
         $bitcoinDumpVersionPath/src/bitcoind -datadir=$blockchainDirPath -DUMP -DUMP_outdir=$dumpedDirPath

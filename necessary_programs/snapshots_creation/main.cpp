@@ -110,7 +110,6 @@ int main(int argc, char* argv[])
     {
         if(timeStamp >= beginningDateTimestamp)
         {
-            // I don't know why I had to add one id - this seems to be irrelevant for the sake of experiments, though:
             int snapshotId = int(double(timeStamp-beginningDateTimestamp)/double(snapshotPeriodInDays*86400)); 
             if(snapshotEdgeWeightParameter == "w")
             {

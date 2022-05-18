@@ -13,31 +13,65 @@
 #
 # (bitcoinAmount is in Satoshis).
 #
-#
 # The script requires the following 3 parameters (in that order):
 #
-# (1) dumpedDirPath - the path to the folder containing dumped files as specified at https://github.com/dkondor/bitcoin 
-# (2) contractionsDirPath - the path to the folder where the users' graph will be stored,
-# (3) creationStrategy - 0 for creating complete bipartite graph for each transaction 
+# (1) -dp|--dumpedDirPath - the path to the folder containing dumped files as specified in "dumpProcess.sh" script; 
+#                           default: dumped_files,
+# (2) -cp|--contractionsDirPath - the path to the folder where the users' graph will be stored; 
+#                                 default: ./contractions,
+# (3) -cs|--creationStrategy - 0 for creating complete bipartite graph for each transaction 
 #                              (way of D. Kondor), 1 - the way we created the graph for our article;
 #                              see description in "createGraph.cpp".
 
-# All other script files (i. e. contractedAddresses.sh, sortTx.sh, txEdges.sh, txEdgesTimes.sh,
+# All other script files (i.e. contractedAddresses.sh, sortTx.sh, txEdges.sh, txEdgesTimes.sh,
 # and txTimes.sh) are assumed to be in the same folder as usersGraph.sh and the script should be run
 # from that folder only.
 #
-# Example usage (assuming you are in the same directory as the usersGraph.sh script file):
-#
-# If the paths to repositoties weren't specified, the txedge, numjoin, and sccs32s executables
-# are assumed to be in the ./necessary_programs folder. The sample run is then as follows:
+# Sample usage (assuming you are in the same directory as the usersGraph.sh script file):
 #   ./usersGraph.sh dumped_dir_path contractions_dir_path creation_strategy
-#
-# If the paths to the repositoties were specifed:
-#	./usersGraph.sh dumped_dir_path contractions_dir_path txedges_repo_path join_utils_repo_path sccs32s_path
+# 
 
 dumpedDirPath=$1
 contractionsDirPath=$2
 creationStrategy=$3
+
+# Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
+POSITIONAL=()
+while [[ $# -gt 0 ]]
+do
+    key="$1"
+    case $key in
+        -dp|--dumpedDirPath)
+        dumpedDirPath="$2"
+        shift
+        shift
+        ;;
+        -cp|--contractionsDirPath)
+        contractionsDirPath="$2"
+        shift
+        shift
+        ;;
+        -cs|--creationStrategy)
+        creationStrategy="$2"
+        shift
+        shift
+        ;;
+        *)
+        POSITIONAL+=("$1")
+        shift
+        ;;
+    esac
+done
+
+# Setting default parameters if not given
+if [[ -z "$dumpedDirPath" ]]
+then
+    dumpedDirPath=./dumped_files
+fi
+if [[ -z "$contractionsDirPath" ]]
+then
+    contractionsDirPath=./contractions
+fi
 
 # Sort txin.dat and txout.dat if necessary
 echo "STEP (1). Sorting txin.dat and txout.dat if necessary..."
@@ -50,11 +84,11 @@ echo "STEP (2). Creatiing edges from Bitcoin transactions - the result being sav
 
 # Create transaction timestamps
 echo "STEP (3). Computing transaction timestamps - the result being saved to the tx_times.dat file..."
-./txTimes.sh $dumpedDirPath/tx.dat $dumpedDirPath/bh.dat $contractionsDirPath/tx_times.dat > /dev/null 2>&1
+./txTimes.sh $dumpedDirPath/tx.dat $dumpedDirPath/bh.dat $contractionsDirPath/tx_times.dat
 
 # Create timestamps of elementary edges
 echo "STEP (4). Adding timestamps to edges - the result being saved to the tx_edges_times.dat file..."
-./txEdgesTimes.sh $contractionsDirPath/tx_times.dat $contractionsDirPath/txedges.dat $contractionsDirPath/tx_edges_times.dat > /dev/null 2>&1
+./txEdgesTimes.sh $contractionsDirPath/tx_times.dat $contractionsDirPath/txedges.dat $contractionsDirPath/tx_edges_times.dat
 
 # Contract bitcoin addresses to users' idies
 echo "STEP (5). Computing user idies of Bitcoin addresses in the contraction process - the result being saved to the contracted_addresses.dat file..."

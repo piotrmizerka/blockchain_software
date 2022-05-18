@@ -9,16 +9,13 @@
 #
 # (bitcoinAmount is in Satoshis).
 #
-#
-# The script requires the following 3 path parameters (appearing as parameters in that order):
+# The script requires the following 3 path parameters (appearing in that order):
 #
 # (1) tx_timesPath - the path to the tx_times.dat file (not compressed) containing transaction idies and their timestamps,
 # (2) txedgesPath - the path to the txedges.dat file as shown in the 'Example usage' at https://github.com/dkondor/txedges ,
-# (3) tx_edges_timesPath - the path to the output file (whose form has been specified at the beginning - lines 8 - 12),
+# (3) tx_edges_timesPath - the path to the output file (whose form has been specified at the beginning - lines 6 - 10),
 #
-# Example usage (assuming you are in the same directory as the txEdgesTimes.sh script file):
-#
-# The sample run is then as follows:
+# Sample usage (assuming you are in the same directory as the txEdgesTimes.sh script file):
 #   ./txEdgesTimes.sh path_to_tx_times.dat path_to_txedges.dat path_to_output
 #
 

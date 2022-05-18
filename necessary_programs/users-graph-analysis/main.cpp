@@ -16,7 +16,7 @@
 // users who were "false" active by sufficient amount of days or "false" took part in a sufficient amount
 // of transactions - in the sense that these numbers were enlarged by transactions involving users NOT 
 // represented by sufficient amount of Bitcoin addresses - these users would have been erased when proceeding
-// according to the first way of creating of the long-term subgraph. 
+// according to the first way of creating the long-term subgraph. 
 
 
 #include "stdafx.h"

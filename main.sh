@@ -1,14 +1,21 @@
 #!/bin/bash
 
-# This is the main script creatingfrom the original blockchain data the following: 
+# This is the main script creating from the original blockchain data the following: 
 #   - the Bitcoin users' graph, 
-#   - the long-term-subgraph,
+#   - the long-term-subgraph (notation of D. Kondor et. al., 
+#     https://iopscience.iop.org/article/10.1088/1367-2630/16/12/125003/pdf,
+#     2.2. Extracting the core network),
 #   - snapshots,
-#   - time series.
+#   - time series (both for transactions number and value).
 # The descriptions of the above are contained in our article, 
 # https://doi.org/10.1016/j.frl.2020.101489, in Appendix.
+# Moreover, this script provides a short statistics of the graph and Bitcoin transactions
+# which includes:
+# - the numbers of representating Bitcoin addresses for the most represented users in the users graph,
+# - cumulative number of nodes, edges, and Bitcoin amount for each week, for both
+#   active user subgraph and long-term subgraph. 
 #
-# The users' graph, the long-term subgraph, and each snapshot contain rows of the following form
+# The users' graph and the long-term subgraph contain rows of the following form:
 #
 #	inputUserId outputUserId    bitcoinAmount   timeStamp
 #
@@ -16,38 +23,43 @@
 # 
 # We create the snapshots from the long-term subgraph. Each snapshots is a subgraph
 # of the long-term subgraph corresponding to a given period (we divide the time into equal periods).
+# Each snapshot contains rows of the following form:
+# 
+#  inputUserId  outputUserId    amount_of_paramater_in_snapthos_period (paramater = transactions number or Bitcoin amount). 
 
-# For each principal component, we compute an associated time series in a specially defined way,
+# For each principal component derived from snapshots, we compute an associated time series in a specially defined way,
 # as descirbed in our article, https://doi.org/10.1016/j.frl.2020.101489,  in Appendix, section 2.
 # The structure of each time series is quite simple - it contains a single column of real numbers
 # (the amount of these numbers is equal to the number of periods which is equal to snapshots' number).
 
-# The script requires the following parameters:
+# The script requires the following parameter:
 #
-# (1) -bp|--blockchainDirPath - the path to the folder containing blockchain data files
+# (1) -bp|--blockchainDirPath - the path to the folder containing blockchain data files.
 
 # It is also possible to specify the following additional parameters:
-# (2) -bn|--blocksNumber - number of blocks to consider; default: consider the whole downloaded blockchain
+# (2) -bn|--blocksNumber - number of blocks to consider; default: consider the whole downloaded blockchain.
 # The next three parameters apply to the long-term subgraph:
-# (3) -mran|--minimalRepresantativeAddressesNumber - consider only the users represented by at least this number of bitcoin addresses, default value = 10
-# (4) -mid|--minimalIntervalInDays - consider users whose time distance between their first and last transaction is at least minimalIntervalInDays, default value = 1200
+# (3) -mran|--minimalRepresantativeAddressesNumber - consider only the users represented by at least this number of bitcoin addresses, default value = 10,
+# (4) -mid|--minimalIntervalInDays - consider users whose time distance between their first and last transaction is at least minimalIntervalInDays, default value = 1200,
 # (5) -mtn|--minimalTransationsNumber - consider users who participated in at least that number of transactions, dafault value = 200.
-# The following parameter concerns the snapshot subgraphs:
-# (6) -sdp|--snapshotPeriodInDays - the timespan of snapshots in days, default value = 7
-# The last parameter is the number of principal components (and the number of time series in turn):
-# (7) -cn|--componentsNumber - number of principal components (base graphs) to consider (default value = 3)
+# The following parameter concerns the snapshots:
+# (6) -sdp|--snapshotPeriodInDays - the timespan of each snapshot in days, default value = 7.
+# The following parameter concerns time series computed with Principal Component Analysis:
+# (in turn, we get twice that number of time series at the end (for transactions number and value)):
+# (7) -cn|--componentsNumber - number of principal components (base graphs) to consider (default value = 3).
+# Additional paramaters:
 # (8) -bd|--beginningDate - the date from which we create the snapshots; it is assumed to be
 #                           in the format YYYY_MM_DD, e.g. 2022_03_24; default: 2009_01_12
-#                           (the date of the first Bitcoin transaction)
+#                           (the date of the first Bitcoin transaction),
 # (9) -cs|--creationStrategy - 0 for creating complete bipartite graph for each transaction 
-#                              (way of D. Kondor), 1 - the way we created the graph for our article;
-#                              see description in "createGraph.cpp"; default 1
+#                              (the way of D. Kondor), 1 - the way we created the graph for our article;
+#                              see comments in "createGraph.cpp"; default 1.
 
-# If the additional parameters haven't been specified:
+# Sample usage if the additional parameters haven't been specified:
 #   ./main.sh -bp blockchainDirPath
 
-# If the additional parameters have been specified:
-#   ./main.sh -bp blockchainDirPath -bn blocksNumber -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber -sdp snapshotPeriodInDays -cn componentsNumber
+# Sample if the additional parameters have been specified:
+#   ./main.sh -bp blockchainDirPath -bn blocksNumber -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber -sdp snapshotPeriodInDays -cn componentsNumber -bd beginningDate -cs creationStrategy
 
 # Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash 
 POSITIONAL=()
@@ -62,47 +74,47 @@ do
         ;;
         -bn|--blocksNumber)
         blocksNumber="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -mran|--minimalRepresantativeAddressesNumber)
         minimalRepresantativeAddressesNumber="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -mid|--minimalIntervalInDays)
         minimalIntervalInDays="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -mtn|--minimalTransationsNumber)
         minimalTransationsNumber="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -sdp|--snapshotPeriodInDays)
         snapshotPeriodInDays="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -cn|--componentsNumber)
         componentsNumber="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -bd|--beginningDate)
         beginningDate="$2"
-        shift # past argument
-        shift # past value
+        shift 
+        shift
         ;;
         -cs|--creationStrategy)
         creationStrategy="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         *)    # unknown option
         POSITIONAL+=("$1") # save it in an array for later
-        shift # past argument
+        shift
         ;;
     esac
 done
@@ -158,7 +170,7 @@ else # dump the whole downloaded blockchain if the number of blocks hasn't been 
 fi
 
 # create users graph from the dumped files
-./usersGraph.sh ./dumped_files ./contractions $creationStrategy
+./usersGraph.sh -dp ./dumped_files -cp ./contractions -cs $creationStrategy > /dev/null 2>&1
 
 rm -rf ./dumped_files/txin.dat ./dumped_files/txout.dat ./dumped_files/tx.dat
 rm -rf ./contractions/tx_edges_times.dat ./contractions/tx_times.dat ./contractions/txedges.dat

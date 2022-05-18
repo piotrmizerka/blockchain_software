@@ -9,19 +9,16 @@
 #
 # (bitcoinAmount is in Satoshis).
 #
-#
-# The script requires the following 3 path parameters (appearing as parameters in that order):
+# The script requires the following 3 path parameters (appearing in that order):
 #
 # (1) txinPath - the path to the txin.dat file (not compressed) as specified at https://github.com/dkondor/bitcoin, Usage (dump mode)
-#              - altghough the specification of txin.dat may not reflect the final format of txin.dat
-#              - I noticed this files contains rows consisting of 6 numbers instead of 7 - what is true
+#                altghough the specification of txin.dat contained there seems not to reflect the final format of txin.dat
+#                I noticed this files contains rows consisting of 6 numbers instead of 7 - what is true
 #                (and also important for us) is that the first number is "txId" and the last two are "addrID" and "sum",
-# (2) txoutPath - the path to the txout.dat file (not compressed) as specified at as specified at https://github.com/dkondor/bitcoin, Usage (dump mode),
-# (3) txedgesPath - the path to the output file (whose form has been specified at the beginning - lines 6 - 11),
+# (2) txoutPath - the path to the txout.dat file (not compressed) as specified at https://github.com/dkondor/bitcoin, Usage (dump mode),
+# (3) txedgesPath - the path to the output file (whose form has been specified at the beginning - lines 6 - 10).
 #
-# Example usage (assuming you are in the same directory as the txEdgesTimes.sh script file):
-#
-# The sample run is then as follows:
+# Sample usage (assuming you are in the same directory as the txEdgesTimes.sh script file):
 #   ./txEdges.sh path_to_txin.dat path_to_txout.dat path_to_output
 
 txinPath=$1
@@ -42,5 +39,3 @@ then
 fi
 
 ./necessary_programs/txedge -i $txinPath -o $txoutPath > $txedgesPath
-
-

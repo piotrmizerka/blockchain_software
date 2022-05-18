@@ -1,7 +1,6 @@
 #!/bin/bash
 
-
-# This script generates the long term subgraph from the users graph as specified in https://doi.org/10.1016/j.frl.2020.101489, Appendix, section 2
+# This script generates the long term subgraph from the users graph as specified in https://doi.org/10.1016/j.frl.2020.101489, Appendix, section 2.
 # The description of creating of the long-term subgraph with its subtleties may be also found
 # at the beginning of ./necessary_programs/users-graph-analysis/main.cpp file.
 
@@ -10,15 +9,15 @@
 # (1) -mran|--minimalRepresantativeAddressesNumber - consider only the users represented by at least this number of bitcoin addresses,
 # (2) -mid|--minimalIntervalInDays - consider users whose time distance between their first and last transaction is at least minimalIntervalInDays,
 # (3) -mtn|--minimalTransationsNumber - consider users who participated in at least that number of transactions,
-# (4) -ugp|--usersGraphPath - the path to the file contining the users graph,
+# (4) -ugp|--usersGraphPath - the path to the file containing the users graph,
 # (5) -cap|--contractedAddressesPath - the path to the file containing all the representative bitcoin addresses for each user,
 # (6) -ltsp|--longTermSubgraphPath - the path to the output file containing the long term subgraph.
 
 # Running this srcipt:
 #	./longTermSubgraph.sh -mran minimalRepresantativeAddressesNumber -mid minimalIntervalInDays -mtn minimalTransationsNumber -ugp usersGraphPath -cap contractedAddressesPath -ltsp longTermSubgraphPath
 
-# Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 
+# Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
@@ -26,37 +25,37 @@ do
     case $key in
         -mran|--minimalRepresantativeAddressesNumber)
         minimalRepresantativeAddressesNumber="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -mid|--minimalIntervalInDays)
         minimalIntervalInDays="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -mtn|--minimalTransationsNumber)
         minimalTransationsNumber="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -ugp|--usersGraphPath)
         usersGraphPath="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -cap|--contractedAddressesPath)
         contractedAddressesPath="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -ltsp|--longTermSubgraphPath)
         longTermSubgraphPath="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
-        *)    # unknown option
-        POSITIONAL+=("$1") # save it in an array for later
-        shift # past argument
+        *)
+        POSITIONAL+=("$1")
+        shift
         ;;
     esac
 done

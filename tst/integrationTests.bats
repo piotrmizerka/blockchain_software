@@ -89,6 +89,11 @@
     [ $(wc -l < ./time_series_number/component_1.dat) -ge 370 ]
     [ $(wc -l < ./time_series_value/component_1.dat) -ge 370 ]
 
+    # statistics
+    [ $(wc -l < ./control_statistics/most_represented_users_statistics.txt) -ge 1 ]
+    [ $(wc -l < ./control_statistics/active_subgraph_statistics.txt) -ge 1 ]
+    [ $(wc -l < ./control_statistics/long_term_subgraph_statistics.txt) -ge 1 ]
+
     rm -rf ./contractions
     rm -rf ./snapshots_number ./snapshots_value
     rm -rf ./time_series_number ./time_series_value

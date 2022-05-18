@@ -1,9 +1,39 @@
 #!/bin/bash
 
-
-# This script generates the snapshots from the long term subgraph as specified in https://doi.org/10.1016/j.frl.2020.101489, Appendix, section 2, the second paragraph
+# This script generates the snapshots from the long term subgraph as specified in 
+# https://doi.org/10.1016/j.frl.2020.101489, Appendix, section 2, the second paragraph.
 # The description of creating of the long-term subgraph with its subtleties may be also found
 # at the beginning of ./necessary_programs/users-graph-analysis/main.cpp file.
+
+# The snapshots are created as follows. First, we form the underlying directed graph consisting of edges u->v
+# such that in the long-term subgraph there was at least one elementary Bitcoin transaction from the user u to the user v.
+# Then we restrict our attention to the prescribed period of time and divide this period into equal intervals given by
+# "snapshotPeriodInDays" parameter. Finally, for each such an interval, we compute the amount of the corresponding
+# parameter for the underlying graph. For example, suppose our long-term subgraph consistis of thre edges:
+# (a->b, Satoshi amount: 1000, timestamp: 2022.05.18),
+# (c->d, Satoshi amount: 3000, timestamp: 2022.05.17),
+# (e->f, Satoshi amount: 3000, timestamp: 2022.05.16),
+# and we set "snapshotPeriodInDays" to be 1, and "beginningDate" to 2022.05.17. Then, our underlying graph consists
+# of edges a->b, c->d, and, e->f. The first snapshot (dating 2022.05.17) defined by transaction number is then:
+# a b 0
+# c d 1
+# e f 0,
+# and the second snapshot (dating 2022.05.18) defined by transaction number is
+# a b 1
+# c d 0
+# e f 0,
+# while for transaction value the situation looks as follows:
+# 2022.05.17:
+# a b 0
+# c d 3000
+# e f 0,
+# 2022.05.18:
+# a b 1000
+# c d 0
+# e f 0.
+# Note that we could as well neglect the edge e->f in the underlying graph as it is not important for our period 
+# to be considered. This is not done, however at this point (the state for 2022.05.18) since this is precisely the way
+# we created the graph for our article. 
 
 # The script requires the following 6 parameters:
 #
@@ -19,7 +49,6 @@
 #	./snapshots.sh -ltsp longTermSubgraphPath -sdp snapshotPeriodInDays -ewp snapshotEdgeWeightParameter -sp snapshotsPath
 
 # Parse command line arguments as indicated here (in the top answer): https://stackoverflow.com/questions/192249/how-do-i-parse-command-line-arguments-in-bash
-
 POSITIONAL=()
 while [[ $# -gt 0 ]]
 do
@@ -27,37 +56,37 @@ do
     case $key in
         -ltsp|--longTermSubgraphPath)
         longTermSubgraphPath="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -sdp|--snapshotPeriodInDays)
         snapshotPeriodInDays="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -ewp|--snapshotEdgeWeightParameter)
         snapshotEdgeWeightParameter="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -sp|--snapshotsPath)
         snapshotsPath="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -bhp|--blockhashPath)
         blockhashPath="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
         -bd|--beginningDate)
         beginningDate="$2"
-        shift # past argument
-        shift # past value
+        shift
+        shift
         ;;
-        *)    # unknown option
-        POSITIONAL+=("$1") # save it in an array for later
-        shift # past argument
+        *)
+        POSITIONAL+=("$1")
+        shift
         ;;
     esac
 done

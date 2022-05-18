@@ -56,7 +56,7 @@ int main(int argc, char **argv)
     fclose(readTxEdgesTimes);
     
     // Use the method of D. Kondor - each transaction contributes a complete bibartite graph of
-    // elementary transactions (potantially more edges)
+    // elementary transactions (potantially more edges); see the description here: https://github.com/dkondor/txedges
     if(atoi(argv[4]) == 0)
     {
         readTxEdgesTimes = fopen(argv[2],"r");
@@ -86,7 +86,7 @@ int main(int argc, char **argv)
     // only one edge whose source is a representative of transaction's input Bitcoin addresses
     // Moreover, loops are removed.
     // Note that in this approach the number of edges in the users graph is equal to the number
-    // of lines in the txout.dat file.
+    // of lines in the txout.dat file (minus potential loops).
     else
     {
         // read timestamps for each transaction from readTxEdgesTimes

@@ -5,20 +5,15 @@
 #
 # This scripts creates the Bitcoin transactions' timestamps. The output file contains rows of the following form
 #
-#	transactionId timeStamp
+#	transactionId timeStamp.
 #
-# (bitcoinAmount is in Satoshis).
-#
-#
-# The script requires the following 4 parameter paths (appearing as parameters in that order):
+# The script requires the following 3 parameters (appearing in that order):
 #
 # (1) txPath - the path to the tx.dat file (not compressed) as specified at https://github.com/dkondor/bitcoin, Usage (dump mode),
 # (2) bhPath - the path to the bh.dat file (not compressed) as specifed at https://github.com/dkondor/bitcoin, Usage (dump mode),
-# (3) tx_timesPath - the path to the output file (whose form has been specified at the beginning - lines 8 - 12).
+# (3) tx_timesPath - the path to the output file (whose form has been specified at the beginning - lines 6 - 8).
 #
-# Example usage (assuming you are in the same directory as the txTimes.sh script file):
-#
-# The sample run is then as follows:
+# Sample usage (assuming you are in the same directory as the txTimes.sh script file):
 #   ./txTimes.sh path_to_tx.dat path_to_bh.dat path_to_output
 
 txPath=$1
