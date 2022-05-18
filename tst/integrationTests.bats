@@ -92,5 +92,6 @@
     rm -rf ./contractions
     rm -rf ./snapshots_number ./snapshots_value
     rm -rf ./time_series_number ./time_series_value
+    rm -rf ./control_statistics/*.txt
 }
 
