@@ -72,7 +72,7 @@
 
     blockchainDirPath=/home/piotr/Desktop/bitcoin/blockchain_data
 
-    ./main.sh -bp $blockchainDirPath -bn 40000 -mran 10 -mid 1 -mtn 2 -sdp 1 -ewp w -cn 3
+    ./main.sh -bp $blockchainDirPath -bn 40000 -mran 1 -mid 1 -mtn 1 -sdp 30 -ewp w -cn 3
 
     # users' graph and its long-term subgraph
     [ $(wc -l < ./contractions/contracted_addresses.dat) -ge 1 ]
@@ -86,8 +86,8 @@
     # time series with PCA
     [ $(ls ./time_series_number | wc -l) -eq 3 ]
     [ $(ls ./time_series_value | wc -l) -eq 3 ]
-    [ $(wc -l < ./time_series_number/component_1.dat) -ge 370 ]
-    [ $(wc -l < ./time_series_value/component_1.dat) -ge 370 ]
+    [ $(wc -l < ./time_series_number/component_1.dat) -ge 12 ]
+    [ $(wc -l < ./time_series_value/component_1.dat) -ge 12 ]
 
     # statistics
     [ $(wc -l < ./control_statistics/most_represented_users_statistics.txt) -ge 1 ]

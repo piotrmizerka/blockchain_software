@@ -45,3 +45,33 @@
     
     rm -rf ./tst/temp_data
 }
+
+@test "timeSeries: exception" {
+    rm -rf ./tst/temp_data
+    mkdir ./tst/temp_data
+
+    snapshotsPath=./tst/temp_data/snapshots
+    timeSeriesPath=./tst/temp_data/time_series
+
+    mkdir $snapshotsPath
+    
+    touch $snapshotsPath/snapshot_1.dat
+    echo "x x 1" >> $snapshotsPath/snapshot_1.dat
+    echo "x x 0" >> $snapshotsPath/snapshot_1.dat
+    echo "x x 0" >> $snapshotsPath/snapshot_1.dat
+    echo "x x 0" >> $snapshotsPath/snapshot_1.dat
+    echo "x x 2" >> $snapshotsPath/snapshot_1.dat
+    touch $snapshotsPath/snapshot_2.dat
+    echo "x x 0" >> $snapshotsPath/snapshot_2.dat
+    echo "x x 0" >> $snapshotsPath/snapshot_2.dat
+    echo "x x 0" >> $snapshotsPath/snapshot_2.dat
+    echo "x x 0" >> $snapshotsPath/snapshot_2.dat
+    echo "x x 0" >> $snapshotsPath/snapshot_2.dat
+    
+    chmod +x ./timeSeries.sh
+    ./timeSeries.sh -sp $snapshotsPath -tsp $timeSeriesPath -cn 2 || controlVariable=1
+    
+    [ $controlVariable -eq 1 ]
+
+    rm -rf ./tst/temp_data
+}
