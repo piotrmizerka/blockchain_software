@@ -20,12 +20,10 @@ def dataMatrix(snapShotsFolder):
         sum = 0
         for elt in row:
             sum += elt 
-            # sum += (elt*elt)
         vector = []
         if sum != 0:
             for elt in row:
                 vector.append( elt/float(sum) ) 
-                # vector.append( elt/math.sqrt(sum) )
         else:
             raise ValueError('In one snapshot nothing happens.')
         X.append( vector )
