@@ -25,7 +25,7 @@ def dataMatrix(snapShotsFolder):
             for elt in row:
                 vector.append( elt/float(sum) ) 
         else:
-            raise ValueError('In one snapshot nothing happens.')
+            raise ValueError('In one snapshot the sum equals zero.')
         X.append( vector )
 
     for i in range( 0, len( X[0] ) ):
