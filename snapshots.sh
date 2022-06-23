@@ -2,6 +2,13 @@
 
 # This script generates the snapshots from the long term subgraph as specified in 
 # https://doi.org/10.1016/j.frl.2020.101489, Appendix, section 2, the second paragraph.
+# 
+# Each snapshot is a file containing rows of the following form:
+# 
+# userInputID userOutputID edgeWeight,
+# 
+# where edgeWeight is the total number or amount of Bitcoins sent.
+# 
 # The description of creating of the long-term subgraph with its subtleties may be also found
 # at the beginning of ./necessary_programs/users-graph-analysis/main.cpp file.
 
