@@ -45,7 +45,7 @@ fetchBitcoinDumpVersion()
 {
     cd ./necessary_programs/
     rm -rf ./bitcoin
-    git clone git@github.com:dkondor/bitcoin.git
+    git clone https://github.com/dkondor/bitcoin.git #git@github.com:dkondor/bitcoin.git
     cd bitcoin
 
     ./autogen.sh
