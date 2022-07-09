@@ -5,11 +5,11 @@
 # 2015.01.01-2022.06.23, then the edges from the long-term subgraph having transactions only
 # in the period 2009.01.19-2014.12.31 won't appear in the underlying graph).
 #   We then subsitute X with the matrix conaining the old entries of X divided by the sum of the
-# row's entries of the row they belong to (we assume that row does not sum up to zero - if so, an
-# exception will be reaised). Next, we substitute the so obtained X, with the matrix containing
-# the entries of such X diminished by the column averages. This ensures that the data in the new
-# X will be centered at the origin - the sums of each row and column will be zero.
-#   Then, we perform PCA with Singular Value Decomposition (SVD), that is we decompose X into
+# row's entries of the row they belong to (if a row is zero, then we do nothing). 
+# Next, we substitute the so obtained X, with the matrix containing the entries of such X diminished 
+# by the column averages (by computing the average, we ingore the zeros coming from zero rows). 
+# This ensures that the data in the new X will be centered at the origin - the sums of each row and column will be zero.
+# Then, we perform PCA with Singular Value Decomposition (SVD), that is we decompose X into
 # X = U x S x V^T, where U is a T x T matrix, S a T x T diagonal matrix with singular
 # values at the diagonal, and V a T x L matrix (we can reduce the dimensions of U, S, and V in
 # such a way since T << L).
@@ -37,8 +37,11 @@ def dataMatrix(snapShotsFolder):
         Xx.append( vector )
 
     X = []
-    for row in Xx:
+    zeroRowsNumber = 0
+    zeroRows = np.zeros(len(Xx), int)
+    for i in range( 0, len(Xx) ):
         sum = 0
+        row = Xx[i]
         for elt in row:
             sum += elt 
         vector = []
@@ -46,16 +49,20 @@ def dataMatrix(snapShotsFolder):
             for elt in row:
                 vector.append( elt/float(sum) ) 
         else:
-            raise ValueError('In one snapshot the sum equals zero.')
+            for elt in row:
+                vector.append( 0 )
+            zeroRowsNumber += 1
+            zeroRows[i] = 1
         X.append( vector )
 
     for i in range( 0, len( X[0] ) ):
         sum = 0
         for j in range( 0, len( X ) ):
             sum += X[j][i]
-        average = sum/float( len( X ) )
+        average = sum/float( len( X )-zeroRowsNumber )
         for j in range( 0, len( X ) ):
-            X[j][i] -= average
+            if zeroRows[j] == 0:
+                X[j][i] -= average
 
     return Xx, X
 
