@@ -90,6 +90,8 @@ echo "STEP (3). Computing transaction timestamps - the result being saved to the
 echo "STEP (4). Adding timestamps to edges - the result being saved to the tx_edges_times.dat file..."
 ./txEdgesTimes.sh $contractionsDirPath/tx_times.dat $contractionsDirPath/txedges.dat $contractionsDirPath/tx_edges_times.dat
 
+rm -rf $contractionsDirPath/tx_times.dat $contractionsDirPath/txedges.dat
+
 # Contract bitcoin addresses to users' idies
 echo "STEP (5). Computing user idies of Bitcoin addresses in the contraction process - the result being saved to the contracted_addresses.dat file..."
 ./contractedAddresses.sh $dumpedDirPath/txin.dat $dumpedDirPath/txout.dat $contractionsDirPath $contractionsDirPath/contracted_addresses.dat $sccs32sPath

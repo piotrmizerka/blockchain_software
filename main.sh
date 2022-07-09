@@ -32,6 +32,9 @@
 # The structure of each time series is quite simple - it contains a single column of real numbers
 # (the amount of these numbers is equal to the number of periods which is equal to snapshots' number).
 
+# The main script removed by default the downloaded blockchain data after processing of them to free up disk space for further computations.
+# In order to change this behavior, comment the line 175.
+
 # The script requires the following parameter:
 #
 # (1) -bp|--blockchainDirPath - the path to the folder containing blockchain data files.
@@ -169,11 +172,16 @@ else # dump the whole downloaded blockchain if the number of blocks hasn't been 
     fi
 fi
 
+rm -rf $blockchainDirPath # comment if there is sufficient amount of disk space to store blockchain_data together with the generated files
+
+# remove unnecassary dumpmed files to save disk space
+rm -rf ./dumped_files/addresses.dat ./dumped_files/missing.dat ./dumped_files/multiple.dat ./dumped_files/nonstandard.dat ./dumped_files/txh.dat ./dumped_files/txout_unspent.dat
+
 # create users graph from the dumped files
 ./usersGraph.sh -dp ./dumped_files -cp ./contractions -cs $creationStrategy
 
 rm -rf ./dumped_files/txin.dat ./dumped_files/txout.dat ./dumped_files/tx.dat
-rm -rf ./contractions/tx_edges_times.dat ./contractions/tx_times.dat ./contractions/txedges.dat
+rm -rf ./contractions/tx_edges_times.dat
 
 echo "STEP (6.A) Saving statistics of contraction process..."
 rm -rf ./control_statistics/mostRepresentedUsers ./control_statistics/most_represented_users_statistics.txt
