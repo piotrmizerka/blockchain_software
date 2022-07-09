@@ -2,7 +2,7 @@
 
 
 # This script computes the time series from the snapshots which were computed as described in "snapshots.sh" file.
-# The description of how the time series are created is contained in the ./pca/pca.py source file.
+# The description of how the time series are created is contained in the ./necessary_programs/pca/pca.py source file.
 
 # The script requires the following 3 parameters:
 #
