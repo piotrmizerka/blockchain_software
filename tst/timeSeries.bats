@@ -92,7 +92,7 @@
 }
 
 @test "timeSeries: exception" {
-    skip "Outdated"
+    skip "outdated"
 
     rm -rf ./tst/temp_data
     mkdir ./tst/temp_data
