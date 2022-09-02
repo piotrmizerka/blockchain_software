@@ -88,6 +88,9 @@ def saveTimeSeries(X, V, savePath, componentsNumber):
             save.write(str(sum)+"\n")
         save.close()
 
+# TODO exacutable lines below cause problems when importing in tests!
+# one can solve this by putting this in the "if __name__ == "main":" scope.
+# This damages the standard, non-test execution, however.
 snapshotsPath = sys.argv[1] 
 timeSeriesPath = sys.argv[2]
 componentsNumber = int(sys.argv[3])
