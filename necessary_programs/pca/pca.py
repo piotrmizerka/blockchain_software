@@ -91,9 +91,10 @@ def saveTimeSeries(X, V, savePath, componentsNumber):
 # TODO exacutable lines below cause problems when importing in tests!
 # one can solve this by putting this in the "if __name__ == "main":" scope.
 # This damages the standard, non-test execution, however.
-snapshotsPath = sys.argv[1] 
-timeSeriesPath = sys.argv[2]
-componentsNumber = int(sys.argv[3])
-originalSnapshots, modifiedSnapshots = dataMatrix(snapShotsFolder = snapshotsPath)
-U, S, V = pca_svd(modifiedSnapshots, snapShotsFolder = snapshotsPath)
-saveTimeSeries(originalSnapshots, V, timeSeriesPath, componentsNumber)
+if __name__ == "main":
+    snapshotsPath = sys.argv[1] 
+    timeSeriesPath = sys.argv[2]
+    componentsNumber = int(sys.argv[3])
+    originalSnapshots, modifiedSnapshots = dataMatrix(snapShotsFolder = snapshotsPath)
+    U, S, V = pca_svd(modifiedSnapshots, snapShotsFolder = snapshotsPath)
+    saveTimeSeries(originalSnapshots, V, timeSeriesPath, componentsNumber)
