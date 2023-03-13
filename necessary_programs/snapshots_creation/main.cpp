@@ -23,9 +23,6 @@ time_t dateToTimestamp(string date)
 
     // The code below taken from Ubervan's answer from here: 
     // https://stackoverflow.com/questions/46033813/c-converting-datetime-to-timestamp
-    time_t now = time(0);
-    struct tm tmGMT = *gmtime ( &now ), tmLocaltime = *localtime(&now);
-    time_t localGMTDifference = mktime(&tmLocaltime)-mktime(&tmGMT);
     struct tm tm;
     tm.tm_year = year - 1900;
     tm.tm_mon = month - 1;
@@ -34,7 +31,7 @@ time_t dateToTimestamp(string date)
     tm.tm_min = 0;
     tm.tm_sec = 0;
 
-    return mktime(&tm)+localGMTDifference;
+    return mktime(&tm);
 }
 
 int main(int argc, char* argv[])
@@ -98,7 +95,7 @@ int main(int argc, char* argv[])
 
     for(int i=0;i<snapshotsNumber;i++)
     {
-        timeInfo = localtime(&snapShotTimestamp);
+        timeInfo = gmtime(&snapShotTimestamp);
         fileName = snapshotPath+"/"+dateToString(timeInfo)+".dat";
         saveSnapshots[i] = fopen(fileName.c_str(), "w");
         snapShotTimestamp += snapshotPeriodInDays*86400;
