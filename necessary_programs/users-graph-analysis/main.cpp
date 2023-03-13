@@ -119,7 +119,13 @@ void saveLongTermSubgraph(int minimalRepresentativeAddressesNumber, int minimalI
                 V.push_back(userOutputID);
                 consideredVertices[userOutputID] = true;
             }
-            E.push_back({ userInputID,userOutputID,timeStamp,double(bitcoinAmountInSatoshis) });
+            Edge edgex;
+            edgex.u = userInputID;
+            edgex.v = userOutputID;
+            edgex.time = timeStamp;
+            edgex.weight = double(bitcoinAmountInSatoshis);
+            // E.push_back({ userInputID,userOutputID,timeStamp,double(bitcoinAmountInSatoshis) }); // this doesn't work on my MAC
+            E.push_back(edgex);
             transactionsNumber++;
         }
     }
