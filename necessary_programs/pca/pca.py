@@ -66,15 +66,18 @@ def dataMatrix(snapShotsFolder):
 
     return Xx, X
 
-# An equivalent way to perform PCA - we do not apply this, however - we apply SVD - see below
-def pca_sklearn(X, snapShotsFolder):
-    pca = PCA(n_components=4)
+# An equivalent way to perform PCA - we do not apply this, however - we apply different SVD - see below.
+# Caution: this method automatically centers (still, not scales) the data! 
+# - see https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html 
+def pca_sklearn(X,n_components = 4):
+    pca = PCA(n_components = n_components)
     pca.fit(X)
     return pca.explained_variance_ratio_, pca.singular_values_, pca.components_
 
-def pca_svd(X, snapShotsFolder):
+# we rather use thin svd, as explained here:
+# https://en.wikipedia.org/wiki/Singular_value_decomposition 
+def pca_svd(X):
     U, S, VT = np.linalg.svd(X, full_matrices=False)
-
     return U, S, VT.transpose()
 
 def saveTimeSeries(X, V, savePath, componentsNumber):
@@ -97,14 +100,15 @@ def saveTimeSeries(X, V, savePath, componentsNumber):
     # timeSeriesPath = sys.argv[2]
     # componentsNumber = int(sys.argv[3])
     # originalSnapshots, modifiedSnapshots = dataMatrix(snapShotsFolder = snapshotsPath)
-    # U, S, V = pca_svd(modifiedSnapshots, snapShotsFolder = snapshotsPath)
+    # U, S, V = pca_svd(modifiedSnapshots)
     # saveTimeSeries(originalSnapshots, V, timeSeriesPath, componentsNumber)
     # print("dsadad")
 
 # For Mac OS it seems that we don't need the "if __name__ == "main":" condition
-snapshotsPath = sys.argv[1] 
-timeSeriesPath = sys.argv[2]
-componentsNumber = int(sys.argv[3])
-originalSnapshots, modifiedSnapshots = dataMatrix(snapShotsFolder = snapshotsPath)
-U, S, V = pca_svd(modifiedSnapshots, snapShotsFolder = snapshotsPath)
-saveTimeSeries(originalSnapshots, V, timeSeriesPath, componentsNumber)
+if __name__ == "main":
+    snapshotsPath = sys.argv[1] 
+    timeSeriesPath = sys.argv[2]
+    componentsNumber = int(sys.argv[3])
+    originalSnapshots, modifiedSnapshots = dataMatrix(snapShotsFolder = snapshotsPath)
+    U, S, V = pca_svd(modifiedSnapshots)
+    saveTimeSeries(originalSnapshots, V, timeSeriesPath, componentsNumber)
