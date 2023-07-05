@@ -12,7 +12,41 @@ import random
 from statistics import mean
 import numpy as np
 
-# TODO
+# check if columns of a (not necessarily square) matrix form an orthonormal basis
+def orthogonality_test(A, self):
+    At = A.transpose()
+    for i in range(len(At)):
+        norm = sum(coeff**2 for coeff in At[i])
+        self.assertEqual(np.round(norm,2),1.0)
+        for j in range(i):
+            dot_product = sum(At[i][k]*At[j][k] for k in range(len(At[i])))
+            self.assertEqual(np.round(dot_product,2),0.0)
+
+def test_pca_svd(data_matrix,self):
+    data_matrix = np.array(data_matrix)
+    M, N = data_matrix.shape
+    K = min(M,N)
+    U, S, V = pca_svd(data_matrix)
+    # dimension check
+    self.assertEqual(U.shape,(M,K))
+    self.assertEqual(S.shape,(K,))
+    self.assertEqual(V.shape,(N,K))
+    # singular values check
+    explained_variance_ratio_, singular_values_, components_ = pca_sklearn(data_matrix,n_components=K)
+    self.assertTrue(np.array_equal(
+        np.round(S,2), 
+        np.round(singular_values_,2)
+    ))
+    denominator = sum(s**2 for s in S)
+    ratios = [s**2/denominator for s in S]
+    self.assertTrue(np.array_equal(
+        np.round(ratios,2), 
+        np.round(explained_variance_ratio_,2)
+    ))
+    # orthogonality test
+    orthogonality_test(U,self)
+    orthogonality_test(V,self)
+
 class Test_DataMatrix(unittest.TestCase):
     
     def saveTestData(self, test_data, snapshots_dir_path):
@@ -21,8 +55,10 @@ class Test_DataMatrix(unittest.TestCase):
         os.mkdir(snapshots_dir_path)
 
         features_number = len(test_data[0])
+        filling_size = len(str(len(test_data)))
         for i in range(0,len(test_data)):
-            data_file = open(snapshots_dir_path+"/"+str(i)+".dat", "w")
+            # we must arrange files' names so that they will be sorted exactly as they appear here
+            data_file = open(snapshots_dir_path+"/"+str(i).zfill(filling_size)+".dat", "w")
             for j in range(0, features_number):
                 data_file.write(str(j)+" "+str(j)+" "+str(test_data[i][j])+"\n")
             data_file.close()
@@ -69,9 +105,9 @@ class Test_DataMatrix(unittest.TestCase):
             test_data[i] = [randint(1, 100) for k in range(0, features_number)]
 
         self.saveTestData(test_data, snapshots_dir_path)
-         
+        
         original_data, transformed_data = dataMatrix(snapshots_dir_path)
-
+        
         self.assertEqual(original_data, test_data)
         ar = average_rows = [[test_data[i][j]/sum(test_data[i]) for j in range(0,4)] for i in range(0,3)]
         ac = average_columns = [mean([average_rows[i][j] for i in range(0,3)]) for j in range(0,4)]
@@ -84,28 +120,56 @@ class Test_DataMatrix(unittest.TestCase):
         shutil.rmtree(snapshots_dir_path)
 
 class Test_pca_sklearn(unittest.TestCase):
-
-    def test_sum(self):
-        self.assertEqual(sum([1, 2, 3]), 6, "Should be 6")
-
-    def test_sum_tuple(self):
-        self.assertEqual(sum((1, 2, 3)), 6, "Should be 6")
+    
+    # The data for this test taken from here (occurs in other tests as well): 
+    # https://scikit-learn.org/stable/modules/generated/sklearn.decomposition.PCA.html
+    def test_pca_sklearn(self):
+        X = np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]])
+        explained_variance_ratio_, singular_values_, components_ = pca_sklearn(X,n_components=2)
+        proper_ratios = [
+            singular_values_[0]**2/(singular_values_[0]**2+singular_values_[1]**2),
+            singular_values_[1]**2/(singular_values_[0]**2+singular_values_[1]**2)
+        ]
+        # explained variance ratio must sum up to one in l2 norm
+        self.assertEqual(
+            np.round(explained_variance_ratio_,2).all(),
+            np.round(proper_ratios,2).all()
+        )
+        # principal components must form an orthonormal basis
+        orthogonality_test(components_,self)
 
 class Test_pca_svd(unittest.TestCase):
 
-    def test_sum(self):
-        self.assertEqual(sum([1, 2, 3]), 6, "Should be 6")
+    def test_small_svd(self):
+        X = [[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]]
+        test_pca_svd(X,self)
 
-    def test_sum_tuple(self):
-        self.assertEqual(sum((1, 2, 3)), 6, "Should be 6")
+    def test_big_svd(self):
+        M = np.random.randint(1,200)
+        N = np.random.randint(1,200)
+        Xx = [[np.random.randint(1,10) for j in range(N)] for i in range(M)]
+        # we must center the data (we scale it also but this is not necessary, I guess)
+        # in order to have the same input to compare
+        X = []
+        for i in range( 0, len(Xx) ):
+            row = Xx[i]
+            sum_ = sum(elt for elt in row)
+            vector = [elt/float(sum_) for elt in row]
+            X.append( vector )
+        for i in range( 0, len( X[0] ) ):
+            sum_ = sum(X[j][i] for j in range(len(X)))
+            average = sum_/float(len(X))
+            for j in range(len(X)):
+                X[j][i] -= average
+        test_pca_svd(X,self)
 
-class Test_saveTimeSeries(unittest.TestCase):
+# class Test_saveTimeSeries(unittest.TestCase):
 
-    def test_sum(self):
-        self.assertEqual(sum([1, 2, 3]), 6, "Should be 6")
+#     def test_sum(self):
+#         self.assertEqual(sum([1, 2, 3]), 6, "Should be 6")
 
-    def test_sum_tuple(self):
-        self.assertEqual(sum((1, 2, 3)), 6, "Should be 6")
+#     def test_sum_tuple(self):
+#         self.assertEqual(sum((1, 2, 3)), 6, "Should be 6")
 
 
 if __name__ == '__main__':
