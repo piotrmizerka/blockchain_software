@@ -31,7 +31,11 @@ time_t dateToTimestamp(string date)
     tm.tm_min = 0;
     tm.tm_sec = 0;
 
-    return mktime(&tm);
+    time_t now = time(0);
+    struct tm tmGMT = *gmtime ( &now ), tmLocaltime = *localtime(&now);
+    time_t localGMTDifference = mktime(&tmLocaltime)-mktime(&tmGMT);
+
+    return mktime(&tm)+localGMTDifference;
 }
 
 int main(int argc, char* argv[])
