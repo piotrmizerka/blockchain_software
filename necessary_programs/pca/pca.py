@@ -95,16 +95,6 @@ def saveTimeSeries(X, V, savePath, componentsNumber):
 # one can solve this by putting them in "if __name__ == "main":" scope.
 # This damages the standard, non-test execution, however.
 # Concerncs Linux!
-# if __name__ == "main":
-    # snapshotsPath = sys.argv[1] 
-    # timeSeriesPath = sys.argv[2]
-    # componentsNumber = int(sys.argv[3])
-    # originalSnapshots, modifiedSnapshots = dataMatrix(snapShotsFolder = snapshotsPath)
-    # U, S, V = pca_svd(modifiedSnapshots)
-    # saveTimeSeries(originalSnapshots, V, timeSeriesPath, componentsNumber)
-    # print("dsadad")
-
-# For Mac OS it seems that we don't need the "if __name__ == "main":" condition
 if __name__ == "main":
     snapshotsPath = sys.argv[1] 
     timeSeriesPath = sys.argv[2]
