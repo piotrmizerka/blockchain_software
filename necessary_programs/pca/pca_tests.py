@@ -149,7 +149,7 @@ class Test_pca_svd(unittest.TestCase):
         N = np.random.randint(1,200)
         Xx = [[np.random.randint(1,10) for j in range(N)] for i in range(M)]
         # we must center the data (we scale it also but this is not necessary, I guess)
-        # in order to have the same input to compare
+        # in order to have the same input to compare:
         X = []
         for i in range( 0, len(Xx) ):
             row = Xx[i]
@@ -163,14 +163,52 @@ class Test_pca_svd(unittest.TestCase):
                 X[j][i] -= average
         test_pca_svd(X,self)
 
-# class Test_saveTimeSeries(unittest.TestCase):
+class Test_saveTimeSeries(unittest.TestCase):
 
-#     def test_sum(self):
-#         self.assertEqual(sum([1, 2, 3]), 6, "Should be 6")
+    def test_saveTimeSeries(self):
+        directory = "pca_time_series_saving_test"
+        parent_dir = "./tst"
+        time_series_dir_path = os.path.join(parent_dir, directory) 
+        if os.path.exists(time_series_dir_path) and os.path.isdir(time_series_dir_path):
+            shutil.rmtree(time_series_dir_path)
+        os.mkdir(time_series_dir_path)
+        seed(randint(0,10))
+        components_number = randint(1,10)
+        snapshots_number = randint(components_number, 100)
+        features_number = randint(components_number, 100)
+        X = [[0]*features_number]*snapshots_number
+        for i in range(0, snapshots_number):
+            X[i] = [randint(1, 100) for k in range(0, features_number)]
+        V = [[0]*components_number]*features_number
+        for i in range(0, features_number):
+            V[i] = [randint(1, 100) for k in range(0, components_number)]
 
-#     def test_sum_tuple(self):
-#         self.assertEqual(sum((1, 2, 3)), 6, "Should be 6")
+        saveTimeSeries(X,V,time_series_dir_path,components_number)
 
+        # check is the proper number of snapshots has been saved
+        saved_time_series_count = 0
+        for item in os.listdir(time_series_dir_path):
+            item_path = os.path.join(time_series_dir_path, item)
+            if os.path.isfile(item_path):
+                saved_time_series_count += 1
+        self.assertEqual(components_number,saved_time_series_count)
+
+        # check if the proper data has been saved
+        L = len(V)
+        for i in range(0,components_number):
+            read = open( time_series_dir_path+"/component_"+str(i+1)+".dat", "r" )
+            t = 0
+            for line in read:
+                linex = line.split()
+                read_sum = float(linex[0])
+                proper_sum = 0
+                for l in range(0,L):
+                    proper_sum += V[l][i]*X[t][l]
+                self.assertEqual(np.round(read_sum,2),np.round(proper_sum,2))
+                t += 1
+            read.close()
+        
+        shutil.rmtree(time_series_dir_path)
 
 if __name__ == '__main__':
     unittest.main()
