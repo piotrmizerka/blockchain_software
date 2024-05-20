@@ -1,5 +1,5 @@
 # Description
-This repository accompanies the article https://doi.org/10.1016/j.frl.2020.101489 in which we analysed relationships between financial markets and the network of Bitcoin users (the so called *Bitcoin users' graph*). We were inspired by the idea of comparing the users' graph properties to Bitcoin price. This idea goes back to Kondor et al., https://iopscience.iop.org/article/10.1088/1367-2630/16/12/125003/pdf. 
+This repository accompanies the article https://doi.org/10.1016/j.frl.2020.101489 in which we analysed relationships between financial markets and the network of Bitcoin users (the so called *Bitcoin users' graph*). We were inspired by the idea of comparing the users' graph properties to Bitcoin price (by means of Principal Component Analysis). This idea goes back to Kondor et al., https://iopscience.iop.org/article/10.1088/1367-2630/16/12/125003/pdf. 
 
 The data used in the article https://doi.org/10.1016/j.frl.2020.101489 can be obtained using this repository. It is also possible to obtain the most recent data to keep the research up-to-date. The scripts contained in this repository can be used to obtain the time series derived from the Bitcoin users' graph. For the information about the time series:
 - for the definition of the time series, see our article, Appendix, section 2. - the time series are denoted by *s<sub>i</sub>*,
