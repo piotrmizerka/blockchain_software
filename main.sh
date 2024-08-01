@@ -57,6 +57,7 @@
 # (9) -cs|--creationStrategy - 0 for creating complete bipartite graph for each transaction 
 #                              (the way of D. Kondor), 1 - the way we created the graph for our article;
 #                              see comments in "createGraph.cpp"; default 1.
+# (10) -nm|--normalizationMode - default option: 2, i.e. l2 norms, see the description in "timeSeries.sh" script
 
 # Sample usage if the additional parameters haven't been specified:
 #   ./main.sh -bp blockchainDirPath
@@ -115,6 +116,11 @@ do
         shift
         shift
         ;;
+        -nm|--normalizationMode)
+        normalizationMode="$2"
+        shift
+        shift
+        ;;
         *)    # unknown option
         POSITIONAL+=("$1") # save it in an array for later
         shift
@@ -150,6 +156,10 @@ fi
 if [[ -z "$creationStrategy" ]]
 then
     creationStrategy=1
+fi
+if [[ -z "$normalizationMode" ]]
+then
+    normalizationMode=l2
 fi
 
 rm -rf ./dumped_files ./contractions
@@ -210,5 +220,5 @@ rm -rf ./dumped_files
 
 echo "STEP (9). Computing time series of principal components from snapshots..."
 chmod +x ./timeSeries.sh
-./timeSeries.sh -sp ./snapshots_number -tsp ./time_series_number -cn $componentsNumber
-./timeSeries.sh -sp ./snapshots_value -tsp ./time_series_value -cn $componentsNumber
+./timeSeries.sh -sp ./snapshots_number -tsp ./time_series_number -cn $componentsNumber -nm $normalizationMode
+./timeSeries.sh -sp ./snapshots_value -tsp ./time_series_value -cn $componentsNumber -nm $normalizationMode

@@ -5,7 +5,7 @@
 # 2015.01.01-2022.06.23, then the edges from the long-term subgraph having transactions only
 # in the period 2009.01.19-2014.12.31 won't appear in the underlying graph).
 #   We then subsitute X with the matrix conaining the old entries of X divided by the sum 
-# (in the case normalizationMode is 1) or the sum of squares (in the case normalizationMode is 2)
+# (in the case normalizationMode is "l1") or the sum of squares (in the case normalizationMode is "l2")
 # of the row's entries of the row they belong to (if such a sum is zero (for either option 1 or 2), then we do nothing). 
 # Next, we substitute the so obtained X, with the matrix containing the entries of such X diminished 
 # by the column averages (by computing the average, we ingore the zeros coming from zero rows). 
@@ -45,9 +45,9 @@ def dataMatrix(snapShotsFolder, normalizationMode):
         row = Xx[i]
         for elt in row:
             sum += elt
-            sum = (sum+elt if normalizationMode == 1 else sum+elt^2) 
+            sum = (sum+elt if normalizationMode == "l1" else sum+elt^2) 
         vector = []
-        norm = (float(sum) if normalizationMode else math.sqrt(float(sum)))
+        norm = (float(sum) if normalizationMode == "l1" else math.sqrt(float(sum)))
         if sum != 0:
             for elt in row:
                 vector.append( elt/norm ) 
@@ -97,7 +97,7 @@ def saveTimeSeries(X, V, savePath, componentsNumber):
 # TODO exacutable lines below cause problems when importing in tests!
 # one can solve this by putting them in "if __name__ == "main":" scope.
 # This damages the standard, non-test execution, however.
-# Concerncs Linux!
+# Concerns Linux!
 if __name__ == "main":
     snapshotsPath = sys.argv[1] 
     timeSeriesPath = sys.argv[2]

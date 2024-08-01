@@ -2,7 +2,7 @@
 This repository accompanies the article https://doi.org/10.1016/j.frl.2020.101489 in which we analysed relationships between financial markets and the network of Bitcoin users (the so called *Bitcoin users' graph*). We were inspired by the idea of comparing the users' graph properties to Bitcoin price (by means of Principal Component Analysis). This idea goes back to Kondor et al., https://iopscience.iop.org/article/10.1088/1367-2630/16/12/125003/pdf. 
 
 The users' graph time series' data used in the article https://doi.org/10.1016/j.frl.2020.101489 can be obtained using this repository or downloaded directly from [article_time_series](./article_time_series) folder in either of the following three formats: xlsx, txt, csv. It is also possible to obtain the most recent data to keep the research up-to-date. The scripts contained in this repository can be used to obtain the time series derived from the Bitcoin users' graph. For the information about the time series:
-- for the definition of the time series, see our article, Appendix, section 2. - the time series are denoted by *s<sub>i</sub>*,
+- for the definition of the time series, see our article, Appendix, section 2. - the time series are denoted by *s<sub>i</sub>*; in the process of the creation of time series, we normalized the data by means of $\ell^2$-norms before applying Principal Component Analysis (see the description in [pca.py](./necessary_programs/pca/pca.py) source file)
 - how the time series defined above are incorporated into the main regression model, see our article, section 3.3 - the time series are defined there by the values *UsersGraphProperty<sub>i,j,t</sub>*, where *t=1,...,T* and *T* is the number of subsequent periods taken into account. 
 
 The whole process of obtaining the aforementioned time series can be divided into the following steps:
@@ -14,7 +14,7 @@ In the users' graph extraction process, we use the modified Bitcoin client of D.
 
 2. **Snapshots' creation** - we create snapshots for the periods taken into account as described in our article in Appendix in section 2. The snapshots are denoted there by *S<sub>i</sub>*, where *i=1,...,T*.
 
-3. **Time series extraction** - using Principal Component Analysis, we exctract the time series *s<sub>i</sub>* from the snapshots as described in our article, Appendix, section 2.
+3. **Time series extraction** - using Principal Component Analysis, we exctract the time series *s<sub>i</sub>* from the snapshots as described in our article, Appendix, section 2 (see also the description in [pca.py](./necessary_programs/pca/pca.py))
 
 # Usage
 All the scripts described below can be run on Linux. Assumming, you run the terminal in main project folder, you shall give the execution permission to all the project scripts (e.g. with `chmod +x path_to_script` command).

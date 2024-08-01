@@ -9,8 +9,8 @@
 # (1) -sp|--snapshotsPath - the path to the file containing the snapshots,
 # (2) -tsp|--timeSeriesPath - the path to the folder where time series are to be stored,
 # (3) -cn|--componentsNumber - number of principal components (base graphs) to consider,
-# (4) -nm|--normalizationMode - 1 for dividing the rows of dataset by their sums, 
-#                               2 for dividing by their l2 norms (see the description in the pca.py file).
+# (4) -nm|--normalizationMode - l1 for dividing the rows of dataset by their sums, 
+#                               l2 for dividing by their l2 norms (see the description in the pca.py file).
 
 # Running this srcipt:
 #	./timeSeries.sh -sp snapshotsPath -tsp timeSeriesPath -cn componentsNumber
