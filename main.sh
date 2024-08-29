@@ -57,7 +57,7 @@
 # (9) -cs|--creationStrategy - 0 for creating complete bipartite graph for each transaction 
 #                              (the way of D. Kondor), 1 - the way we created the graph for our article;
 #                              see comments in "createGraph.cpp"; default 1.
-# (10) -nm|--normalizationMode - default option: 2, i.e. l2 norms, see the description in "timeSeries.sh" script
+# (10) -nm|--normalizationMode - default option: l2, i.e. l2 norms, see the description in "timeSeries.sh" script
 
 # Sample usage if the additional parameters haven't been specified:
 #   ./main.sh -bp blockchainDirPath

@@ -45,7 +45,7 @@ def dataMatrix(snapShotsFolder, normalizationMode):
         row = Xx[i]
         for elt in row:
             sum += elt
-            sum = (sum+elt if normalizationMode == "l1" else sum+elt^2) 
+            sum = (sum+elt if normalizationMode == "l1" else sum+elt**2) 
         vector = []
         norm = (float(sum) if normalizationMode == "l1" else math.sqrt(float(sum)))
         if sum != 0:
@@ -94,15 +94,11 @@ def saveTimeSeries(X, V, savePath, componentsNumber):
             save.write(str(sum)+"\n")
         save.close()
 
-# TODO exacutable lines below cause problems when importing in tests!
-# one can solve this by putting them in "if __name__ == "main":" scope.
-# This damages the standard, non-test execution, however.
-# Concerns Linux!
-if __name__ == "main":
-    snapshotsPath = sys.argv[1] 
-    timeSeriesPath = sys.argv[2]
-    componentsNumber = int(sys.argv[3])
-    normMode = int(sys.argv[4])
-    originalSnapshots, modifiedSnapshots = dataMatrix(snapShotsFolder = snapshotsPath, normalizationMode = normMode)
-    U, S, V = pca_svd(modifiedSnapshots)
-    saveTimeSeries(originalSnapshots, V, timeSeriesPath, componentsNumber)
+# if __name__ == "main":
+snapshotsPath = sys.argv[1] 
+timeSeriesPath = sys.argv[2]
+componentsNumber = int(sys.argv[3])
+normMode = sys.argv[4]
+originalSnapshots, modifiedSnapshots = dataMatrix(snapShotsFolder = snapshotsPath, normalizationMode = normMode)
+U, S, V = pca_svd(modifiedSnapshots)
+saveTimeSeries(originalSnapshots, V, timeSeriesPath, componentsNumber)
