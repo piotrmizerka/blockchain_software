@@ -8,7 +8,9 @@
 #
 # (1) -sp|--snapshotsPath - the path to the file containing the snapshots,
 # (2) -tsp|--timeSeriesPath - the path to the folder where time series are to be stored,
-# (3) -cn|--componentsNumber - number of principal components (base graphs) to consider.
+# (3) -cn|--componentsNumber - number of principal components (base graphs) to consider,
+# (4) -nm|--normalizationMode - l1 for dividing the rows of dataset by their sums, 
+#                               l2 for dividing by their l2 norms (see the description in the pca.py file).
 
 # Running this srcipt:
 #	./timeSeries.sh -sp snapshotsPath -tsp timeSeriesPath -cn componentsNumber
@@ -35,6 +37,11 @@ do
         shift # past argument
         shift # past value
         ;;
+        -nm|--normalizationMode)
+        normalizationMode="$2"
+        shift # past argument
+        shift # past value
+        ;;
         *)    # unknown option
         POSITIONAL+=("$1") # save it in an array for later
         shift # past argument
@@ -57,4 +64,4 @@ then
     python3 -m pip install -U scikit-learn
 fi
 
-./necessary_programs/pca/pca_venv/bin/python ./necessary_programs/pca/pca.py $snapshotsPath $timeSeriesPath $componentsNumber
+./necessary_programs/pca/pca_venv/bin/python ./necessary_programs/pca/pca.py $snapshotsPath $timeSeriesPath $componentsNumber $normalizationMode

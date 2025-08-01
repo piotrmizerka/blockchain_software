@@ -36,7 +36,7 @@
     echo "x x 0" >> $snapshotsPath/snapshot_4.dat
     
     chmod +x ./timeSeries.sh
-    ./timeSeries.sh -sp $snapshotsPath -tsp $timeSeriesPath -cn 3
+    ./timeSeries.sh -sp $snapshotsPath -tsp $timeSeriesPath -cn 3 -nm l2
 
     [ $(wc -l < $timeSeriesPath/component_1.dat) -eq 4 ]
     [ $(wc -l < $timeSeriesPath/component_2.dat) -eq 4 ]
@@ -80,7 +80,7 @@
     echo "x x 15" >> $snapshotsPath/snapshot_4.dat
     
     chmod +x ./timeSeries.sh
-    ./timeSeries.sh -sp $snapshotsPath -tsp $timeSeriesPath -cn 3
+    ./timeSeries.sh -sp $snapshotsPath -tsp $timeSeriesPath -cn 3 -nm l2
 
     [ $(wc -l < $timeSeriesPath/component_1.dat) -eq 4 ]
     [ $(wc -l < $timeSeriesPath/component_2.dat) -eq 4 ]
