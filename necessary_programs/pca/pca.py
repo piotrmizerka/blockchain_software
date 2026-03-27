@@ -5,11 +5,11 @@
 # 2015.01.01-2022.06.23, then the edges from the long-term subgraph having transactions only
 # in the period 2009.01.19-2014.12.31 won't appear in the underlying graph).
 #   We then subsitute X with the matrix conaining the old entries of X divided by the sum 
-# (in the case normalizationMode is "l1") or the sum of squares (in the case normalizationMode is "l2")
+# (in the case normalizationMode is "l1") or the square root of the sum of squares (in the case normalizationMode is "l2")
 # of the row's entries of the row they belong to (if such a sum is zero (for either option 1 or 2), then we do nothing). 
 # Next, we substitute the so obtained X, with the matrix containing the entries of such X diminished 
 # by the column averages (by computing the average, we ingore the zeros coming from zero rows). 
-# This ensures that the data in the new X will be centered at the origin - the sums of each row and column will be zero.
+# This ensures that in the new X the sums of each column will be zero. In addition, if we follow normalizationMode "l1" then the sums of each row will be zero as well.
 # Then, we perform PCA with Singular Value Decomposition (SVD), that is we decompose X into
 # X = U x S x V^T, where U is a T x T matrix, S a T x T diagonal matrix with singular
 # values at the diagonal, and V a T x L matrix (we can reduce the dimensions of U, S, and V in
