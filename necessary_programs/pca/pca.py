@@ -45,7 +45,6 @@ def dataMatrix(snapShotsFolder, normalizationMode):
         sum = 0
         row = Xx[i]
         for elt in row:
-            sum += elt
             sum = (sum+elt if normalizationMode == "l1" else sum+elt**2) 
         vector = []
         norm = (float(sum) if normalizationMode == "l1" else math.sqrt(float(sum)))
